@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.hike_with_me_client" />
+                  <option name="mobileSdkAppId" value="1:988854023201:android:c5bbf4c677463c91a89f60" />
+                  <option name="projectId" value="hike-with-me-1efdd" />
+                  <option name="projectNumber" value="988854023201" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

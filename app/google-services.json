@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "988854023201",
+    "project_id": "hike-with-me-1efdd",
+    "storage_bucket": "hike-with-me-1efdd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988854023201:android:c5bbf4c677463c91a89f60",
+        "android_client_info": {
+          "package_name": "com.example.hike_with_me_client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhQpPTsNH7DkHN-sWDQN9yCu0RQH530H8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
