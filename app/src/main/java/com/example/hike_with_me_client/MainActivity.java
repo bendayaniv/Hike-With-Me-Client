@@ -7,9 +7,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.hike_with_me_client.User.Actions.AddUser;
+import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
 import com.example.hike_with_me_client.User.Actions.GetUser;
 import com.example.hike_with_me_client.User.Callbacks.Callback_AddUser;
+import com.example.hike_with_me_client.User.Callbacks.Callback_DeleteUser;
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetUser;
 import com.example.hike_with_me_client.User.User;
@@ -62,12 +64,27 @@ public class MainActivity extends AppCompatActivity {
 //        };
 //        new GetUser(callback_getUser).getUser("bendayaniv@gmailcomShalva");
 
-        // Add new user
-        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva");
-        Callback_AddUser callback_addUser = new Callback_AddUser() {
+//        // Add new user
+//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva");
+//        Callback_AddUser callback_addUser = new Callback_AddUser() {
+//            @Override
+//            public void success(User user) {
+//                textView.setText("User added: " + user);
+//            }
+//
+//            @Override
+//            public void error(String message) {
+//                Log.d("pttt", "Error: " + message);
+//                textView.setText("Error: " + message);
+//            }
+//        };
+//        new AddUser(callback_addUser).addUser(user);
+
+        // Delete user
+        Callback_DeleteUser callback_deleteUser = new Callback_DeleteUser() {
             @Override
             public void success(User user) {
-                textView.setText("User added: " + user);
+                textView.setText("User deleted: " + user);
             }
 
             @Override
@@ -76,6 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 textView.setText("Error: " + message);
             }
         };
-        new AddUser(callback_addUser).addUser(user);
+        new DeleteUser(callback_deleteUser).deleteUser("bendayaniv@gmailcomShalvaShalva");
     }
 }
