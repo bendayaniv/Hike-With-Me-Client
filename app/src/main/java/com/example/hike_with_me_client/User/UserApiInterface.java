@@ -26,6 +26,12 @@ public interface UserApiInterface {
             @Body User user
     );
 
+    @PUT("users/{user_id}")
+    Call<User> updateUser(
+            @Path("user_id") String user_id,
+            @Body User user
+    );
+
     @DELETE("users/{user_id}")
     Call<User> deleteUser(
             @Path("user_id") String user_id

@@ -10,10 +10,12 @@ import com.example.hike_with_me_client.User.Actions.AddUser;
 import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
 import com.example.hike_with_me_client.User.Actions.GetUser;
+import com.example.hike_with_me_client.User.Actions.UpdateUser;
 import com.example.hike_with_me_client.User.Callbacks.Callback_AddUser;
 import com.example.hike_with_me_client.User.Callbacks.Callback_DeleteUser;
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetUser;
+import com.example.hike_with_me_client.User.Callbacks.Callback_UpdateUser;
 import com.example.hike_with_me_client.User.User;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 //        };
 //        new GetUser(callback_getUser).getUser("bendayaniv@gmailcomShalva");
 
-//        // Add new user
+        // Add new user
 //        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva");
 //        Callback_AddUser callback_addUser = new Callback_AddUser() {
 //            @Override
@@ -80,19 +82,34 @@ public class MainActivity extends AppCompatActivity {
 //        };
 //        new AddUser(callback_addUser).addUser(user);
 
-        // Delete user
-        Callback_DeleteUser callback_deleteUser = new Callback_DeleteUser() {
-            @Override
-            public void success(User user) {
-                textView.setText("User deleted: " + user);
-            }
+//        // Update user
+//        Callback_UpdateUser callback_updateUser = new Callback_UpdateUser() {
+//            @Override
+//            public void success(User user) {
+//                textView.setText("User updated: " + user);
+//            }
+//
+//            @Override
+//            public void error(String message) {
+//                Log.d("pttt", "Error: " + message);
+//                textView.setText("Error: " + message);
+//            }
+//        };
+//        new UpdateUser(callback_updateUser).updateUser("bendayaniv@gmailcomShalvaShalva", "Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva222");
 
-            @Override
-            public void error(String message) {
-                Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
-            }
-        };
-        new DeleteUser(callback_deleteUser).deleteUser("bendayaniv@gmailcomShalvaShalva");
+//        // Delete user
+//        Callback_DeleteUser callback_deleteUser = new Callback_DeleteUser() {
+//            @Override
+//            public void success(User user) {
+//                textView.setText("User deleted: " + user);
+//            }
+//
+//            @Override
+//            public void error(String message) {
+//                Log.d("pttt", "Error: " + message);
+//                textView.setText("Error: " + message);
+//            }
+//        };
+//        new DeleteUser(callback_deleteUser).deleteUser("bendayaniv@gmailcomShalvaShalva");
     }
 }
