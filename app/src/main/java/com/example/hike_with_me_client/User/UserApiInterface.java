@@ -19,4 +19,9 @@ public interface UserApiInterface {
     Call<User> getUser(
             @Path("user_id") String user_id
     );
+
+    @POST("users/addUser")
+    Call<User> addUser(
+            @Body User user
+    );
 }
