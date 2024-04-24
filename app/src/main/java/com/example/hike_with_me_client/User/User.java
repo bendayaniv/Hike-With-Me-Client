@@ -1,17 +1,21 @@
 package com.example.hike_with_me_client.User;
 
+import androidx.annotation.NonNull;
+
 public class User {
 
     private String name;
     private String email;
     private String password;
+    private String phoneNumber;
 
     public User() {}
 
-    public User(String name, String email, String password) {
+    public User(String name, String email, String password, String phoneNumber) {
         this.name = name;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getName() {
@@ -41,12 +45,23 @@ public class User {
         return this;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public User setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    @NonNull
     @Override
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 }

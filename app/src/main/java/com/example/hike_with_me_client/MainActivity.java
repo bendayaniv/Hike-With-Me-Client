@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 //        new GetUser(callback_getUser).getUser("bendayaniv@gmailcomShalva");
 
         // Add new user
-//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva");
+//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva", "1234567890");
 //        Callback_AddUser callback_addUser = new Callback_AddUser() {
 //            @Override
 //            public void success(User user) {
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
 //        new AddUser(callback_addUser).addUser(user);
 
 //        // Update user
+//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva", "1234567890");
 //        Callback_UpdateUser callback_updateUser = new Callback_UpdateUser() {
 //            @Override
 //            public void success(User user) {
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //                textView.setText("Error: " + message);
 //            }
 //        };
-//        new UpdateUser(callback_updateUser).updateUser("bendayaniv@gmailcomShalvaShalva", "Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva222");
+//        new UpdateUser(callback_updateUser).updateUser("bendayaniv@gmailcomShalvaShalva", user.name, user.email, "Shalva222", user.phoneNumber);
 
 //        // Delete user
 //        Callback_DeleteUser callback_deleteUser = new Callback_DeleteUser() {
