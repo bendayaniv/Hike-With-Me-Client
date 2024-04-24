@@ -15,8 +15,8 @@ public class UpdateUser extends UserMasterClass {
         this.callback_updateUser = callback_updateUser;
     }
 
-    public void updateUser(String id, String name, String email, String password) {
-        User user = new User(name, email, password);
+    public void updateUser(String id, String name, String email, String password, String phoneNumber) {
+        User user = new User(name, email, password, phoneNumber);
         Call<User> call = userApiInterface.updateUser(id, user);
 
         call.enqueue(new Callback<User>() {
