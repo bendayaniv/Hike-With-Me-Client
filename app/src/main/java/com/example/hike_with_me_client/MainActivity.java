@@ -6,6 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.hike_with_me_client.Recommendation.Actions.AddRecommendation;
+import com.example.hike_with_me_client.Recommendation.Actions.GetRecommendationsByRoute;
+import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_AddRecommendation;
+import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_GetRecommendationsByRoute;
+import com.example.hike_with_me_client.Recommendation.Recommendation;
+import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.Actions.AddUser;
 import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
@@ -112,5 +118,45 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        };
 //        new DeleteUser(callback_deleteUser).deleteUser("bendayaniv@gmailcomShalvaShalva");
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting all recommendations by route
+//        Callback_GetRecommendationsByRoute callback_getAllRecommendationsByRoute = new Callback_GetRecommendationsByRoute() {
+//            @Override
+//            public void success(List<Recommendation> recommendations) {
+//                if(recommendations.size() == 0) {
+//                    textView.setText("No recommendations found");
+//                } else {
+//                    textView.setText("Recommendations found: " + recommendations);
+//
+//                }
+//            }
+//
+//            @Override
+//            public void error(String message) {
+//                Log.d("pttt", "Error: " + message);
+//                textView.setText("Error: " + message + "\nNo recommendations found");
+//            }
+//        };
+//        new GetRecommendationsByRoute(callback_getAllRecommendationsByRoute).getRecommendationsByRoute("routeName");
+
+        // Adding recommendation
+//        Recommendation recommendation = new Recommendation("4", 4, "description", new User().setEmail("email").setPassword("password"), new Route().setName("routeName"));
+//        Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
+//            @Override
+//            public void success(Recommendation recommendation) {
+//                textView.setText("Recommendation added: " + recommendation);
+//            }
+//
+//            @Override
+//            public void error(String message) {
+//                Log.d("pttt", "Error: " + message);
+//                textView.setText("Error: " + message);
+//            }
+//        };
+//        new AddRecommendation(callback_addRecommendation).addRecommendation(recommendation);
+
     }
 }
