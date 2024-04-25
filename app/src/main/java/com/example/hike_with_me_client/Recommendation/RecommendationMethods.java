@@ -22,7 +22,6 @@ public class RecommendationMethods {
                     textView.setText("No recommendations found");
                 } else {
                     textView.setText("Recommendations found: " + recommendations);
-
                 }
             }
 
