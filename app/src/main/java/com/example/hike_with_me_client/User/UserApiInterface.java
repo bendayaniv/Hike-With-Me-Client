@@ -33,7 +33,7 @@ public interface UserApiInterface {
     );
 
     @DELETE("users/{user_id}")
-    Call<User> deleteUser(
+    Call<String> deleteUser(
             @Path("user_id") String user_id
     );
 }

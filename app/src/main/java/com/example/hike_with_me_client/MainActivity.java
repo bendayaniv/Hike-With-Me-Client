@@ -16,6 +16,8 @@ import com.example.hike_with_me_client.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.Route.RouteMethods;
+import com.example.hike_with_me_client.Trip.Trip;
+import com.example.hike_with_me_client.Trip.TripMethods;
 import com.example.hike_with_me_client.User.Actions.AddUser;
 import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
@@ -97,5 +99,19 @@ public class MainActivity extends AppCompatActivity {
 //        RouteMethods.addRoute(route, textView);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting trips by user
+//        TripMethods.getTripsByUser("email1password1", textView);
+
+        // Creating a new trip
+//        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
+//        TripMethods.createTrip(trip, textView);
+
+        // Update trip
+        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
+        TripMethods.updateTrip(trip, textView);
+
+        // Delete trip
+//        TripMethods.deleteTrip("email1password1", "20", textView);
     }
 }

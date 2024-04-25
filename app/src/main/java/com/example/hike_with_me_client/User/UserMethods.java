@@ -90,8 +90,8 @@ public class UserMethods {
     public static void deleteUser(String userId, TextView textView) {
         Callback_DeleteUser callback_deleteUser = new Callback_DeleteUser() {
             @Override
-            public void success(User user) {
-                textView.setText("User deleted: " + user);
+            public void success(String message) {
+                textView.setText(message);
             }
 
             @Override

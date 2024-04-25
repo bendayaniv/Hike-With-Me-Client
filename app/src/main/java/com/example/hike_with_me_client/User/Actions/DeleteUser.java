@@ -17,21 +17,21 @@ public class DeleteUser extends UserMasterClass {
     }
 
     public void deleteUser(String userId) {
-         Call<User> call = userApiInterface.deleteUser(userId);
+         Call<String> call = userApiInterface.deleteUser(userId);
 
-         call.enqueue(new Callback<User>() {
+         call.enqueue(new Callback<String>() {
              @Override
-             public void onResponse(Call<User> call, Response<User> response) {
+             public void onResponse(Call<String> call, Response<String> response) {
                  if(response.isSuccessful()) {
-                     User user = response.body();
-                     callback_deleteUser.success(user);
+                     String message = String.valueOf(response.body());
+                     callback_deleteUser.success(message);
                  } else {
                      callback_deleteUser.error("" + response.errorBody());
                  }
              }
 
              @Override
-             public void onFailure(Call<User> call, Throwable t) {
+             public void onFailure(Call<String> call, Throwable t) {
                  callback_deleteUser.error(t.getMessage());
                  t.printStackTrace();
              }
