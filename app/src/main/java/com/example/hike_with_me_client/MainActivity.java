@@ -15,6 +15,7 @@ import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_GetReco
 import com.example.hike_with_me_client.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Route.Route;
+import com.example.hike_with_me_client.Route.RouteMethods;
 import com.example.hike_with_me_client.User.Actions.AddUser;
 import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
@@ -83,5 +84,18 @@ public class MainActivity extends AppCompatActivity {
 //        Hazard hazard = new Hazard("4", Constants.HazardType.PLANTS, "description", Constants.HazardSeverity.LOW, new User().setEmail("email").setPassword("password"), new Route().setName("route2"), formattedDate);
 //        HazardMethods.addHazard(hazard, textView);
 
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting all routes
+//        RouteMethods.getAllRoutes(textView);
+
+        // Getting route by name
+//        RouteMethods.getSpecificRoute("name", textView);
+
+        // Adding route
+//        Route route = new Route("10", "name4", "description", Constants.Level.LOW, "length", "location");
+//        RouteMethods.addRoute(route, textView);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 }

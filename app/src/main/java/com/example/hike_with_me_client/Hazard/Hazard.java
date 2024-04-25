@@ -4,21 +4,19 @@ import com.example.hike_with_me_client.Constants;
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.User;
 
-import java.util.Date;
-
 public class Hazard {
 
     private String id;
     private Constants.HazardType type;
     private String description;
-    private Constants.HazardSeverity severity;
+    private Constants.Level severity;
     private User reporter;
     private Route route;
     private String date;
 
     public Hazard() {}
 
-    public Hazard(String id, Constants.HazardType type, String description, Constants.HazardSeverity severity, User reporter, Route route, String date) {
+    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, User reporter, Route route, String date) {
         this.id = id;
         this.type = type;
         this.description = description;
@@ -55,11 +53,11 @@ public class Hazard {
         return this;
     }
 
-    public Constants.HazardSeverity getSeverity() {
+    public Constants.Level getSeverity() {
         return severity;
     }
 
-    public Hazard setSeverity(Constants.HazardSeverity severity) {
+    public Hazard setSeverity(Constants.Level severity) {
         this.severity = severity;
         return this;
     }

@@ -10,7 +10,7 @@ public class Constants {
         OTHER
     }
 
-    public enum HazardSeverity {
+    public enum Level {
         LOW,
         MEDIUM,
         HIGH
