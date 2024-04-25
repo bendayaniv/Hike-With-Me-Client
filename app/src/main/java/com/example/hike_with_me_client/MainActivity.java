@@ -6,12 +6,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.example.hike_with_me_client.Hazard.Hazard;
+import com.example.hike_with_me_client.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Recommendation.Actions.AddRecommendation;
 import com.example.hike_with_me_client.Recommendation.Actions.GetRecommendationsByRoute;
 import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_AddRecommendation;
 import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_GetRecommendationsByRoute;
 import com.example.hike_with_me_client.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
+import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.Actions.AddUser;
 import com.example.hike_with_me_client.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.User.Actions.GetAllUsers;
@@ -25,6 +28,9 @@ import com.example.hike_with_me_client.User.Callbacks.Callback_UpdateUser;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMethods;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -63,6 +69,19 @@ public class MainActivity extends AppCompatActivity {
         // Adding recommendation
 //        Recommendation recommendation = new Recommendation("4", 4, "description", new User().setEmail("email").setPassword("password"), new Route().setName("routeName"));
 //        RecommendationMethods.addRecommendation(recommendation, textView);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting all hazards by route
+//        HazardMethods.getHazardsByRoute("route2", textView);
+
+        // Adding hazard
+//        Date currentDate = new Date();
+//        // Format the date as needed (e.g., "dd-MM-yyyy" for day-month-year format)
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//        String formattedDate = dateFormat.format(currentDate);
+//        Hazard hazard = new Hazard("4", Constants.HazardType.PLANTS, "description", Constants.HazardSeverity.LOW, new User().setEmail("email").setPassword("password"), new Route().setName("route2"), formattedDate);
+//        HazardMethods.addHazard(hazard, textView);
 
     }
 }
