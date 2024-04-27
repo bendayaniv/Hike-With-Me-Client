@@ -14,7 +14,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class RecommendationMethods {
-
+    @SuppressLint("SetTextI18n")
     public static void getRecommendationsByRoute(String routeName, TextView textView) {
         Callback_GetRecommendationsByRoute callback_getAllRecommendationsByRoute = new Callback_GetRecommendationsByRoute() {
             @Override
@@ -28,7 +28,6 @@ public class RecommendationMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
                 textView.setText("Error: " + message + "\nNo recommendations found");
             }
         };

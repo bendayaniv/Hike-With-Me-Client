@@ -12,10 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hike_with_me_client.Recommendation.Recommendation;
-import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
-import com.example.hike_with_me_client.Route.Route;
-import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,13 +41,20 @@ public class Login extends AppCompatActivity {
 
         buttonLoginFunctionality();
 
+        CRUDExamples();
+    }
+
+    private void CRUDExamples() {
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // Getting all recommendations by route
-//        RecommendationMethods.getRecommendationsByRoute("routeName", textView);
+//        RecommendationMethods.getRecommendationsByRoute("routeName2", textView);
 
         // Adding recommendation
-        Recommendation recommendation = new Recommendation("4", 4, "description", "reporterName", "routeName");
-        Log.d("pttt", "onCreate: " + recommendation);
-        RecommendationMethods.addRecommendation(recommendation, textView);
+//        Recommendation recommendation = new Recommendation("6", 4, "description", "reporterName", "routeName2");
+//        RecommendationMethods.addRecommendation(recommendation, textView);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     private void buttonLoginFunctionality() {
