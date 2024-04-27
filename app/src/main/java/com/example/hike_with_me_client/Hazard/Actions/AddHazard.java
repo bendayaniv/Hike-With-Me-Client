@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Hazard.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Hazard.Hazard;
 import com.example.hike_with_me_client.Hazard.HazardMasterClass;
 import com.example.hike_with_me_client.Hazard.Callbacks.Callback_AddHazard;
@@ -20,7 +22,7 @@ public class AddHazard extends HazardMasterClass {
 
         call.enqueue(new Callback<Hazard>() {
             @Override
-            public void onResponse(Call<Hazard> call, Response<Hazard> response) {
+            public void onResponse(@NonNull Call<Hazard> call, @NonNull Response<Hazard> response) {
                 if(response.isSuccessful()) {
                     Hazard hazard = response.body();
                     callBack_addHazard.success(hazard);
@@ -30,7 +32,7 @@ public class AddHazard extends HazardMasterClass {
             }
 
             @Override
-            public void onFailure(Call<Hazard> call, Throwable t) {
+            public void onFailure(@NonNull Call<Hazard> call, @NonNull Throwable t) {
                 callBack_addHazard.error(t.getMessage());
                 t.printStackTrace();
             }

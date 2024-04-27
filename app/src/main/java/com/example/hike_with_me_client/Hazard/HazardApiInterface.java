@@ -10,9 +10,9 @@ import retrofit2.http.Path;
 
 public interface HazardApiInterface {
 
-    @GET("hazards/{route}")
+    @GET("hazards/{route_name}")
     Call<List<Hazard>> getHazardsByRoute(
-            @Path("route") String route
+            @Path("route_name") String route
     );
 
     @POST("hazards/addHazard")

@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Hazard;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.User;
@@ -10,19 +12,23 @@ public class Hazard {
     private Constants.HazardType type;
     private String description;
     private Constants.Level severity;
-    private User reporter;
-    private Route route;
+//    private User reporter;
+    private String reporterName;
+//    private Route route;
+    private String routeName;
     private String date;
 
     public Hazard() {}
 
-    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, User reporter, Route route, String date) {
+    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, /*User reporter*/String reporterName, /*Route route*/String routeName, String date) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.severity = severity;
-        this.reporter = reporter;
-        this.route = route;
+//        this.reporter = reporter;
+        this.reporterName = reporterName;
+//        this.route = route;
+        this.routeName = routeName;
         this.date = date;
     }
 
@@ -62,21 +68,39 @@ public class Hazard {
         return this;
     }
 
-    public User getReporter() {
-        return reporter;
+//    public User getReporter() {
+//        return reporter;
+//    }
+
+//    public Hazard setReporter(User reporter) {
+//        this.reporter = reporter;
+//        return this;
+//    }
+
+    public String getReporterName() {
+        return reporterName;
     }
 
-    public Hazard setReporter(User reporter) {
-        this.reporter = reporter;
+    public Hazard setReporterName(String reporterName) {
+        this.reporterName = reporterName;
         return this;
     }
 
-    public Route getRoute() {
-        return route;
+//    public Route getRoute() {
+//        return route;
+//    }
+
+//    public Hazard setRoute(Route route) {
+//        this.route = route;
+//        return this;
+//    }
+
+    public String getRouteName() {
+        return routeName;
     }
 
-    public Hazard setRoute(Route route) {
-        this.route = route;
+    public Hazard setRouteName(String routeName) {
+        this.routeName = routeName;
         return this;
     }
 
@@ -89,6 +113,7 @@ public class Hazard {
         return this;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Hazard{" +
@@ -96,9 +121,9 @@ public class Hazard {
                 ", type=" + type +
                 ", description='" + description + '\'' +
                 ", severity=" + severity +
-                ", reporter=" + reporter +
-                ", route=" + route +
-                ", date=" + date +
+                ", reporterName='" + reporterName + '\'' +
+                ", routeName='" + routeName + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

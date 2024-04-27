@@ -2,6 +2,7 @@ package com.example.hike_with_me_client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,10 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hike_with_me_client.Hazard.Hazard;
+import com.example.hike_with_me_client.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
@@ -35,7 +40,6 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         findViews();
-        textView = findViewById(R.id.logInTextView);
 
         registerFunctionality();
 
@@ -45,6 +49,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void CRUDExamples() {
+        textView = findViewById(R.id.logInTextView);
+
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         // Getting all recommendations by route
@@ -55,6 +61,20 @@ public class Login extends AppCompatActivity {
 //        RecommendationMethods.addRecommendation(recommendation, textView);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting all hazards by route
+//        HazardMethods.getHazardsByRoute("routeName", textView);
+
+        // Adding hazard
+//        Date currentDate = new Date();
+//        // Format the date as needed (e.g., "dd-MM-yyyy" for day-month-year format)
+//        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//        String formattedDate = dateFormat.format(currentDate);
+//        Hazard hazard = new Hazard("5", Constants.HazardType.PLANTS, "description", Constants.Level.LOW, "userName", "routeName2", formattedDate);
+//        HazardMethods.addHazard(hazard, textView);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     }
 
     private void buttonLoginFunctionality() {
