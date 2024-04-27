@@ -53,7 +53,8 @@ dependencies {
 //    //RealtimeDatabase
 //    implementation 'com.google.firebase:firebase-database'
 //
-//    //Firebase Authentication
+    //Firebase Authentication
+    implementation("com.google.firebase:firebase-auth:22.3.1")
 //    implementation 'com.google.firebase:firebase-auth'
 //    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
 //

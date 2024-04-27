@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client;
+package com.example.hike_with_me_client.Utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,12 +1,10 @@
 package com.example.hike_with_me_client.User.Actions;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetUser;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -24,17 +22,17 @@ public class GetUser extends UserMasterClass {
 
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if(response.isSuccessful()) {
                     User user = response.body();
                     callback_getUser.success(user);
                 } else {
-                    callback_getUser.error("" + response.errorBody());
+                    callback_getUser.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 callback_getUser.error(t.getMessage());
                 t.printStackTrace();
             }

@@ -1,6 +1,6 @@
 package com.example.hike_with_me_client.Trip;
 
-import com.example.hike_with_me_client.MasterClass;
+import com.example.hike_with_me_client.Utils.MasterClass;
 
 public class TripMasterClass extends MasterClass {
 

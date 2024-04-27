@@ -1,6 +1,6 @@
 package com.example.hike_with_me_client.Hazard;
 
-import com.example.hike_with_me_client.Constants;
+import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.User;
 

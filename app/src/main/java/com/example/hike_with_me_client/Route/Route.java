@@ -1,6 +1,6 @@
 package com.example.hike_with_me_client.Route;
 
-import com.example.hike_with_me_client.Constants;
+import com.example.hike_with_me_client.Utils.Constants;
 
 public class Route {
 
