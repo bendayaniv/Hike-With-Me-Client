@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.User.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.User.Callbacks.Callback_UpdateUser;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
@@ -15,23 +17,22 @@ public class UpdateUser extends UserMasterClass {
         this.callback_updateUser = callback_updateUser;
     }
 
-    public void updateUser(String id, String name, String email, String password, String phoneNumber) {
-        User user = new User(name, email, password, phoneNumber);
-        Call<User> call = userApiInterface.updateUser(id, user);
+    public void updateUser(User updatedUser) {
+        Call<User> call = userApiInterface.updateUser(updatedUser);
 
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if(response.isSuccessful()) {
                     User user = response.body();
                     callback_updateUser.success(user);
                 } else {
-                    callback_updateUser.error("" + response.errorBody());
+                    callback_updateUser.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 callback_updateUser.error(t.getMessage());
                 t.printStackTrace();
             }

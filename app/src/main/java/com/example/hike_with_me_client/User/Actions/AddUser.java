@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.User.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.User.Callbacks.Callback_AddUser;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
@@ -20,17 +22,17 @@ public class AddUser extends UserMasterClass {
 
         call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
                 if(response.isSuccessful()) {
                     User user = response.body();
                     callback_addUser.success(user);
                 } else {
-                    callback_addUser.error("" + response.errorBody());
+                    callback_addUser.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
                 callback_addUser.error(t.getMessage());
                 t.printStackTrace();
             }

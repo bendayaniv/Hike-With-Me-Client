@@ -2,6 +2,8 @@ package com.example.hike_with_me_client.User.Actions;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
@@ -23,27 +25,24 @@ public class GetAllUsers extends UserMasterClass {
     }
 
     public void getAllUsers() {
-        Log.d("pttt", "GetAllUsers getAllUsers");
         Call<List<User>> call = userApiInterface.getAllUsers();
-        Log.d("pttt", "GetAllUsers getAllUsers 2");
 
         call.enqueue(new Callback<List<User>>() {
             @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
+            public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>> response) {
                 if(response.isSuccessful()) {
                     List<User> users = response.body();
                     callback_getAllUsers.success(users);
                 } else {
-                    callback_getAllUsers.error("" + response.errorBody());
+                    callback_getAllUsers.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable t) {
                 callback_getAllUsers.error(t.getMessage());
                 t.printStackTrace();
             }
         });
-        Log.d("pttt", "GetAllUsers getAllUsers 3");
     }
 }

@@ -26,9 +26,8 @@ public interface UserApiInterface {
             @Body User user
     );
 
-    @PUT("users/{user_id}")
+    @PUT("users")
     Call<User> updateUser(
-            @Path("user_id") String user_id,
             @Body User user
     );
 

@@ -1,52 +1,41 @@
 package com.example.hike_with_me_client;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.hike_with_me_client.Hazard.Hazard;
-import com.example.hike_with_me_client.Hazard.HazardMethods;
-import com.example.hike_with_me_client.Recommendation.Actions.AddRecommendation;
-import com.example.hike_with_me_client.Recommendation.Actions.GetRecommendationsByRoute;
-import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_AddRecommendation;
-import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_GetRecommendationsByRoute;
-import com.example.hike_with_me_client.Recommendation.Recommendation;
-import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
-import com.example.hike_with_me_client.Route.Route;
-import com.example.hike_with_me_client.Route.RouteMethods;
-import com.example.hike_with_me_client.Trip.Trip;
-import com.example.hike_with_me_client.Trip.TripMethods;
-import com.example.hike_with_me_client.User.Actions.AddUser;
-import com.example.hike_with_me_client.User.Actions.DeleteUser;
-import com.example.hike_with_me_client.User.Actions.GetAllUsers;
-import com.example.hike_with_me_client.User.Actions.GetUser;
-import com.example.hike_with_me_client.User.Actions.UpdateUser;
-import com.example.hike_with_me_client.User.Callbacks.Callback_AddUser;
-import com.example.hike_with_me_client.User.Callbacks.Callback_DeleteUser;
-import com.example.hike_with_me_client.User.Callbacks.Callback_GetAllUsers;
-import com.example.hike_with_me_client.User.Callbacks.Callback_GetUser;
-import com.example.hike_with_me_client.User.Callbacks.Callback_UpdateUser;
-import com.example.hike_with_me_client.User.User;
-import com.example.hike_with_me_client.User.UserMethods;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import com.example.hike_with_me_client.User.UserMethods;
+import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     TextView textView;
+    Button logoutButton;
+    FirebaseAuth mAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView);
+        initialization();
 
+        checkingCurrentUser();
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // CRUD Examples
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Getting all users
 //        UserMethods.getAllUsers(textView);
 
@@ -108,10 +97,52 @@ public class MainActivity extends AppCompatActivity {
 //        TripMethods.createTrip(trip, textView);
 
         // Update trip
-        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
-        TripMethods.updateTrip(trip, textView);
+//        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
+//        TripMethods.updateTrip(trip, textView);
 
         // Delete trip
 //        TripMethods.deleteTrip("email1password1", "20", textView);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    }
+
+    private void logoutButtonFunctionality() {
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mAuth.signOut();
+                CurrentUser.getInstance().removeUser();
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void checkingCurrentUser() {
+        if (currentUser == null) {
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Log.d("pttt", "User is logged in: " + currentUser);
+            textView.setText("User is logged in: " + currentUser.getUid());
+            UserMethods.getSpecificUser(currentUser.getUid());
+        }
+    }
+
+    private void initialization() {
+        mAuth = FirebaseAuth.getInstance();
+
+        currentUser = mAuth.getCurrentUser();
+
+        textView = findViewById(R.id.textView);
+
+        logoutButton = findViewById(R.id.btn_logout);
+
+        logoutButtonFunctionality();
+
     }
 }

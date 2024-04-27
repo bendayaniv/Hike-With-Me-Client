@@ -1,7 +1,8 @@
 package com.example.hike_with_me_client.User.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.User.Callbacks.Callback_DeleteUser;
-import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
 
 import retrofit2.Call;
@@ -21,17 +22,17 @@ public class DeleteUser extends UserMasterClass {
 
          call.enqueue(new Callback<String>() {
              @Override
-             public void onResponse(Call<String> call, Response<String> response) {
+             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                  if(response.isSuccessful()) {
                      String message = String.valueOf(response.body());
                      callback_deleteUser.success(message);
                  } else {
-                     callback_deleteUser.error("" + response.errorBody());
+                     callback_deleteUser.error(String.valueOf(response.errorBody()));
                  }
              }
 
              @Override
-             public void onFailure(Call<String> call, Throwable t) {
+             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                  callback_deleteUser.error(t.getMessage());
                  t.printStackTrace();
              }
