@@ -22,10 +22,8 @@ public interface TripApiInterface {
             @Body Trip trip
     );
 
-    @PUT("trips/{user_id}/{trip_id}")
+    @PUT("trips")
     Call<Trip> updateTrip(
-            @Path("user_id") String user_id,
-            @Path("trip_id") String trip_id,
             @Body Trip trip
     );
 

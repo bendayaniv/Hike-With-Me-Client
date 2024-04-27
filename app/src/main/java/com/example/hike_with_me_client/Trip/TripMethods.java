@@ -53,21 +53,21 @@ public class TripMethods {
         new CreateTrip(callback_createTrip).createTrip(trip);
     }
 
-//    public static void updateTrip(Trip trip, TextView textView) {
-//        Callback_UpdateTrip callback_updateTrip = new Callback_UpdateTrip() {
-//            @Override
-//            public void success(Trip trip) {
-//                textView.setText("Trip updated: " + trip);
-//            }
-//
-//            @Override
-//            public void error(String message) {
-//                Log.d("pttt", "Error: " + message);
-//                textView.setText("Error: " + message);
-//            }
-//        };
-//        new UpdateTrip(callback_updateTrip).updateTrip("1", trip.getId(), trip.getName(), trip.getStartDate(), "newEndDate", trip.getLocation(), trip.getDescription(), trip.getRoute(), trip.getUser());
-//    }
+    public static void updateTrip(Trip trip, TextView textView) {
+        Callback_UpdateTrip callback_updateTrip = new Callback_UpdateTrip() {
+            @Override
+            public void success(Trip trip) {
+                textView.setText("Trip updated: " + trip);
+            }
+
+            @Override
+            public void error(String message) {
+                Log.d("pttt", "Error: " + message);
+                textView.setText("Error: " + message);
+            }
+        };
+        new UpdateTrip(callback_updateTrip).updateTrip(trip);
+    }
 
     public static void deleteTrip(String userId, String tripId, TextView textView) {
         Callback_DeleteTrip callback_deleteTrip = new Callback_DeleteTrip() {

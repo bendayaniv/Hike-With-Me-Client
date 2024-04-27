@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Trip.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_UpdateTrip;
 import com.example.hike_with_me_client.Trip.Trip;
@@ -17,26 +19,25 @@ public class UpdateTrip extends TripMasterClass {
         this.callback_updateTrip = callback_updateTrip;
     }
 
-//    public void updateTrip(String userId, String tripId, String name, String startDate, String endDate, String location, String description, Route route, User user) {
-//        Trip trip = new Trip(tripId, name, startDate, endDate, location, description, route, user);
-//        Call<Trip> call = tripApiInterface.updateTrip(userId, tripId, trip);
-//
-//        call.enqueue(new Callback<Trip>() {
-//            @Override
-//            public void onResponse(Call<Trip> call, Response<Trip> response) {
-//                if(response.isSuccessful()) {
-//                    Trip trip = response.body();
-//                    callback_updateTrip.success(trip);
-//                } else {
-//                    callback_updateTrip.error("" + response.errorBody());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Trip> call, Throwable t) {
-//                callback_updateTrip.error(t.getMessage());
-//                t.printStackTrace();
-//            }
-//        });
-//    }
+    public void updateTrip(Trip trip) {
+        Call<Trip> call = tripApiInterface.updateTrip(trip);
+
+        call.enqueue(new Callback<Trip>() {
+            @Override
+            public void onResponse(@NonNull Call<Trip> call, @NonNull Response<Trip> response) {
+                if(response.isSuccessful()) {
+                    Trip trip = response.body();
+                    callback_updateTrip.success(trip);
+                } else {
+                    callback_updateTrip.error(String.valueOf(response.errorBody()));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<Trip> call, @NonNull Throwable t) {
+                callback_updateTrip.error(t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 }
