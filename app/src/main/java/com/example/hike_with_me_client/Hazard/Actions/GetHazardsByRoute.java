@@ -29,7 +29,7 @@ public class GetHazardsByRoute extends HazardMasterClass {
                     List<Hazard> hazards = response.body();
                     callback_getHazardsByRoute.success(hazards);
                 } else {
-                    callback_getHazardsByRoute.error("" + response.errorBody());
+                    callback_getHazardsByRoute.error(String.valueOf(response.errorBody()));
                 }
             }
 

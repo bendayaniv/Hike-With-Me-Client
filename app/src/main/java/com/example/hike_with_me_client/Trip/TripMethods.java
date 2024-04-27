@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Trip;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ import com.example.hike_with_me_client.Trip.Callbacks.Callback_GetTripsByUser;
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_UpdateTrip;
 
 import java.util.List;
-
+@SuppressLint("SetTextI18n")
 public class TripMethods {
 
     public static void getTripsByUser(String userId, TextView textView) {
@@ -65,7 +66,7 @@ public class TripMethods {
                 textView.setText("Error: " + message);
             }
         };
-        new UpdateTrip(callback_updateTrip).updateTrip("email1password1", trip.getId(), trip.getName(), trip.getStartDate(), "newEndDate", trip.getLocation(), trip.getDescription(), trip.getRoute(), trip.getUser());
+        new UpdateTrip(callback_updateTrip).updateTrip(trip);
     }
 
     public static void deleteTrip(String userId, String tripId, TextView textView) {

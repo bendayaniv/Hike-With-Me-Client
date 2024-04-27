@@ -1,7 +1,6 @@
 package com.example.hike_with_me_client.Trip;
 
-import com.example.hike_with_me_client.Route.Route;
-import com.example.hike_with_me_client.User.User;
+import androidx.annotation.NonNull;
 
 public class Trip {
 
@@ -11,20 +10,20 @@ public class Trip {
     private String endDate;
     private String location;
     private String description;
-    private Route route;
-    private User user;
+    private String routeName;
+    private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, String location, String description, Route route, User user) {
+    public Trip(String id, String name, String startDate, String endDate, String location, String description, String routeName, String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.description = description;
-        this.route = route;
-        this.user = user;
+        this.routeName = routeName;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -81,24 +80,25 @@ public class Trip {
         return this;
     }
 
-    public Route getRoute() {
-        return route;
+    public String getRouteName() {
+        return routeName;
     }
 
-    public Trip setRoute(Route route) {
-        this.route = route;
+    public Trip setRouteName(String routeName) {
+        this.routeName = routeName;
         return this;
     }
 
-    public User getUser() {
-        return user;
+    public String getUserId() {
+        return userId;
     }
 
-    public Trip setUser(User user) {
-        this.user = user;
+    public Trip setUserId(String userName) {
+        this.userId = userName;
         return this;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Trip{" +
@@ -108,8 +108,8 @@ public class Trip {
                 ", endDate='" + endDate + '\'' +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
-                ", route=" + route +
-                ", user=" + user +
+                ", routeName='" + routeName + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

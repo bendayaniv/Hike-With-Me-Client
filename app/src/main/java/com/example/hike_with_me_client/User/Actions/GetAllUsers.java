@@ -1,15 +1,10 @@
 package com.example.hike_with_me_client.User.Actions;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.User.UserMasterClass;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 

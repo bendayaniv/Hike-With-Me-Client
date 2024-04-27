@@ -9,7 +9,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface HazardApiInterface {
-
     @GET("hazards/{route_name}")
     Call<List<Hazard>> getHazardsByRoute(
             @Path("route_name") String route

@@ -1,7 +1,8 @@
 package com.example.hike_with_me_client.Trip.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_DeleteTrip;
-import com.example.hike_with_me_client.Trip.Trip;
 import com.example.hike_with_me_client.Trip.TripMasterClass;
 
 import retrofit2.Call;
@@ -21,38 +22,20 @@ public class DeleteTrip extends TripMasterClass {
 
         call.enqueue(new Callback<String>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if(response.isSuccessful()) {
                     String message = String.valueOf(response.body());
                     callback_deleteTrip.success(message);
                 } else {
-                    callback_deleteTrip.error("" + response.errorBody());
+                    callback_deleteTrip.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 callback_deleteTrip.error(t.getMessage());
                 t.printStackTrace();
             }
         });
-
-//        call.enqueue(new Callback<String>() {
-//            @Override
-//            public void onResponse(Call<Trip> call, Response<Trip> response) {
-//                if(response.isSuccessful()) {
-//                    String message = String.valueOf(response.body());
-//                    callback_deleteTrip.success(message);
-//                } else {
-//                    callback_deleteTrip.error("" + response.errorBody());
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Trip> call, Throwable t) {
-//                callback_deleteTrip.error(t.getMessage());
-//                t.printStackTrace();
-//            }
-//        });
     }
 }

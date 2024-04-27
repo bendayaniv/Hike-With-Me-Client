@@ -2,28 +2,21 @@ package com.example.hike_with_me_client.Recommendation;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Route.Route;
-import com.example.hike_with_me_client.User.User;
-
 public class Recommendation {
 
     private String id;
     private int rate;
     private String description;
-//    private User reporter;
     private String reporterName;
-//    private Route route;
     private String routeName;
 
     public Recommendation() {}
 
-    public Recommendation(String id, int rate, String description, /*User reporter*/String reporterName, /*Route route*/String routeName) {
+    public Recommendation(String id, int rate, String description, String reporterName, String routeName) {
         this.id = id;
         this.rate = rate;
         this.description = description;
-//        this.reporter = reporter;
         this.reporterName = reporterName;
-//        this.route = route;
         this.routeName = routeName;
     }
 
@@ -54,15 +47,6 @@ public class Recommendation {
         return this;
     }
 
-//    public User getReporter() {
-//        return reporter;
-//    }
-//
-//    public Recommendation setReporter(User reporter) {
-//        this.reporter = reporter;
-//        return this;
-//    }
-
     public String getReporterName() {
         return reporterName;
     }
@@ -71,15 +55,6 @@ public class Recommendation {
         this.reporterName = reporterName;
         return this;
     }
-
-//    public Route getRoute() {
-//        return route;
-//    }
-//
-//    public Recommendation setRoute(Route route) {
-//        this.route = route;
-//        return this;
-//    }
 
     public String getRouteName() {
         return routeName;

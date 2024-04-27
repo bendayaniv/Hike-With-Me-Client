@@ -9,8 +9,6 @@ import com.example.hike_with_me_client.Recommendation.Actions.GetRecommendations
 import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_AddRecommendation;
 import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_GetRecommendationsByRoute;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 public class RecommendationMethods {

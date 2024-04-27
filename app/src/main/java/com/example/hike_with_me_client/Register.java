@@ -69,11 +69,11 @@ public class Register extends AppCompatActivity {
                 Constants.toastMessageToUserWithProgressBar(Register.this, (String) objects[1], progressBar);
                 return 1;
             }
-            if(((String) objects[1]).contains("password") && ((String) objects[0]).length() < 6) {
+            if(((String) objects[1]).contains(Constants.EMAIL) && ((String) objects[0]).length() < 6) {
                 Constants.toastMessageToUserWithProgressBar(Register.this, (String) objects[2], progressBar);
                 return 1;
             }
-            if(((String) objects[1]).contains("phone number") && !((String) objects[0]).matches("[0-9]+")) {
+            if(((String) objects[1]).contains(Constants.PHONE_NUMBER) && !((String) objects[0]).matches("[0-9]+")) {
                 Constants.toastMessageToUserWithProgressBar(Register.this, (String) objects[2], progressBar);
                 return 1;
             }
