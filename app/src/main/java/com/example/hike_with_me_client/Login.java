@@ -25,6 +25,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +35,26 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         findViews();
+        textView = findViewById(R.id.logInTextView);
 
         registerFunctionality();
 
         buttonLoginFunctionality();
+
+        CRUDExamples();
+    }
+
+    private void CRUDExamples() {
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting all recommendations by route
+//        RecommendationMethods.getRecommendationsByRoute("routeName2", textView);
+
+        // Adding recommendation
+//        Recommendation recommendation = new Recommendation("6", 4, "description", "reporterName", "routeName2");
+//        RecommendationMethods.addRecommendation(recommendation, textView);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     private void buttonLoginFunctionality() {

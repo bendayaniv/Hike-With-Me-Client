@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Recommendation;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -13,7 +14,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 public class RecommendationMethods {
-
+    @SuppressLint("SetTextI18n")
     public static void getRecommendationsByRoute(String routeName, TextView textView) {
         Callback_GetRecommendationsByRoute callback_getAllRecommendationsByRoute = new Callback_GetRecommendationsByRoute() {
             @Override
@@ -27,13 +28,13 @@ public class RecommendationMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
                 textView.setText("Error: " + message + "\nNo recommendations found");
             }
         };
         new GetRecommendationsByRoute(callback_getAllRecommendationsByRoute).getRecommendationsByRoute(routeName);
     }
 
+    @SuppressLint("SetTextI18n")
     public static void addRecommendation(Recommendation recommendation, TextView textView){
         Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
             @Override

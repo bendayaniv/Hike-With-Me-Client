@@ -55,15 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Getting all recommendations by route
-//        RecommendationMethods.getRecommendationsByRoute("routeName", textView);
-
-        // Adding recommendation
-//        Recommendation recommendation = new Recommendation("4", 4, "description", new User().setEmail("email").setPassword("password"), new Route().setName("routeName"));
-//        RecommendationMethods.addRecommendation(recommendation, textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // Getting all hazards by route
 //        HazardMethods.getHazardsByRoute("route2", textView);
 
