@@ -85,11 +85,12 @@ public class Login extends AppCompatActivity {
 //        TripMethods.createTrip(trip, textView);
 
         // Update trip
-        Trip trip = new Trip("21", "name", "startDate", "newEndDate", "location", "description", "routeName", "userId2");
-        TripMethods.updateTrip(trip, textView);
+//        Trip trip = new Trip("21", "name", "startDate", "newEndDate", "location", "description", "routeName", "userId2");
+//        TripMethods.updateTrip(trip, textView);
 
         // Delete trip
-//        TripMethods.deleteTrip("email1password1", "20", textView);
+//        Trip trip = new Trip().setId("20").setUserId("userId2");
+//        TripMethods.deleteTrip(trip.getUserId(), trip.getId(), textView);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

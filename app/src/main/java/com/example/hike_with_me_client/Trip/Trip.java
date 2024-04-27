@@ -114,11 +114,11 @@ public class Trip {
 //        return this;
 //    }
 
-    public String getUserName() {
+    public String getUserId() {
         return userId;
     }
 
-    public Trip setUserName(String userName) {
+    public Trip setUserId(String userName) {
         this.userId = userName;
         return this;
     }
