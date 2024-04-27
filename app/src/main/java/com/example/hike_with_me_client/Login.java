@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 import com.example.hike_with_me_client.Hazard.Hazard;
 import com.example.hike_with_me_client.Hazard.HazardMethods;
+import com.example.hike_with_me_client.Trip.Trip;
+import com.example.hike_with_me_client.Trip.TripMethods;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +76,23 @@ public class Login extends AppCompatActivity {
 //        HazardMethods.addHazard(hazard, textView);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Getting trips by user
+//        TripMethods.getTripsByUser("email1password1", textView);
+
+        // Creating a new trip
+        Trip trip = new Trip("21", "name", "startDate", "endDate", "location", "description", "routeName", "userId2");
+        TripMethods.createTrip(trip, textView);
+
+        // Update trip
+//        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
+//        TripMethods.updateTrip(trip, textView);
+
+        // Delete trip
+//        TripMethods.deleteTrip("email1password1", "20", textView);
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     }
 

@@ -17,26 +17,26 @@ public class UpdateTrip extends TripMasterClass {
         this.callback_updateTrip = callback_updateTrip;
     }
 
-    public void updateTrip(String userId, String tripId, String name, String startDate, String endDate, String location, String description, Route route, User user) {
-        Trip trip = new Trip(tripId, name, startDate, endDate, location, description, route, user);
-        Call<Trip> call = tripApiInterface.updateTrip(userId, tripId, trip);
-
-        call.enqueue(new Callback<Trip>() {
-            @Override
-            public void onResponse(Call<Trip> call, Response<Trip> response) {
-                if(response.isSuccessful()) {
-                    Trip trip = response.body();
-                    callback_updateTrip.success(trip);
-                } else {
-                    callback_updateTrip.error("" + response.errorBody());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Trip> call, Throwable t) {
-                callback_updateTrip.error(t.getMessage());
-                t.printStackTrace();
-            }
-        });
-    }
+//    public void updateTrip(String userId, String tripId, String name, String startDate, String endDate, String location, String description, Route route, User user) {
+//        Trip trip = new Trip(tripId, name, startDate, endDate, location, description, route, user);
+//        Call<Trip> call = tripApiInterface.updateTrip(userId, tripId, trip);
+//
+//        call.enqueue(new Callback<Trip>() {
+//            @Override
+//            public void onResponse(Call<Trip> call, Response<Trip> response) {
+//                if(response.isSuccessful()) {
+//                    Trip trip = response.body();
+//                    callback_updateTrip.success(trip);
+//                } else {
+//                    callback_updateTrip.error("" + response.errorBody());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Trip> call, Throwable t) {
+//                callback_updateTrip.error(t.getMessage());
+//                t.printStackTrace();
+//            }
+//        });
+//    }
 }

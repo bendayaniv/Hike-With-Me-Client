@@ -55,19 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Getting all hazards by route
-//        HazardMethods.getHazardsByRoute("route2", textView);
-
-        // Adding hazard
-//        Date currentDate = new Date();
-//        // Format the date as needed (e.g., "dd-MM-yyyy" for day-month-year format)
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        String formattedDate = dateFormat.format(currentDate);
-//        Hazard hazard = new Hazard("4", Constants.HazardType.PLANTS, "description", Constants.HazardSeverity.LOW, new User().setEmail("email").setPassword("password"), new Route().setName("route2"), formattedDate);
-//        HazardMethods.addHazard(hazard, textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // Getting all routes
 //        RouteMethods.getAllRoutes(textView);
 

@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Trip;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.User.User;
 
@@ -11,20 +13,24 @@ public class Trip {
     private String endDate;
     private String location;
     private String description;
-    private Route route;
-    private User user;
+//    private Route route;
+    private String routeName;
+//    private User user;
+    private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, String location, String description, Route route, User user) {
+    public Trip(String id, String name, String startDate, String endDate, String location, String description, /*Route route*/String routeName, /*User user*/String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.description = description;
-        this.route = route;
-        this.user = user;
+//        this.route = route;
+        this.routeName = routeName;
+//        this.user = user;
+        this.userId = userId;
     }
 
     public String getId() {
@@ -81,24 +87,43 @@ public class Trip {
         return this;
     }
 
-    public Route getRoute() {
-        return route;
+//    public Route getRoute() {
+//        return route;
+//    }
+
+//    public Trip setRoute(Route route) {
+//        this.route = route;
+//        return this;
+//    }
+
+    public String getRouteName() {
+        return routeName;
     }
 
-    public Trip setRoute(Route route) {
-        this.route = route;
+    public Trip setRouteName(String routeName) {
+        this.routeName = routeName;
         return this;
     }
 
-    public User getUser() {
-        return user;
+//    public User getUser() {
+//        return user;
+//    }
+
+//    public Trip setUser(User user) {
+//        this.user = user;
+//        return this;
+//    }
+
+    public String getUserName() {
+        return userId;
     }
 
-    public Trip setUser(User user) {
-        this.user = user;
+    public Trip setUserName(String userName) {
+        this.userId = userName;
         return this;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "Trip{" +
@@ -108,8 +133,8 @@ public class Trip {
                 ", endDate='" + endDate + '\'' +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
-                ", route=" + route +
-                ", user=" + user +
+                ", routeName='" + routeName + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }
