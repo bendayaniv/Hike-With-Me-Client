@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Hazard.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Hazard.Callbacks.Callback_GetHazardsByRoute;
 import com.example.hike_with_me_client.Hazard.Hazard;
 import com.example.hike_with_me_client.Hazard.HazardMasterClass;
@@ -22,7 +24,7 @@ public class GetHazardsByRoute extends HazardMasterClass {
 
         call.enqueue(new Callback<List<Hazard>>() {
             @Override
-            public void onResponse(Call<List<Hazard>> call, Response<List<Hazard>> response) {
+            public void onResponse(@NonNull Call<List<Hazard>> call, @NonNull Response<List<Hazard>> response) {
                 if(response.isSuccessful()) {
                     List<Hazard> hazards = response.body();
                     callback_getHazardsByRoute.success(hazards);
@@ -32,7 +34,7 @@ public class GetHazardsByRoute extends HazardMasterClass {
             }
 
             @Override
-            public void onFailure(Call<List<Hazard>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Hazard>> call, @NonNull Throwable t) {
                 callback_getHazardsByRoute.error(t.getMessage());
                 t.printStackTrace();
             }

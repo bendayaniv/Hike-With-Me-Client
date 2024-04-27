@@ -10,9 +10,9 @@ public class Recommendation {
     private String id;
     private int rate;
     private String description;
-    private User reporter;
+//    private User reporter;
     private String reporterName;
-    private Route route;
+//    private Route route;
     private String routeName;
 
     public Recommendation() {}
