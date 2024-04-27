@@ -30,58 +30,6 @@ public class MainActivity extends AppCompatActivity {
         initialization();
 
         checkingCurrentUser();
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // CRUD Examples
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        // Getting all users
-//        UserMethods.getAllUsers(textView);
-
-        // Getting specific user
-//        UserMethods.getSpecificUser("bendayaniv@gmailcomShalva", textView);
-
-        // Add new user
-//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva", "1234567890");
-//        UserMethods.addUser(user, textView);
-
-        // Update user
-//        User user = new User("Ben Dayan", "bendayaniv@gmailcomShalva", "Shalva", "1234567890");
-//        UserMethods.updateUser(user, textView);
-
-        // Delete user
-//        UserMethods.deleteUser("bendayaniv@gmailcomShalvaShalva", textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Getting all routes
-//        RouteMethods.getAllRoutes(textView);
-
-        // Getting route by name
-//        RouteMethods.getSpecificRoute("name", textView);
-
-        // Adding route
-//        Route route = new Route("10", "name4", "description", Constants.Level.LOW, "length", "location");
-//        RouteMethods.addRoute(route, textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Getting trips by user
-//        TripMethods.getTripsByUser("email1password1", textView);
-
-        // Creating a new trip
-//        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
-//        TripMethods.createTrip(trip, textView);
-
-        // Update trip
-//        Trip trip = new Trip("20", "name", "startDate", "endDate", "location", "description", new Route().setName("route"), new User().setEmail("email1").setPassword("password1"));
-//        TripMethods.updateTrip(trip, textView);
-
-        // Delete trip
-//        TripMethods.deleteTrip("email1password1", "20", textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     private void logoutButtonFunctionality() {

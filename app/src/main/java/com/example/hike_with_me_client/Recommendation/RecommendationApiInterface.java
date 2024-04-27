@@ -9,7 +9,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RecommendationApiInterface {
-
     @GET("recommendations/{route_name}")
     Call<List<Recommendation>> getRecommendationsByRoute(
             @Path("route_name") String route

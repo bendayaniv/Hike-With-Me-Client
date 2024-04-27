@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Trip.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_GetTripsByUser;
 import com.example.hike_with_me_client.Trip.Trip;
 import com.example.hike_with_me_client.Trip.TripMasterClass;
@@ -21,17 +23,17 @@ public class GetTripsByUser extends TripMasterClass {
          Call<List<Trip>> call = tripApiInterface.getTrips(userId);
          call.enqueue(new Callback<List<Trip>>() {
              @Override
-             public void onResponse(Call<List<Trip>> call, Response<List<Trip>> response) {
+             public void onResponse(@NonNull Call<List<Trip>> call, @NonNull Response<List<Trip>> response) {
                  if(response.isSuccessful()) {
                      List<Trip> trips = response.body();
                      callback_getTripsByUser.success(trips);
                  } else {
-                     callback_getTripsByUser.error("" + response.errorBody());
+                     callback_getTripsByUser.error(String.valueOf(response.errorBody()));
                  }
              }
 
              @Override
-             public void onFailure(Call<List<Trip>> call, Throwable t) {
+             public void onFailure(@NonNull Call<List<Trip>> call, @NonNull Throwable t) {
                  callback_getTripsByUser.error(t.getMessage());
                  t.printStackTrace();
              }

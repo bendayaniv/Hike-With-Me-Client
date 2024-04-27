@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Route.Actions;
 
+import androidx.annotation.NonNull;
+
 import com.example.hike_with_me_client.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Route.Route;
 import com.example.hike_with_me_client.Route.RouteMasterClass;
@@ -22,17 +24,17 @@ public class GetAllRoutes extends RouteMasterClass {
 
         call.enqueue(new Callback<List<Route>>() {
             @Override
-            public void onResponse(Call<List<Route>> call, Response<List<Route>> response) {
+            public void onResponse(@NonNull Call<List<Route>> call, @NonNull Response<List<Route>> response) {
                 if(response.isSuccessful()) {
                     List<Route> routes = response.body();
                     callback_getAllRoutes.success(routes);
                 } else {
-                    callback_getAllRoutes.error("" + response.errorBody());
+                    callback_getAllRoutes.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<List<Route>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Route>> call, @NonNull Throwable t) {
                 callback_getAllRoutes.error(t.getMessage());
                 t.printStackTrace();
             }

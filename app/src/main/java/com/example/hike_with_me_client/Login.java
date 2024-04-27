@@ -2,7 +2,6 @@ package com.example.hike_with_me_client;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,16 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hike_with_me_client.Hazard.Hazard;
-import com.example.hike_with_me_client.Hazard.HazardMethods;
-import com.example.hike_with_me_client.Trip.Trip;
-import com.example.hike_with_me_client.Trip.TripMethods;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 public class Login extends AppCompatActivity {
@@ -32,7 +25,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow;
-    TextView textView;
+//    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,54 +40,7 @@ public class Login extends AppCompatActivity {
 
         buttonLoginFunctionality();
 
-        CRUDExamples();
-    }
-
-    private void CRUDExamples() {
-        textView = findViewById(R.id.logInTextView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Getting all recommendations by route
-//        RecommendationMethods.getRecommendationsByRoute("routeName2", textView);
-
-        // Adding recommendation
-//        Recommendation recommendation = new Recommendation("6", 4, "description", "reporterName", "routeName2");
-//        RecommendationMethods.addRecommendation(recommendation, textView);
-
-        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Getting all hazards by route
-//        HazardMethods.getHazardsByRoute("routeName", textView);
-
-        // Adding hazard
-//        Date currentDate = new Date();
-//        // Format the date as needed (e.g., "dd-MM-yyyy" for day-month-year format)
-//        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//        String formattedDate = dateFormat.format(currentDate);
-//        Hazard hazard = new Hazard("5", Constants.HazardType.PLANTS, "description", Constants.Level.LOW, "userName", "routeName2", formattedDate);
-//        HazardMethods.addHazard(hazard, textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        // Getting trips by user
-//        TripMethods.getTripsByUser("userId", textView);
-
-        // Creating a new trip
-//        Trip trip = new Trip("21", "name", "startDate", "endDate", "location", "description", "routeName", "userId2");
-//        TripMethods.createTrip(trip, textView);
-
-        // Update trip
-//        Trip trip = new Trip("21", "name", "startDate", "newEndDate", "location", "description", "routeName", "userId2");
-//        TripMethods.updateTrip(trip, textView);
-
-        // Delete trip
-//        Trip trip = new Trip().setId("20").setUserId("userId2");
-//        TripMethods.deleteTrip(trip.getUserId(), trip.getId(), textView);
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
+//        Constants.CRUDExamples(textView);
     }
 
     private void buttonLoginFunctionality() {
@@ -151,6 +97,8 @@ public class Login extends AppCompatActivity {
     }
 
     private void findViews() {
+//        textView = findViewById(R.id.logInTextView);
+
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         buttonLogin = findViewById(R.id.btn_login);

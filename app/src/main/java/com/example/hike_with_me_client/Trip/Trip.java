@@ -2,9 +2,6 @@ package com.example.hike_with_me_client.Trip;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Route.Route;
-import com.example.hike_with_me_client.User.User;
-
 public class Trip {
 
     private String id;
@@ -13,23 +10,19 @@ public class Trip {
     private String endDate;
     private String location;
     private String description;
-//    private Route route;
     private String routeName;
-//    private User user;
     private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, String location, String description, /*Route route*/String routeName, /*User user*/String userId) {
+    public Trip(String id, String name, String startDate, String endDate, String location, String description, String routeName, String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.location = location;
         this.description = description;
-//        this.route = route;
         this.routeName = routeName;
-//        this.user = user;
         this.userId = userId;
     }
 
@@ -87,15 +80,6 @@ public class Trip {
         return this;
     }
 
-//    public Route getRoute() {
-//        return route;
-//    }
-
-//    public Trip setRoute(Route route) {
-//        this.route = route;
-//        return this;
-//    }
-
     public String getRouteName() {
         return routeName;
     }
@@ -104,15 +88,6 @@ public class Trip {
         this.routeName = routeName;
         return this;
     }
-
-//    public User getUser() {
-//        return user;
-//    }
-
-//    public Trip setUser(User user) {
-//        this.user = user;
-//        return this;
-//    }
 
     public String getUserId() {
         return userId;

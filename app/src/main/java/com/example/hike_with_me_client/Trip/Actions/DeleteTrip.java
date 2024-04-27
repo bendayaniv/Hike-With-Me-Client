@@ -3,7 +3,6 @@ package com.example.hike_with_me_client.Trip.Actions;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_DeleteTrip;
-import com.example.hike_with_me_client.Trip.Trip;
 import com.example.hike_with_me_client.Trip.TripMasterClass;
 
 import retrofit2.Call;
@@ -28,7 +27,7 @@ public class DeleteTrip extends TripMasterClass {
                     String message = String.valueOf(response.body());
                     callback_deleteTrip.success(message);
                 } else {
-                    callback_deleteTrip.error("" + response.errorBody());
+                    callback_deleteTrip.error(String.valueOf(response.errorBody()));
                 }
             }
 

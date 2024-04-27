@@ -27,7 +27,7 @@ public class AddHazard extends HazardMasterClass {
                     Hazard hazard = response.body();
                     callBack_addHazard.success(hazard);
                 } else {
-                    callBack_addHazard.error("" + response.errorBody());
+                    callBack_addHazard.error(String.valueOf(response.errorBody()));
                 }
             }
 

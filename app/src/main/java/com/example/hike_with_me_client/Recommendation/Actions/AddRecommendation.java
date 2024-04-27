@@ -1,6 +1,6 @@
 package com.example.hike_with_me_client.Recommendation.Actions;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Recommendation.Callbacks.Callback_AddRecommendation;
 import com.example.hike_with_me_client.Recommendation.Recommendation;
@@ -22,17 +22,17 @@ public class AddRecommendation extends RecommendationMasterClass {
 
         call.enqueue(new Callback<Recommendation>() {
             @Override
-            public void onResponse(Call<Recommendation> call, Response<Recommendation> response) {
+            public void onResponse(@NonNull Call<Recommendation> call, @NonNull Response<Recommendation> response) {
                 if(response.isSuccessful()) {
                     Recommendation recommendation = response.body();
                     callback_addRecommendation.success(recommendation);
                 } else {
-                    callback_addRecommendation.error("" + response.errorBody());
+                    callback_addRecommendation.error(String.valueOf(response.errorBody()));
                 }
             }
 
             @Override
-            public void onFailure(Call<Recommendation> call, Throwable t) {
+            public void onFailure(@NonNull Call<Recommendation> call, @NonNull Throwable t) {
                 callback_addRecommendation.error(t.getMessage());
                 t.printStackTrace();
             }
