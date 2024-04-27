@@ -10,9 +10,9 @@ import retrofit2.http.Path;
 
 public interface RecommendationApiInterface {
 
-    @GET("recommendations/{route}")
+    @GET("recommendations/{route_name}")
     Call<List<Recommendation>> getRecommendationsByRoute(
-            @Path("route") String route
+            @Path("route_name") String route
     );
 
     @POST("recommendations/addRecommendation")

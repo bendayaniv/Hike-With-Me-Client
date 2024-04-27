@@ -23,11 +23,8 @@ public class AddRecommendation extends RecommendationMasterClass {
         call.enqueue(new Callback<Recommendation>() {
             @Override
             public void onResponse(Call<Recommendation> call, Response<Recommendation> response) {
-                Log.d("pttt", "onResponse: ");
                 if(response.isSuccessful()) {
-                    Log.d("pttt", "onResponse: " + response.body());
                     Recommendation recommendation = response.body();
-                    Log.d("pttt", "onResponse: " + recommendation);
                     callback_addRecommendation.success(recommendation);
                 } else {
                     callback_addRecommendation.error("" + response.errorBody());

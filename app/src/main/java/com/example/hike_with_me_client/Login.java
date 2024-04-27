@@ -12,6 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hike_with_me_client.Recommendation.Recommendation;
+import com.example.hike_with_me_client.Recommendation.RecommendationMethods;
+import com.example.hike_with_me_client.Route.Route;
+import com.example.hike_with_me_client.User.User;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +29,7 @@ public class Login extends AppCompatActivity {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow;
+    TextView textView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,10 +39,19 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         findViews();
+        textView = findViewById(R.id.logInTextView);
 
         registerFunctionality();
 
         buttonLoginFunctionality();
+
+        // Getting all recommendations by route
+//        RecommendationMethods.getRecommendationsByRoute("routeName", textView);
+
+        // Adding recommendation
+        Recommendation recommendation = new Recommendation("4", 4, "description", "reporterName", "routeName");
+        Log.d("pttt", "onCreate: " + recommendation);
+        RecommendationMethods.addRecommendation(recommendation, textView);
     }
 
     private void buttonLoginFunctionality() {

@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Recommendation;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class RecommendationMethods {
         new GetRecommendationsByRoute(callback_getAllRecommendationsByRoute).getRecommendationsByRoute(routeName);
     }
 
+    @SuppressLint("SetTextI18n")
     public static void addRecommendation(Recommendation recommendation, TextView textView){
         Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
             @Override
