@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         initialization();
 
         checkingCurrentUser();
+
+//        Constants.CRUDExamples();
     }
 
     private void logoutButtonFunctionality() {

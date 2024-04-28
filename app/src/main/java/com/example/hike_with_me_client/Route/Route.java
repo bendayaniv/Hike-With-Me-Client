@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Route;
 
+import com.example.hike_with_me_client.Location;
 import com.example.hike_with_me_client.Utils.Constants;
 
 public class Route {
@@ -9,11 +10,11 @@ public class Route {
     private String description;
     private Constants.Level difficultyLevel;
     private String length;
-    private String location;
+    private Location location;
 
     public Route() {}
 
-    public Route(String id, String name, String description, Constants.Level difficultyLevel, String length, String location) {
+    public Route(String id, String name, String description, Constants.Level difficultyLevel, String length, Location location) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -67,11 +68,11 @@ public class Route {
         return this;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public Route setLocation(String location) {
+    public Route setLocation(Location location) {
         this.location = location;
         return this;
     }

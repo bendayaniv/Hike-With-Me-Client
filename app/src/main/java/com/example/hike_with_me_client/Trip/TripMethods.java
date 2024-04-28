@@ -14,6 +14,7 @@ import com.example.hike_with_me_client.Trip.Callbacks.Callback_GetTripsByUser;
 import com.example.hike_with_me_client.Trip.Callbacks.Callback_UpdateTrip;
 
 import java.util.List;
+
 @SuppressLint("SetTextI18n")
 public class TripMethods {
 
@@ -37,50 +38,46 @@ public class TripMethods {
         new GetTripsByUser(callback_getTripsByUser).getTripsByUser(userId);
     }
 
-    public static void createTrip(Trip trip, TextView textView) {
+    public static void createTrip(Trip trip) {
         Callback_CreateTrip callback_createTrip = new Callback_CreateTrip() {
             @Override
             public void success(Trip trip) {
-                textView.setText("Trip created: " + trip);
+                Log.d("pttt", "Trip created: " + trip);
             }
 
             @Override
             public void error(String message) {
                 Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
             }
         };
         new CreateTrip(callback_createTrip).createTrip(trip);
     }
 
-    public static void updateTrip(Trip trip, TextView textView) {
+    public static void updateTrip(Trip trip) {
         Callback_UpdateTrip callback_updateTrip = new Callback_UpdateTrip() {
             @Override
             public void success(Trip trip) {
-                textView.setText("Trip updated: " + trip);
+                Log.d("pttt", "Trip updated: " + trip);
             }
 
             @Override
             public void error(String message) {
                 Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
             }
         };
         new UpdateTrip(callback_updateTrip).updateTrip(trip);
     }
 
-    public static void deleteTrip(String userId, String tripId, TextView textView) {
+    public static void deleteTrip(String userId, String tripId) {
         Callback_DeleteTrip callback_deleteTrip = new Callback_DeleteTrip() {
             @Override
             public void success(String message) {
                 Log.d("pttt", "Message: " + message);
-                textView.setText(message);
             }
 
             @Override
             public void error(String message) {
                 Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
             }
         };
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);

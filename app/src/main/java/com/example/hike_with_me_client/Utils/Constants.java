@@ -3,7 +3,6 @@ package com.example.hike_with_me_client.Utils;
 import android.content.Context;
 import android.view.View;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class Constants {
@@ -39,7 +38,7 @@ public class Constants {
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 
-    public static void CRUDExamples(TextView textView) {
+    public static void CRUDExamples() {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Getting all users
 //        UserMethods.getAllUsers(textView);
@@ -77,7 +76,7 @@ public class Constants {
 //        // Format the date as needed (e.g., "dd-MM-yyyy" for day-month-year format)
 //        @SuppressLint("SimpleDateFormat") SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 //        String formattedDate = dateFormat.format(currentDate);
-//        Hazard hazard = new Hazard("5", Constants.HazardType.PLANTS, "description", Constants.Level.LOW, "userName", "routeName2", formattedDate);
+//        Hazard hazard = new Hazard("5", Constants.HazardType.PLANTS, "description", Constants.Level.LOW, "userName", "routeName2", new Location(32.123, 35.123, currentDate));
 //        HazardMethods.addHazard(hazard, textView);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +88,7 @@ public class Constants {
 //        RouteMethods.getSpecificRoute("name", textView);
 
         // Adding route
-//        Route route = new Route("10", "name4", "description", Constants.Level.LOW, "length", "location");
+//        Route route = new Route("10", "name4", "description", Constants.Level.LOW, "length", new Location(32.123, 35.123, null));
 //        RouteMethods.addRoute(route, textView);
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -98,11 +97,17 @@ public class Constants {
 //        TripMethods.getTripsByUser("userId", textView);
 
         // Creating a new trip
-//        Trip trip = new Trip("21", "name", "startDate", "endDate", "location", "description", "routeName", "userId2");
-//        TripMethods.createTrip(trip, textView);
+//        Trip trip = new Trip("21", "name", "startDate", "endDate", new Location[]{}, "description", "routeName", CurrentUser.getInstance().getUser().getId());
+//        TripMethods.createTrip(trip);
 
         // Update trip
-//        Trip trip = new Trip("21", "name", "startDate", "newEndDate", "location", "description", "routeName", "userId2");
+//        TripMethods.getSpecificTrip(CurrentUser.getInstance().getUser().getId(), "2");
+//        //add location to locations in trip
+//        trip.addLocation(new Location(32.123, 35.123, null));
+//        //add another 3 locations locations to existing locations in trip
+//        trip.addLocation(new Location(32.123, 35.123, null));
+//        trip.addLocation(new Location(32.123, 35.123, null));
+//        trip.addLocation(new Location(32.123, 35.123, null));
 //        TripMethods.updateTrip(trip, textView);
 
         // Delete trip
