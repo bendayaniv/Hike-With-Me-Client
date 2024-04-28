@@ -2,25 +2,29 @@ package com.example.hike_with_me_client.Trip;
 
 import androidx.annotation.NonNull;
 
+import com.example.hike_with_me_client.Location;
+
+import java.util.Arrays;
+
 public class Trip {
 
     private String id;
     private String name;
     private String startDate;
     private String endDate;
-    private String location;
+    private Location[] locations;
     private String description;
     private String routeName;
     private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, String location, String description, String routeName, String userId) {
+    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String routeName, String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.location = location;
+        this.locations = locations;
         this.description = description;
         this.routeName = routeName;
         this.userId = userId;
@@ -62,13 +66,25 @@ public class Trip {
         return this;
     }
 
-    public String getLocation() {
-        return location;
+    public Location[] getLocations() {
+        return locations;
     }
 
-    public Trip setLocation(String location) {
-        this.location = location;
+    public Trip setLocations(Location[] locations) {
+        this.locations = locations;
         return this;
+    }
+
+    public void addLocation(Location location) {
+        if (locations == null) {
+            locations = new Location[1];
+            locations[0] = location;
+        } else {
+            Location[] newLocations = new Location[locations.length + 1];
+            System.arraycopy(locations, 0, newLocations, 0, locations.length);
+            newLocations[locations.length] = location;
+            locations = newLocations;
+        }
     }
 
     public String getDescription() {
@@ -106,7 +122,7 @@ public class Trip {
                 ", name='" + name + '\'' +
                 ", startDate='" + startDate + '\'' +
                 ", endDate='" + endDate + '\'' +
-                ", location='" + location + '\'' +
+                ", location='" + Arrays.toString(locations) + '\'' +
                 ", description='" + description + '\'' +
                 ", routeName='" + routeName + '\'' +
                 ", userId='" + userId + '\'' +

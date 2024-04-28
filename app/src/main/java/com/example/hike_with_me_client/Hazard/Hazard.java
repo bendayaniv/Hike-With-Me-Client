@@ -2,6 +2,7 @@ package com.example.hike_with_me_client.Hazard;
 
 import androidx.annotation.NonNull;
 
+import com.example.hike_with_me_client.Location;
 import com.example.hike_with_me_client.Utils.Constants;
 
 public class Hazard {
@@ -12,18 +13,18 @@ public class Hazard {
     private Constants.Level severity;
     private String reporterName;
     private String routeName;
-    private String date;
+    private Location location;
 
     public Hazard() {}
 
-    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, String reporterName, String routeName, String date) {
+    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, String reporterName, String routeName, Location location) {
         this.id = id;
         this.type = type;
         this.description = description;
         this.severity = severity;
         this.reporterName = reporterName;
         this.routeName = routeName;
-        this.date = date;
+        this.location = location;
     }
 
     public String getId() {
@@ -80,12 +81,12 @@ public class Hazard {
         return this;
     }
 
-    public String getDate() {
-        return date;
+    public Location getDate() {
+        return location;
     }
 
-    public Hazard setDate(String date) {
-        this.date = date;
+    public Hazard setDate(Location location) {
+        this.location = location;
         return this;
     }
 
@@ -99,7 +100,7 @@ public class Hazard {
                 ", severity=" + severity +
                 ", reporterName='" + reporterName + '\'' +
                 ", routeName='" + routeName + '\'' +
-                ", date='" + date + '\'' +
+                ", location='" + location + '\'' +
                 '}';
     }
 }
