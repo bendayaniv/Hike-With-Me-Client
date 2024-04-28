@@ -18,14 +18,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Register"
+            android:name=".Controller.Activites.Register"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".Controller.Activites.Login"
             android:exported="true">
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".Controller.Activites.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
