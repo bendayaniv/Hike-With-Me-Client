@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Utils;
 
 import android.content.Context;
 
-import com.example.hike_with_me_client.User.User;
+import com.example.hike_with_me_client.Models.User.User;
 
 public class CurrentUser {
 
