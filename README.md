@@ -7,3 +7,9 @@
 6. Copy the url in `URL`.
 7. Select the directory you want the project to be.
 8. Click on `Clone`.
+
+
+## How to get other person PR locally
+1. `git fetch`.
+2. git checkout `[branch_name]`.
+3. `git pull`.
