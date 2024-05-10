@@ -7,13 +7,13 @@
     android:gravity="center"
     android:padding="15dp"
     android:orientation="vertical"
-    tools:context=".Controller.Activites.Register">
+    tools:context=".Controller.Fragments.LoginFragments.LoginFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/register"
+        android:text="@string/login"
         android:textSize="20sp"
         android:layout_marginBottom="20dp"
         android:textStyle="bold"
@@ -41,28 +41,6 @@
             android:layout_height="wrap_content"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/name"
-            android:hint="@string/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/phoneNumber"
-            android:hint="@string/phone_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.textfield.TextInputLayout>
-
     <ProgressBar
         android:id="@+id/progressBar"
         android:visibility="gone"
@@ -71,8 +49,8 @@
         />
 
     <Button
-        android:id="@+id/btn_register"
-        android:text="@string/register"
+        android:id="@+id/btn_login"
+        android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -81,8 +59,8 @@
         android:textSize="15sp"
         android:layout_marginTop="20dp"
         android:gravity="center"
-        android:id="@+id/loginNow"
-        android:text="@string/click_to_login"
+        android:id="@+id/registerNow"
+        android:text="@string/click_to_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
