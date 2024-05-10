@@ -66,4 +66,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation("com.squareup.retrofit2:converter-scalars:2.9.0")
+
+    // Fragment
+    val fragment_version = "1.6.1"
+    implementation("androidx.fragment:fragment:$fragment_version")
 }

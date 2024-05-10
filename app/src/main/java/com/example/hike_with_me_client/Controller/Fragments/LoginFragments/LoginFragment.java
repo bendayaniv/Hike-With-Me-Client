@@ -1,17 +1,21 @@
-package com.example.hike_with_me_client.Controller.Activites;
+package com.example.hike_with_me_client.Controller.Fragments.LoginFragments;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+
+import com.example.hike_with_me_client.Interfaces.Activities.GoToMainActivityCallback;
+import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.GoToRegisterFragmentCallback;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,29 +23,35 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
-public class Login extends AppCompatActivity {
+public class LoginFragment extends Fragment {
 
     TextInputEditText editTextEmail, editTextPassword;
     Button buttonLogin;
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow;
-//    TextView textView;
+    private GoToRegisterFragmentCallback goToRegisterFragmentCallback;
+    private GoToMainActivityCallback goToMainActivityCallback;
+
+    public void setCallbacks(GoToRegisterFragmentCallback callback, GoToMainActivityCallback goToMainActivityCallback) {
+        this.goToRegisterFragmentCallback = callback;
+        this.goToMainActivityCallback = goToMainActivityCallback;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
 
         mAuth = FirebaseAuth.getInstance();
 
-        findViews();
+        findViews(view);
 
         registerFunctionality();
 
         buttonLoginFunctionality();
 
-//        Constants.CRUDExamples();
+        return view;
     }
 
     private void buttonLoginFunctionality() {
@@ -59,31 +69,28 @@ public class Login extends AppCompatActivity {
     private void signInWithFirebaseAuth(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
-                        Toast.makeText(Login.this, "Login successful", Toast.LENGTH_LONG).show();
+                        Constants.toastMessageToUserWithProgressBar(getActivity(), "Login successful", progressBar);
 
                         // Move to the main activity
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
-                        finish();
+                        goToMainActivityCallback.goToMainActivityCallback();
 
                     } else {
                         Log.d("Login", "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
                         // If sign in fails, display a message to the user.
-                        Toast.makeText(Login.this, "Login failed! Please try again", Toast.LENGTH_LONG).show();
+                        Constants.toastMessageToUserWithProgressBar(getActivity(), "Login failed! Please try again", progressBar);
                     }
                 });
     }
 
     private int checkingLogin(String email, String password) {
         if (TextUtils.isEmpty(email)) {
-            Constants.toastMessageToUserWithProgressBar(Login.this, "Please enter email...", progressBar);
+            Constants.toastMessageToUserWithProgressBar(getActivity(), "Please enter email...", progressBar);
             return 1;
         }
 
         if(TextUtils.isEmpty(password)) {
-            Constants.toastMessageToUserWithProgressBar(Login.this, "Please enter password...", progressBar);
+            Constants.toastMessageToUserWithProgressBar(getActivity(), "Please enter password...", progressBar);
             return 1;
         }
         return 0;
@@ -91,19 +98,15 @@ public class Login extends AppCompatActivity {
 
     private void registerFunctionality() {
         registerNow.setOnClickListener(v -> {
-            Intent intent = new Intent(getApplicationContext(), Register.class);
-            startActivity(intent);
-            finish();
+            goToRegisterFragmentCallback.goToRegisterFragmentCallback();
         });
     }
 
-    private void findViews() {
-//        textView = findViewById(R.id.logInTextView);
-
-        editTextEmail = findViewById(R.id.email);
-        editTextPassword = findViewById(R.id.password);
-        buttonLogin = findViewById(R.id.btn_login);
-        progressBar = findViewById(R.id.progressBar);
-        registerNow = findViewById(R.id.registerNow);
+    private void findViews(View view) {
+        editTextEmail = view.findViewById(R.id.email);
+        editTextPassword = view.findViewById(R.id.password);
+        buttonLogin = view.findViewById(R.id.btn_login);
+        progressBar = view.findViewById(R.id.progressBar);
+        registerNow = view.findViewById(R.id.registerNow);
     }
 }

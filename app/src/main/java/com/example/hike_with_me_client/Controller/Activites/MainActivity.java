@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hike_with_me_client.Interfaces.Activities.GoToLoginActivityCallback;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Utils.CurrentUser;
@@ -22,6 +23,15 @@ public class MainActivity extends AppCompatActivity {
     Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+
+    GoToLoginActivityCallback goToLoginActivityCallback = new GoToLoginActivityCallback() {
+        @Override
+        public void goToLoginActivityCallback() {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +54,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mAuth.signOut();
                 CurrentUser.getInstance().removeUser();
-                Intent intent = new Intent(getApplicationContext(), Login.class);
-                startActivity(intent);
-                finish();
+                goToLoginActivityCallback.goToLoginActivityCallback();
             }
         });
 
@@ -55,9 +63,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void checkingCurrentUser() {
         if (currentUser == null) {
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            startActivity(intent);
-            finish();
+            goToLoginActivityCallback.goToLoginActivityCallback();
         } else {
             Log.d("pttt", "User is logged in: " + currentUser);
             textView.setText("User is logged in: " + currentUser.getUid());
