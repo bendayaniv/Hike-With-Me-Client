@@ -19,9 +19,4 @@ public interface RouteApiInterface {
     Call<Route> getRoute(
             @Path("route_name") String route_name
     );
-
-    @POST("routes/addRoute")
-    Call<Route> addRoute(
-            @Body Route route
-    );
 }
