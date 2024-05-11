@@ -3,10 +3,8 @@ package com.example.hike_with_me_client.Models.Route;
 import android.util.Log;
 import android.widget.TextView;
 
-import com.example.hike_with_me_client.Models.Route.Actions.AddRoute;
 import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoute;
-import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_AddRoute;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoute;
 
@@ -48,21 +46,5 @@ public class RouteMethods {
             }
         };
         new GetRoute(callback_getRoute).getRoute(routeName);
-    }
-
-    public static void addRoute(Route route, TextView textView) {
-        Callback_AddRoute callback_addRoute = new Callback_AddRoute() {
-            @Override
-            public void success(Route route) {
-                textView.setText("Route added: " + route);
-            }
-
-            @Override
-            public void error(String message) {
-                Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
-            }
-        };
-        new AddRoute(callback_addRoute).addRoute(route);
     }
 }
