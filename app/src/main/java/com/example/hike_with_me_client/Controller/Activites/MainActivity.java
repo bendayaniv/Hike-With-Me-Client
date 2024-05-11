@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MapsFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.GoToLoginActivityCallback;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
+
+    private MapsFragment mapsFragment;
 
     GoToLoginActivityCallback goToLoginActivityCallback = new GoToLoginActivityCallback() {
         @Override
@@ -45,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         checkingCurrentUser();
 
-//        Constants.CRUDExamples();
+        createFragments();
+
+        defaultFragment();
     }
 
     private void logoutButtonFunctionality() {
@@ -69,6 +74,14 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("User is logged in: " + currentUser.getUid());
             UserMethods.getSpecificUser(currentUser.getUid());
         }
+    }
+
+    private void createFragments() {
+        mapsFragment = new MapsFragment();
+    }
+
+    private void defaultFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mapsFragment).commit();
     }
 
     private void initialization() {
