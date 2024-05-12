@@ -17,6 +17,7 @@ public class RouteMethods {
         Callback_GetAllRoutes callback_getAllRoutes = new Callback_GetAllRoutes() {
             @Override
             public void success(List<Route> routes) {
+                _routes.clear();
                 _routes.addAll(routes);
             }
 

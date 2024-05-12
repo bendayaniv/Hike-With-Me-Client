@@ -5,12 +5,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hike_with_me_client.Models.Objects.RoutesList;
 import com.example.hike_with_me_client.Models.Route.Route;
+import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,7 +56,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 .target(randomPlace)
                 .zoom(5)
                 .build();
-        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(randomPlace));
     }
 
     public void refreshMap() {
@@ -69,18 +71,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        routes = RoutesList.getInstance().getRoutes();
-        if(routes != null && routes.size() > 0) {
-            refreshMap();
-        }
+        RouteMethods.getAllRoutes(routes);
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        if(routes != null && routes.size() > 0) {
+                            refreshMap();
+                        }
 
-        initiateMap();
+                        initiateMap();
 
-
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//        zoom(-34, 151);
+                        LatLng sydney = new LatLng(-34, 151);
+                        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//                        zoom(-34, 151);
+                    }
+                },
+                5000);
     }
 
     private void initiateMap() {

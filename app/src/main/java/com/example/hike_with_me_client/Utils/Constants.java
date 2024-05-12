@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 public class Constants {
 
+    public static final int FINE_PERMISSION_CODE = 1;
+
     public enum HazardType {
         ROCKS,
         WATER,

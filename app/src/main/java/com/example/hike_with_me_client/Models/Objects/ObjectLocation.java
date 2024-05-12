@@ -4,15 +4,15 @@ import androidx.annotation.NonNull;
 
 import java.util.Date;
 
-public class Location {
+public class ObjectLocation {
     private double latitude;
     private double longitude;
     private Date date;
 
-    public Location() {
+    public ObjectLocation() {
     }
 
-    public Location(double latitude, double longitude, Date date) {
+    public ObjectLocation(double latitude, double longitude, Date date) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.date = date;
@@ -22,7 +22,7 @@ public class Location {
         return latitude;
     }
 
-    public Location setLatitude(double latitude) {
+    public ObjectLocation setLatitude(double latitude) {
         this.latitude = latitude;
         return this;
     }
@@ -31,7 +31,7 @@ public class Location {
         return longitude;
     }
 
-    public Location setLongitude(double longitude) {
+    public ObjectLocation setLongitude(double longitude) {
         this.longitude = longitude;
         return this;
     }
@@ -40,7 +40,7 @@ public class Location {
         return date;
     }
 
-    public Location setDate(Date date) {
+    public ObjectLocation setDate(Date date) {
         this.date = date;
         return this;
     }
