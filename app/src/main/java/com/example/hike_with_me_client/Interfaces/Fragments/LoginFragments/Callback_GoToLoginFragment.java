@@ -1,5 +1,5 @@
 package com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments;
 
-public interface GoToLoginFragmentCallback {
+public interface Callback_GoToLoginFragment {
     void goToLoginFragmentCallback();
 }
