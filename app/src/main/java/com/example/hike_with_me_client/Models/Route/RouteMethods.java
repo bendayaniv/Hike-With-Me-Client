@@ -8,25 +8,21 @@ import com.example.hike_with_me_client.Models.Route.Actions.GetRoute;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RouteMethods {
 
-    public static void getAllRoutes(TextView textView) {
+    public static void getAllRoutes(ArrayList<Route> _routes) {
         Callback_GetAllRoutes callback_getAllRoutes = new Callback_GetAllRoutes() {
             @Override
             public void success(List<Route> routes) {
-                if(routes.size() == 0) {
-                    textView.setText("No routes found");
-                } else {
-                    textView.setText("Routes found: " + routes);
-                }
+                _routes.addAll(routes);
             }
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
-                textView.setText("Error: " + message);
+                Log.d("routes", "Error: " + message);
             }
         };
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();

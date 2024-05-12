@@ -11,12 +11,17 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MapsFragment;
-import com.example.hike_with_me_client.Interfaces.Activities.GoToLoginActivityCallback;
+import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
+import com.example.hike_with_me_client.Models.Objects.RoutesList;
+import com.example.hike_with_me_client.Models.Route.Route;
+import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
-import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
     private MapsFragment mapsFragment;
 
-    GoToLoginActivityCallback goToLoginActivityCallback = new GoToLoginActivityCallback() {
+    Callback_GoToLoginActivity goToLoginActivityCallback = new Callback_GoToLoginActivity() {
         @Override
         public void goToLoginActivityCallback() {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -94,6 +99,12 @@ public class MainActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.btn_logout);
 
         logoutButtonFunctionality();
+
+        ArrayList<Route> routes = new ArrayList<>();
+
+        RouteMethods.getAllRoutes(routes);
+
+        RoutesList.getInstance().setRoutes(routes);
 
     }
 }

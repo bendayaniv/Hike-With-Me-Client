@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.Trip;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Location.Location;
+import com.example.hike_with_me_client.Models.Objects.Location;
 
 import java.util.Arrays;
 

@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.Hazard;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Location.Location;
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Utils.Constants;
 
 public class Hazard {

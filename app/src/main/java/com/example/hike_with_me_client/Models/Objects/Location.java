@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Models.Location;
+package com.example.hike_with_me_client.Models.Objects;
 
 import androidx.annotation.NonNull;
 

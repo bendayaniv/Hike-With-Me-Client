@@ -13,8 +13,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.hike_with_me_client.Interfaces.Activities.GoToMainActivityCallback;
-import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.GoToLoginFragmentCallback;
+import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToMainActivity;
+import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.Callback_GoToLoginFragment;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
@@ -31,10 +31,10 @@ public class RegisterFragment extends Fragment {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView loginNow;
-    private GoToLoginFragmentCallback goToLoginFragmentCallback;
-    private GoToMainActivityCallback goToMainActivityCallback;
+    private Callback_GoToLoginFragment goToLoginFragmentCallback;
+    private Callback_GoToMainActivity goToMainActivityCallback;
 
-    public void setCallbacks(GoToLoginFragmentCallback goToLoginFragmentCallback, GoToMainActivityCallback goToMainActivityCallback) {
+    public void setCallbacks(Callback_GoToLoginFragment goToLoginFragmentCallback, Callback_GoToMainActivity goToMainActivityCallback) {
         this.goToLoginFragmentCallback = goToLoginFragmentCallback;
         this.goToMainActivityCallback = goToMainActivityCallback;
     }

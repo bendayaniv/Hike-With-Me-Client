@@ -14,8 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
-import com.example.hike_with_me_client.Interfaces.Activities.GoToMainActivityCallback;
-import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.GoToRegisterFragmentCallback;
+import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToMainActivity;
+import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.Callback_GoToRegisterFragment;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textfield.TextInputEditText;
@@ -30,10 +30,10 @@ public class LoginFragment extends Fragment {
     FirebaseAuth mAuth;
     ProgressBar progressBar;
     TextView registerNow;
-    private GoToRegisterFragmentCallback goToRegisterFragmentCallback;
-    private GoToMainActivityCallback goToMainActivityCallback;
+    private Callback_GoToRegisterFragment goToRegisterFragmentCallback;
+    private Callback_GoToMainActivity goToMainActivityCallback;
 
-    public void setCallbacks(GoToRegisterFragmentCallback callback, GoToMainActivityCallback goToMainActivityCallback) {
+    public void setCallbacks(Callback_GoToRegisterFragment callback, Callback_GoToMainActivity goToMainActivityCallback) {
         this.goToRegisterFragmentCallback = callback;
         this.goToMainActivityCallback = goToMainActivityCallback;
     }

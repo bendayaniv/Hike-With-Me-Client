@@ -12,7 +12,7 @@ import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_Delete
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_UpdateUser;
-import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 
 import java.util.List;
 
