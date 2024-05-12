@@ -108,7 +108,7 @@ public class RegisterFragment extends Fragment {
                         goToMainActivityCallback.goToMainActivityCallback();
 
                     } else {
-                        Log.d("pttt", "createUserWithEmail:failure", task.getException());
+                        Log.d("RegisterFragment", "createUserWithEmail:failure", task.getException());
                         // If sign up fails, display a message to the user.
                         Constants.toastMessageToUserWithProgressBar(getActivity(), "Authentication failed", progressBar);
                     }

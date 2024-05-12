@@ -38,7 +38,7 @@ public class RouteMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("routes", "Error: " + message);
                 textView.setText("Error: " + message);
             }
         };

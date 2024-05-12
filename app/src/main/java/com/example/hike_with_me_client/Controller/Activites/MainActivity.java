@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         if (currentUser == null) {
             goToLoginActivityCallback.goToLoginActivityCallback();
         } else {
-            Log.d("pttt", "User is logged in: " + currentUser);
+            Log.d("MyMainActivity", "User is logged in: " + currentUser);
             textView.setText("User is logged in: " + currentUser.getUid());
             UserMethods.getSpecificUser(currentUser.getUid());
         }
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                Log.d("MainActivity", "onSuccess: " + location);
+                Log.d("MyMainActivity", "onSuccess: " + location);
                 if (location != null) {
                     currentLocation = location;
                 }
