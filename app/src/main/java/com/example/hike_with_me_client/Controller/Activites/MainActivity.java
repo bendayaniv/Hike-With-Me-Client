@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         createFragments();
 
-//        defaultFragment();
+        defaultFragment();
     }
 
     private void logoutButtonFunctionality() {
@@ -96,10 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void defaultFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mapsFragment).commit();
-        Log.d("MainActivity", "defaultFragment: " + currentLocation);
-        if(currentLocation != null) {
-            mapsFragment.zoom(currentLocation.getLatitude(), currentLocation.getLongitude());
-        }
     }
 
     private void getLastLocation() {
@@ -114,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("MainActivity", "onSuccess: " + location);
                 if (location != null) {
                     currentLocation = location;
-                    defaultFragment();
                 }
             }
         });
