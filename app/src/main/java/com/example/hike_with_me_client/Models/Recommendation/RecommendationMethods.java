@@ -42,7 +42,7 @@ public class RecommendationMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Recommendation", "Error: " + message);
                 textView.setText("Error: " + message);
             }
         };

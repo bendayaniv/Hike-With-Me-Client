@@ -41,7 +41,7 @@ public class HazardMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Hazard", "Error: " + message);
                 textView.setText("Error: " + message);
             }
         };

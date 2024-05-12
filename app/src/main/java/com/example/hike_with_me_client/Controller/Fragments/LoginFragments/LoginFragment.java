@@ -76,7 +76,7 @@ public class LoginFragment extends Fragment {
                         goToMainActivityCallback.goToMainActivityCallback();
 
                     } else {
-                        Log.d("Login", "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
+                        Log.d("LoginFragment", "onComplete: " + Objects.requireNonNull(task.getException()).getMessage());
                         // If sign in fails, display a message to the user.
                         Constants.toastMessageToUserWithProgressBar(getActivity(), "Login failed! Please try again", progressBar);
                     }

@@ -31,7 +31,7 @@ public class TripMethods {
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Trip", "Error: " + message);
                 textView.setText("Error: " + message + "\nNo trips found");
             }
         };
@@ -42,12 +42,12 @@ public class TripMethods {
         Callback_CreateTrip callback_createTrip = new Callback_CreateTrip() {
             @Override
             public void success(Trip trip) {
-                Log.d("pttt", "Trip created: " + trip);
+                Log.d("Trip", "Trip created: " + trip);
             }
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Trip", "Error: " + message);
             }
         };
         new CreateTrip(callback_createTrip).createTrip(trip);
@@ -57,12 +57,12 @@ public class TripMethods {
         Callback_UpdateTrip callback_updateTrip = new Callback_UpdateTrip() {
             @Override
             public void success(Trip trip) {
-                Log.d("pttt", "Trip updated: " + trip);
+                Log.d("Trip", "Trip updated: " + trip);
             }
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Trip", "Error: " + message);
             }
         };
         new UpdateTrip(callback_updateTrip).updateTrip(trip);
@@ -72,12 +72,12 @@ public class TripMethods {
         Callback_DeleteTrip callback_deleteTrip = new Callback_DeleteTrip() {
             @Override
             public void success(String message) {
-                Log.d("pttt", "Message: " + message);
+                Log.d("Trip", "Message: " + message);
             }
 
             @Override
             public void error(String message) {
-                Log.d("pttt", "Error: " + message);
+                Log.d("Trip", "Error: " + message);
             }
         };
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
