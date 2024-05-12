@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.Trip;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 
 import java.util.Arrays;
 
@@ -12,14 +12,14 @@ public class Trip {
     private String name;
     private String startDate;
     private String endDate;
-    private Location[] locations;
+    private ObjectLocation[] locations;
     private String description;
     private String routeName;
     private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String routeName, String userId) {
+    public Trip(String id, String name, String startDate, String endDate, ObjectLocation[] locations, String description, String routeName, String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -66,21 +66,21 @@ public class Trip {
         return this;
     }
 
-    public Location[] getLocations() {
+    public ObjectLocation[] getLocations() {
         return locations;
     }
 
-    public Trip setLocations(Location[] locations) {
+    public Trip setLocations(ObjectLocation[] locations) {
         this.locations = locations;
         return this;
     }
 
-    public void addLocation(Location location) {
+    public void addLocation(ObjectLocation location) {
         if (locations == null) {
-            locations = new Location[1];
+            locations = new ObjectLocation[1];
             locations[0] = location;
         } else {
-            Location[] newLocations = new Location[locations.length + 1];
+            ObjectLocation[] newLocations = new ObjectLocation[locations.length + 1];
             System.arraycopy(locations, 0, newLocations, 0, locations.length);
             newLocations[locations.length] = location;
             locations = newLocations;
