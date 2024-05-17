@@ -31,8 +31,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    double currentLatitude = 0;
-    double currentLongitude = 0;
     TextView textView;
     Button logoutButton;
     FirebaseAuth mAuth;
