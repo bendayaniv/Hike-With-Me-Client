@@ -2,9 +2,10 @@ package com.example.hike_with_me_client.Controller.Activites;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,8 +13,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MapsFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
@@ -21,10 +22,10 @@ import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Utils.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -58,8 +59,6 @@ public class MainActivity extends AppCompatActivity {
 
         initialization();
 
-        getLastLocation();
-
         checkingCurrentUser();
 
         createFragments();
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity {
             textView.setText("User is logged in: " + currentUser.getUid());
             UserMethods.getSpecificUser(currentUser.getUid());
         }
+
     }
 
     private void createFragments() {
@@ -98,37 +98,10 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mapsFragment).commit();
     }
 
-    private void getLastLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.FINE_PERMISSION_CODE);
-            return;
-        }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                Log.d("MyMainActivity", "onSuccess: " + location);
-                if (location != null) {
-                    currentLocation = location;
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == Constants.FINE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                getLastLocation();
-            }
-            else {
-                Constants.toastMessageToUserWithProgressBar(this, "Permission denied", null);
-            }
-        }
-    }
-
     private void initialization() {
+
+        initializeUserLocation();
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -142,4 +115,59 @@ public class MainActivity extends AppCompatActivity {
         logoutButtonFunctionality();
 
     }
+
+    private void initializeUserLocation() {
+        UserLocation.initUserLocation();
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(500);
+        locationRequest.setFastestInterval(200);
+
+        UserLocation.getInstance().setContext(MainActivity.this);
+        UserLocation.getInstance().setLocationRequest(locationRequest);
+        UserLocation.getInstance().setGetSystemService((LocationManager) getSystemService(Context.LOCATION_SERVICE));
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if(UserLocation.getInstance().checkingForGpsAndLocationPermissions(requestCode, grantResults) == 1) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(UserLocation.getInstance().getCurrentLocation() == 0) requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);;
+    }
+
 }

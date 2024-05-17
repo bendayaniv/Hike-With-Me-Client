@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap mMap;
+    static GoogleMap mMap;
     ArrayList<Route> routes;
 
     @Nullable
@@ -50,14 +51,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public void zoom(double _latitude, double _longitude) {
+    public static void zoom(double _latitude, double _longitude) {
         LatLng randomPlace = new LatLng(_latitude, _longitude);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(randomPlace)
-                .zoom(5)
+                .zoom(17)
                 .build();
-//        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(randomPlace));
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(randomPlace));
     }
 
     public void refreshMap() {
@@ -66,6 +67,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(routeLocation).title(route.getName()));
         }
+        zoom(CurrentUser.getInstance().getLocation().getLatitude(), CurrentUser.getInstance().getLocation().getLongitude());
+        mMap.addMarker(new MarkerOptions().position(
+                new LatLng(CurrentUser.getInstance().getLocation().getLatitude(), CurrentUser.getInstance().getLocation().getLongitude())
+        ).title("My Location"));
     }
 
     @Override
@@ -80,11 +85,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         }
 
                         initiateMap();
-
-                        LatLng sydney = new LatLng(-34, 151);
-                        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//                        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//                        zoom(-34, 151);
                     }
                 },
                 5000);
