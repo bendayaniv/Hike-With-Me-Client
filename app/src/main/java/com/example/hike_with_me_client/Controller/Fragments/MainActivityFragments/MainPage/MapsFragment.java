@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
@@ -55,10 +56,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         LatLng randomPlace = new LatLng(_latitude, _longitude);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(randomPlace)
-                .zoom(17)
+                .zoom(10)
                 .build();
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(randomPlace));
     }
 
     public void refreshMap() {
@@ -67,22 +67,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(routeLocation).title(route.getName()));
         }
-        zoom(CurrentUser.getInstance().getLocation().getLatitude(), CurrentUser.getInstance().getLocation().getLongitude());
-        mMap.addMarker(new MarkerOptions().position(
-                new LatLng(CurrentUser.getInstance().getLocation().getLatitude(), CurrentUser.getInstance().getLocation().getLongitude())
-        ).title("My Location"));
+        ObjectLocation location = CurrentUser.getInstance().getLocation();
+        zoom(location.getLatitude(), location.getLongitude());
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        RouteMethods.getAllRoutes(routes);
-                    }
-                },
-                500);
+        RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
@@ -93,7 +85,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         initiateMap();
                     }
                 },
-                2000);
+                500);
     }
 
     private void initiateMap() {
