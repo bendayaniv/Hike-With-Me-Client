@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.example.hike_with_me_client.Models.Objects.RouteList;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.SavedLastClick;
 
 import java.util.ArrayList;
 
@@ -28,7 +30,6 @@ public class RoutesListFragment extends Fragment {
     ArrayList<Route> routes;
     private RecyclerView fragmentRoutesRV;
     private RouteItemAdapter routeItemAdapter;
-
     private Callback_SendLocation callback_sendLocation;
 
     public void setCallbackSendLocation(Callback_SendLocation callback_sendLocation) {
@@ -64,8 +65,16 @@ public class RoutesListFragment extends Fragment {
                             routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
                                 @Override
                                 public void itemClicked(Route route, int position) {
-                                    if (callback_sendLocation != null) {
-                                        callback_sendLocation.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                                    int lastPosition = SavedLastClick.getInstance().getPosition();
+                                    if(lastPosition != position) {
+                                        Log.d("RoutesListFragment", "itemClicked: different position - " + position);
+                                        SavedLastClick.getInstance().setPosition(position);
+                                        if (callback_sendLocation != null) {
+                                            callback_sendLocation.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                                        }
+                                    } else {
+                                        // TODO - here we move to the route page
+                                        Log.d("RoutesListFragment", "itemClicked: same position");
                                     }
                                 }
                             });

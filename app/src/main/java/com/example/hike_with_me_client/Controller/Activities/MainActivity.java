@@ -25,6 +25,7 @@ import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.example.hike_with_me_client.Utils.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
-
     private MapsFragment mapsFragment;
     private RoutesListFragment routesListFragment;
     private MainPageFragment mainPageFragment;
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Set direction on all devices from LEFT to RIGHT
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+
+        SavedLastClick.initSavedLastClick();
 
         initialization();
 
