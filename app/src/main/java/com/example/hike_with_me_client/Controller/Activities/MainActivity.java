@@ -20,6 +20,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MapsFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.RoutesListFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_SendLocation;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
@@ -50,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
+        }
+    };
+
+    Callback_SendLocation callback_sendLocation = new Callback_SendLocation() {
+        @Override
+        public void sendLocation(double latitude, double longitude) {
+            mapsFragment.zoom(latitude, longitude);
         }
     };
 
@@ -98,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mainPageFragment = new MainPageFragment();
         mapsFragment = new MapsFragment();
         routesListFragment = new RoutesListFragment();
+        routesListFragment.setCallbackSendLocation(callback_sendLocation);
     }
 
     private void mainPageFragment() {

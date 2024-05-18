@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_SendLocation;
 import com.example.hike_with_me_client.Models.Objects.RouteList;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
@@ -27,6 +28,12 @@ public class RoutesListFragment extends Fragment {
     ArrayList<Route> routes;
     private RecyclerView fragmentRoutesRV;
     private RouteItemAdapter routeItemAdapter;
+
+    private Callback_SendLocation callback_sendLocation;
+
+    public void setCallbackSendLocation(Callback_SendLocation callback_sendLocation) {
+        this.callback_sendLocation = callback_sendLocation;
+    };
 
 
     @Override
@@ -57,24 +64,15 @@ public class RoutesListFragment extends Fragment {
                             routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
                                 @Override
                                 public void itemClicked(Route route, int position) {
-
+                                    if (callback_sendLocation != null) {
+                                        callback_sendLocation.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                                    }
                                 }
                             });
                         }
                     }
                 },
                 5000);
-
-//        routeItemAdapter = new RouteItemAdapter(getContext(), routes);
-//        fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
-//        fragmentRoutesRV.setAdapter(routeItemAdapter);
-//
-//        routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
-//            @Override
-//            public void itemClicked(Route route, int position) {
-//
-//            }
-//        });
     }
 
     private void findViews(View view) {

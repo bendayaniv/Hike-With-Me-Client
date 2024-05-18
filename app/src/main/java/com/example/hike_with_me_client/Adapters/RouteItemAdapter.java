@@ -42,7 +42,11 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
 
     @Override
     public void onBindViewHolder(@NonNull RouteItemAdapter.RouteItemViewHolder holder, int position) {
+        Route route = getItem(position);
+        holder.route_LBL_name.setText(route.getName());
 
+        // TODO - when settle Firebase Storage, change the image to the route's image
+        holder.route_IMG_image.setImageResource(R.drawable.temporary_img);
     }
 
     @Override

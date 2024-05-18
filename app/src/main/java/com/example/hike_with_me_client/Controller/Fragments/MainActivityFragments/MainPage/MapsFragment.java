@@ -51,7 +51,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public static void zoom(double _latitude, double _longitude) {
+    public void zoom(double _latitude, double _longitude) {
         LatLng randomPlace = new LatLng(_latitude, _longitude);
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(randomPlace)
