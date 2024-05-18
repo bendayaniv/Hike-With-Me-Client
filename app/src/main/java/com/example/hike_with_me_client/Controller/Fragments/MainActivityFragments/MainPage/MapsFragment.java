@@ -85,7 +85,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         initiateMap();
                     }
                 },
-                500);
+                100);
     }
 
     private void initiateMap() {

@@ -48,14 +48,7 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void initRouteRV() {
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        RouteMethods.getAllRoutes(routes);
-                    }
-                },
-                500);
-
+        RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
@@ -75,7 +68,6 @@ public class RoutesListFragment extends Fragment {
                                             callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
                                         }
                                     } else {
-                                        // TODO - here we move to the route page
                                         Log.d("RoutesListFragment", "itemClicked: same position");
                                         callback_routesListFragment.goToRoutePage(route);
                                     }
@@ -84,7 +76,7 @@ public class RoutesListFragment extends Fragment {
                         }
                     }
                 },
-                1000);
+                100);
     }
 
     private void findViews(View view) {
