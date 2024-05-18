@@ -37,7 +37,7 @@
             android:value="AIzaSyDhQpPTsNH7DkHN-sWDQN9yCu0RQH530H8" />
 
         <activity
-            android:name=".Controller.Activites.LoginActivity"
+            android:name=".Controller.Activities.LoginActivity"
             android:exported="true">
 
             <!-- <intent-filter> -->
@@ -48,7 +48,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Controller.Activites.MainActivity"
+            android:name=".Controller.Activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

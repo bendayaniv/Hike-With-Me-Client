@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Controller.Activites;
+package com.example.hike_with_me_client.Controller.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

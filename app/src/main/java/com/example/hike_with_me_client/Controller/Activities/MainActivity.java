@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Controller.Activites;
+package com.example.hike_with_me_client.Controller.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MapsFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser currentUser;
 
     private MapsFragment mapsFragment;
+    private MainPageFragment mainPageFragment;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
 
@@ -63,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
         createFragments();
 
-        defaultFragment();
+        mainPageFragment();
     }
 
     private void logoutButtonFunctionality() {
@@ -84,18 +86,20 @@ public class MainActivity extends AppCompatActivity {
             goToLoginActivityCallback.goToLoginActivityCallback();
         } else {
             Log.d("MyMainActivity", "User is logged in: " + currentUser);
-            textView.setText("User is logged in: " + currentUser.getUid());
+//            textView.setText("User is logged in: " + currentUser.getUid());
             UserMethods.getSpecificUser(currentUser.getUid());
         }
 
     }
 
     private void createFragments() {
+        mainPageFragment = new MainPageFragment();
         mapsFragment = new MapsFragment();
     }
 
-    private void defaultFragment() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mapsFragment).commit();
+    private void mainPageFragment() {
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainPageMapFragment, mapsFragment).commit();
     }
 
     private void initialization() {
@@ -108,11 +112,11 @@ public class MainActivity extends AppCompatActivity {
 
         currentUser = mAuth.getCurrentUser();
 
-        textView = findViewById(R.id.textView);
+//        textView = findViewById(R.id.textView);
+//
+//        logoutButton = findViewById(R.id.btn_logout);
 
-        logoutButton = findViewById(R.id.btn_logout);
-
-        logoutButtonFunctionality();
+//        logoutButtonFunctionality();
 
     }
 
