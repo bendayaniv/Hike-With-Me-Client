@@ -19,8 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MapsFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.RoutesListFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
-import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_SendLocation;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
+import com.example.hike_with_me_client.Models.Route.Route;
+import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private MapsFragment mapsFragment;
     private RoutesListFragment routesListFragment;
     private MainPageFragment mainPageFragment;
-    Location currentLocation;
+    private RouteFragment routeFragment;
     FusedLocationProviderClient fusedLocationProviderClient;
 
     Callback_GoToLoginActivity goToLoginActivityCallback = new Callback_GoToLoginActivity() {
@@ -54,10 +57,16 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    Callback_SendLocation callback_sendLocation = new Callback_SendLocation() {
+    Callback_RoutesListFragment callback_routesListFragment = new Callback_RoutesListFragment() {
         @Override
         public void sendLocation(double latitude, double longitude) {
             mapsFragment.zoom(latitude, longitude);
+        }
+
+        @Override
+        public void goToRoutePage(Route route) {
+            routeFragment.setRoute(route);
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
         }
     };
 
@@ -106,9 +115,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void createFragments() {
         mainPageFragment = new MainPageFragment();
+
         mapsFragment = new MapsFragment();
+
         routesListFragment = new RoutesListFragment();
-        routesListFragment.setCallbackSendLocation(callback_sendLocation);
+        routesListFragment.setCallbackRoutesListFragment(callback_routesListFragment);
+
+        routeFragment = new RouteFragment();
     }
 
     private void mainPageFragment() {

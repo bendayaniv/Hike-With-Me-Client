@@ -8,13 +8,13 @@ public class Route {
     private String id;
     private String name;
     private String description;
-    private Constants.Level difficultyLevel;
+    private String difficultyLevel;
     private String length;
     private ObjectLocation location;
 
     public Route() {}
 
-    public Route(String id, String name, String description, Constants.Level difficultyLevel, String length, ObjectLocation location) {
+    public Route(String id, String name, String description, String difficultyLevel, String length, ObjectLocation location) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -50,11 +50,11 @@ public class Route {
         return this;
     }
 
-    public Constants.Level getDifficultyLevel() {
+    public String getDifficultyLevel() {
         return difficultyLevel;
     }
 
-    public Route setDifficultyLevel(Constants.Level difficultyLevel) {
+    public Route setDifficultyLevel(String difficultyLevel) {
         this.difficultyLevel = difficultyLevel;
         return this;
     }
