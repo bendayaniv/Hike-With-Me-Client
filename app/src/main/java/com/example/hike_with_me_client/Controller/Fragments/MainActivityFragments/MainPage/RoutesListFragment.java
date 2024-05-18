@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
-import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_SendLocation;
-import com.example.hike_with_me_client.Models.Objects.RouteList;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
@@ -25,17 +24,14 @@ import java.util.ArrayList;
 
 public class RoutesListFragment extends Fragment {
 
-    private RouteList routeList = new RouteList();
-
     ArrayList<Route> routes;
     private RecyclerView fragmentRoutesRV;
     private RouteItemAdapter routeItemAdapter;
-    private Callback_SendLocation callback_sendLocation;
+    private Callback_RoutesListFragment callback_routesListFragment;
 
-    public void setCallbackSendLocation(Callback_SendLocation callback_sendLocation) {
-        this.callback_sendLocation = callback_sendLocation;
+    public void setCallbackRoutesListFragment(Callback_RoutesListFragment callback_routesListFragment) {
+        this.callback_routesListFragment = callback_routesListFragment;
     };
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +48,13 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void initRouteRV() {
-        RouteMethods.getAllRoutes(routes);
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        RouteMethods.getAllRoutes(routes);
+                    }
+                },
+                500);
 
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
@@ -69,19 +71,20 @@ public class RoutesListFragment extends Fragment {
                                     if(lastPosition != position) {
                                         Log.d("RoutesListFragment", "itemClicked: different position - " + position);
                                         SavedLastClick.getInstance().setPosition(position);
-                                        if (callback_sendLocation != null) {
-                                            callback_sendLocation.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                                        if (callback_routesListFragment != null) {
+                                            callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
                                         }
                                     } else {
                                         // TODO - here we move to the route page
                                         Log.d("RoutesListFragment", "itemClicked: same position");
+                                        callback_routesListFragment.goToRoutePage(route);
                                     }
                                 }
                             });
                         }
                     }
                 },
-                5000);
+                1000);
     }
 
     private void findViews(View view) {

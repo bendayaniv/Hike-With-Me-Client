@@ -23,7 +23,7 @@ public class RouteMethods {
 
             @Override
             public void error(String message) {
-                Log.d("routes", "Error: " + message);
+                Log.d("RouteMethods", "Error: " + message);
             }
         };
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();
@@ -38,7 +38,7 @@ public class RouteMethods {
 
             @Override
             public void error(String message) {
-                Log.d("routes", "Error: " + message);
+                Log.d("RouteMethods", "Error: " + message);
                 textView.setText("Error: " + message);
             }
         };

@@ -76,7 +76,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        RouteMethods.getAllRoutes(routes);
+        new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                new Runnable() {
+                    public void run() {
+                        RouteMethods.getAllRoutes(routes);
+                    }
+                },
+                500);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
@@ -87,7 +93,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         initiateMap();
                     }
                 },
-                5000);
+                2000);
     }
 
     private void initiateMap() {
