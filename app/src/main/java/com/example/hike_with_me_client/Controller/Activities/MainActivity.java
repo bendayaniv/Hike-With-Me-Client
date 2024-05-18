@@ -16,8 +16,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPageFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MapsFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MapsFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.RoutesListFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser currentUser;
 
     private MapsFragment mapsFragment;
+    private RoutesListFragment routesListFragment;
     private MainPageFragment mainPageFragment;
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -95,11 +97,13 @@ public class MainActivity extends AppCompatActivity {
     private void createFragments() {
         mainPageFragment = new MainPageFragment();
         mapsFragment = new MapsFragment();
+        routesListFragment = new RoutesListFragment();
     }
 
     private void mainPageFragment() {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
         getSupportFragmentManager().beginTransaction().replace(R.id.mainPageMapFragment, mapsFragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.mainPageRoutesListFragment, routesListFragment).commit();
     }
 
     private void initialization() {

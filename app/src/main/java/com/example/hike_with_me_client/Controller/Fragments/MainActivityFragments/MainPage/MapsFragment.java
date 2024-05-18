@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
+package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

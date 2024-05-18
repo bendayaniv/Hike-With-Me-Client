@@ -6,31 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    tools:context=".Controller.Fragments.MainActivityFragments.MapsFragment">
-
+    android:padding="15dp"
+    tools:context=".Controller.Fragments.MainActivityFragments.MainPage.MapsFragment">
 
     <FrameLayout
         android:id="@+id/mainPageMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:padding="10dp" />
+        android:layout_height="350dp"
+        android:padding="5dp" />
 
     <View
         android:id="@+id/mainPage_VIEW_break"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="5dp"
         android:layout_below="@id/mainPageMapFragment"
         />
 
     <FrameLayout
         android:id="@+id/mainPageRoutesListFragment"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="350dp"
         android:layout_below="@id/mainPage_VIEW_break"
-        android:padding="10dp" />
-
-
-
+        android:padding="5dp" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>
