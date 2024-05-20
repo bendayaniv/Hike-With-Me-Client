@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
+    tools:showIn="bottom_navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="@string/home"
+            android:icon="@drawable/baseline_home_24"
+            android:id="@+id/menu_nav_home"/>
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="@string/your_trips"
+            android:icon="@drawable/man_walking"
+            android:id="@+id/menu_nav_trips"/>
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:title="@string/settings"
+            android:icon="@drawable/settings"
+            android:id="@+id/menu_nav_settings"/>
+
+    </group>
+</menu>

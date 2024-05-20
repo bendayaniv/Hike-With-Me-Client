@@ -13,7 +13,7 @@ public class CurrentUser {
     private CurrentUser() {
     }
 
-    public static void initCurrentUser(Context context) {
+    public static void initCurrentUser() {
         if (instance == null) {
             instance = new CurrentUser();
         }
