@@ -10,6 +10,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
 
-        CurrentUser.initCurrentUser(this);
+        CurrentUser.initCurrentUser();
+        UserLocation.initUserLocation();
     }
 }

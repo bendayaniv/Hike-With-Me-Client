@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -27,7 +29,7 @@ import java.util.ArrayList;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
-    static GoogleMap mMap;
+    GoogleMap mMap;
     ArrayList<Route> routes;
 
     @Nullable
@@ -67,8 +69,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
             mMap.addMarker(new MarkerOptions().position(routeLocation).title(route.getName()));
         }
-        ObjectLocation location = CurrentUser.getInstance().getLocation();
-        zoom(location.getLatitude(), location.getLongitude());
+
+        if(SavedLastClick.getInstance().getLastClickedRoute() == null) {
+            ObjectLocation location = CurrentUser.getInstance().getLocation();
+            zoom(location.getLatitude(), location.getLongitude());
+        }
     }
 
     @Override
@@ -85,7 +90,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         initiateMap();
                     }
                 },
-                100);
+                5000);
     }
 
     private void initiateMap() {
@@ -93,5 +98,27 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
     }
 }

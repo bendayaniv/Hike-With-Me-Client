@@ -57,10 +57,24 @@ public class RoutesListFragment extends Fragment {
                             fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
                             fragmentRoutesRV.setAdapter(routeItemAdapter);
 
+                            int lastPosition = SavedLastClick.getInstance().getPosition();
+                            if(lastPosition != -1) {
+                                new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                                        new Runnable() {
+                                            public void run() {
+                                                fragmentRoutesRV.smoothScrollToPosition(lastPosition);
+                                                Route route = SavedLastClick.getInstance().getLastClickedRoute();
+                                                callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                                            }
+                                        },
+                                        5000);
+                            }
+
                             routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
                                 @Override
                                 public void itemClicked(Route route, int position) {
                                     int lastPosition = SavedLastClick.getInstance().getPosition();
+                                    SavedLastClick.getInstance().setLastClickedRoute(route);
                                     if(lastPosition != position) {
                                         Log.d("RoutesListFragment", "itemClicked: different position - " + position);
                                         SavedLastClick.getInstance().setPosition(position);

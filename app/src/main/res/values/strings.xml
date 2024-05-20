@@ -10,4 +10,7 @@
     <string name="name">Name</string>
     <string name="logout">Logout</string>
     <string name="route_name">ROUTE_NAME</string>
+    <string name="home">Home</string>
+    <string name="your_trips">Your Trips</string>
+    <string name="settings">Settings</string>
 </resources>
