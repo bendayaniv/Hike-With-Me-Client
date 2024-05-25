@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +24,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.StrokeStyle;
+import com.google.android.gms.maps.model.StyleSpan;
 
 import java.util.ArrayList;
 
@@ -76,19 +79,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    public void drawLine(LatLng start, LatLng end) {
+        mMap.addPolyline(new PolylineOptions()
+                .add(start, end)
+                .addSpan(new StyleSpan(StrokeStyle.colorBuilder(Color.BLACK).build())));
+    }
+
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                new Runnable() {
-                    public void run() {
-                        if(routes != null && routes.size() > 0) {
-                            refreshMap();
-                        }
-
-                        initiateMap();
+                () -> {
+                    if(routes != null && !routes.isEmpty()) {
+                        refreshMap();
                     }
+
+                    initiateMap();
                 },
                 5000);
     }
