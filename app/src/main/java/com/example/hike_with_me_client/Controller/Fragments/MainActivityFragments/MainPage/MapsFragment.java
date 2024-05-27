@@ -95,6 +95,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             mMap.setOnCameraMoveListener(() -> {
                 for (Marker m : list) {
+                    // TODO - handling with the type of the marker (route or hazard)
                     m.setVisible(mMap.getCameraPosition().zoom > 8);
                 }
             });
