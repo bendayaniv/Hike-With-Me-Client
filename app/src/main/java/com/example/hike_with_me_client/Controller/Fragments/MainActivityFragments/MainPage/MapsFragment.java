@@ -1,10 +1,16 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -21,8 +27,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.StrokeStyle;
@@ -34,6 +43,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
     ArrayList<Route> routes;
+    Context context;
+    ArrayList<Marker> list = new ArrayList<>();
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     @Nullable
     @Override
@@ -68,17 +83,41 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public void refreshMap() {
         mMap.clear();
+        list.clear();
         for (Route route : routes) {
             LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
-            mMap.addMarker(new MarkerOptions().position(routeLocation).title(route.getName()));
+
+            MarkerOptions marker = new MarkerOptions()
+                    .position(routeLocation)
+                    .title(route.getName())
+                    .icon(bitmapDescriptorFromVector(context, R.drawable.hazard_sign));
+            list.add(mMap.addMarker(marker));
+
+            mMap.setOnCameraMoveListener(() -> {
+                for (Marker m : list) {
+                    // TODO - handling with the type of the marker (route or hazard)
+                    m.setVisible(mMap.getCameraPosition().zoom > 8);
+                }
+            });
         }
 
-        if(SavedLastClick.getInstance().getLastClickedRoute() == null) {
+        if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
             ObjectLocation location = CurrentUser.getInstance().getLocation();
             zoom(location.getLatitude(), location.getLongitude());
         }
     }
 
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        assert vectorDrawable != null;
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
+    // The use of this is for draw a line on the user's trip map to see the route he took
     public void drawLine(LatLng start, LatLng end) {
         mMap.addPolyline(new PolylineOptions()
                 .add(start, end)
@@ -91,7 +130,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 () -> {
-                    if(routes != null && !routes.isEmpty()) {
+                    if (routes != null && !routes.isEmpty()) {
                         refreshMap();
                     }
 
