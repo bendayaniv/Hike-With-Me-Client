@@ -127,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
         mainPageFragment = new MainPageFragment();
 
         mapsFragment = new MapsFragment();
+        mapsFragment.setContext(MainActivity.this);
 
         routesListFragment = new RoutesListFragment();
         routesListFragment.setCallbackRoutesListFragment(callback_routesListFragment);
