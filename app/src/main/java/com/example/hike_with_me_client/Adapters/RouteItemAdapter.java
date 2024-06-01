@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
@@ -45,8 +47,12 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
         Route route = getItem(position);
         holder.route_LBL_name.setText(route.getName());
 
-        // TODO - when settle Firebase Storage, change the image to the route's image
-        holder.route_IMG_image.setImageResource(R.drawable.temporary_img);
+        if(route.getImageUrl() != null) {
+            Glide.with(context).load(route.getImageUrl()).into(holder.route_IMG_image);
+        }
+        else {
+            holder.route_IMG_image.setImageResource(R.drawable.temporary_img);
+        }
     }
 
     @Override
