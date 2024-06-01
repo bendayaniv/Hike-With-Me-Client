@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.hike_with_me_client.Models.Hazard.Hazard;
+import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 import com.example.hike_with_me_client.Models.Route.Route;
@@ -45,6 +47,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     ArrayList<Route> routes;
     Context context;
     ArrayList<Marker> list = new ArrayList<>();
+    ArrayList<Hazard> hazardsList;
 
     public void setContext(Context context) {
         this.context = context;
@@ -58,6 +61,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
         routes = new ArrayList<>();
+
+        hazardsList = new ArrayList<>();
 
         return view;
     }
@@ -89,17 +94,28 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
             MarkerOptions marker = new MarkerOptions()
                     .position(routeLocation)
-                    .title(route.getName())
+                    .title(route.getName());
+            list.add(mMap.addMarker(marker));
+        }
+
+        for (Hazard hazard : hazardsList) {
+            LatLng hazardLocation = new LatLng(hazard.getLocation().getLatitude(), hazard.getLocation().getLongitude());
+            MarkerOptions marker = new MarkerOptions()
+                    .position(hazardLocation)
                     .icon(bitmapDescriptorFromVector(context, R.drawable.hazard_sign));
             list.add(mMap.addMarker(marker));
-
-            mMap.setOnCameraMoveListener(() -> {
-                for (Marker m : list) {
-                    // TODO - handling with the type of the marker (route or hazard)
-                    m.setVisible(mMap.getCameraPosition().zoom > 8);
-                }
-            });
         }
+
+        mMap.setOnCameraMoveListener(() -> {
+            for (Marker m : list) {
+                if(m.getTitle() == null) {
+                    m.setVisible(mMap.getCameraPosition().zoom > 14);
+                }
+                else {
+                    m.setVisible(mMap.getCameraPosition().zoom > 5);
+                }
+            }
+        });
 
         if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
             ObjectLocation location = CurrentUser.getInstance().getLocation();
@@ -130,6 +146,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 () -> {
                     routes = ListOfRoutes.getInstance().getRoutes();
+
+                    // TODO - in here to load all the hazard into hazardsList,
+                    //  need to be handled by the backend
+
                     if (routes != null && !routes.isEmpty()) {
                         refreshMap();
                     }

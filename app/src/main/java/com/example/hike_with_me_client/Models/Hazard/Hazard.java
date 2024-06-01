@@ -90,6 +90,15 @@ public class Hazard {
         return this;
     }
 
+    public ObjectLocation getLocation() {
+        return location;
+    }
+
+    public Hazard setLocation(ObjectLocation location) {
+        this.location = location;
+        return this;
+    }
+
     @NonNull
     @Override
     public String toString() {
