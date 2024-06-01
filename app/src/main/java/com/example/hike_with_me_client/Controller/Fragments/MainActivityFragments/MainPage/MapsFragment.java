@@ -20,8 +20,8 @@ import android.view.ViewGroup;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 import com.example.hike_with_me_client.Models.Route.Route;
-import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -127,16 +127,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 () -> {
+                    routes = ListOfRoutes.getInstance().getRoutes();
                     if (routes != null && !routes.isEmpty()) {
                         refreshMap();
                     }
 
                     initiateMap();
                 },
-                5000);
+                10000);
     }
 
     private void initiateMap() {

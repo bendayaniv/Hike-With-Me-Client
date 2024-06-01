@@ -16,8 +16,8 @@ import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
 import com.example.hike_with_me_client.Models.Route.Route;
-import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 
 import java.util.ArrayList;
@@ -48,10 +48,11 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void initRouteRV() {
-        RouteMethods.getAllRoutes(routes);
         new android.os.Handler(Looper.getMainLooper()).postDelayed(
                 new Runnable() {
                     public void run() {
+                        routes = ListOfRoutes.getInstance().getRoutes();
+
                         if(routes != null && routes.size() > 0) {
                             routeItemAdapter = new RouteItemAdapter(getContext(), routes);
                             fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -90,7 +91,7 @@ public class RoutesListFragment extends Fragment {
                         }
                     }
                 },
-                100);
+                10000);
     }
 
     private void findViews(View view) {
