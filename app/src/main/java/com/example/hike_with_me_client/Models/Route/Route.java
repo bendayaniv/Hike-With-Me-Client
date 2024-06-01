@@ -11,6 +11,7 @@ public class Route {
     private String difficultyLevel;
     private String length;
     private ObjectLocation location;
+    private String imageUrl;
 
     public Route() {}
 
@@ -77,6 +78,15 @@ public class Route {
         return this;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Route setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+        return this;
+    }
+
     @Override
     public String toString() {
         return "Route{" +
@@ -86,6 +96,7 @@ public class Route {
                 ", difficultyLevel=" + difficultyLevel +
                 ", length='" + length + '\'' +
                 ", location='" + location + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 '}';
     }
 }
