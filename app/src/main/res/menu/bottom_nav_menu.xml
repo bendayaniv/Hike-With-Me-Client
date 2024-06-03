@@ -21,8 +21,8 @@
         <item
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:title="@string/settings"
-            android:icon="@drawable/settings"
+            android:title="@string/profile"
+            android:icon="@drawable/profile"
             android:id="@+id/menu_nav_settings"/>
 
     </group>

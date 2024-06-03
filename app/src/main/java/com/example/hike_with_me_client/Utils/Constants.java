@@ -7,6 +7,10 @@ import android.widget.Toast;
 
 public class Constants {
 
+    public static final int MENU_HOME = 2131231012;
+    public static final int MENU_TRIPS = 2131231014;
+    public static final int MENU_PROFILE = 2131231013;
+
     public static final int REQUEST_CHECK_SETTINGS = 10001;
     public static final int REQUEST_CODE = 10002;
     public enum HazardType {

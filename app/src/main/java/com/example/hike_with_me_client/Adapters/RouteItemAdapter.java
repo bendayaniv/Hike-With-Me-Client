@@ -1,7 +1,6 @@
 package com.example.hike_with_me_client.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,8 @@ import java.util.ArrayList;
 
 public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.RouteItemViewHolder> {
 
-    private Context context;
-    private ArrayList<Route> routes;
+    private final Context context;
+    private final ArrayList<Route> routes;
     private Callback_RouteItem callback_routeItem;
 
     public RouteItemAdapter(Context context, ArrayList<Route> routes) {
@@ -29,17 +28,15 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
         this.routes = routes;
     }
 
-    public RouteItemAdapter setCallbackRouteItem(Callback_RouteItem callback_routeItem) {
+    public void setCallbackRouteItem(Callback_RouteItem callback_routeItem) {
         this.callback_routeItem = callback_routeItem;
-        return this;
     }
 
     @NonNull
     @Override
     public RouteItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.route_list_item, parent, false);
-        RouteItemViewHolder routeItemViewHolder = new RouteItemViewHolder(view);
-        return routeItemViewHolder;
+        return new RouteItemViewHolder(view);
     }
 
     @Override
@@ -65,20 +62,17 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
     }
 
     public class RouteItemViewHolder extends RecyclerView.ViewHolder {
-        private ImageView route_IMG_image;
-        private MaterialTextView route_LBL_name;
+        private final ImageView route_IMG_image;
+        private final MaterialTextView route_LBL_name;
         public RouteItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             route_IMG_image = itemView.findViewById(R.id.route_IMG_image);
             route_LBL_name = itemView.findViewById(R.id.route_LBL_name);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (callback_routeItem != null) {
-                        callback_routeItem.itemClicked(routes.get(getAdapterPosition()), getAdapterPosition());
-                    }
+            itemView.setOnClickListener(v -> {
+                if (callback_routeItem != null) {
+                    callback_routeItem.itemClicked(routes.get(getAdapterPosition()), getAdapterPosition());
                 }
             });
         }

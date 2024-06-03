@@ -13,5 +13,6 @@ public class App extends Application {
         CurrentUser.initCurrentUser();
         UserLocation.initUserLocation();
         ListOfRoutes.initListOfRoutes();
+        ListOfHazards.initListOfHazards();
     }
 }

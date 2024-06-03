@@ -5,7 +5,7 @@ import com.example.hike_with_me_client.Models.Route.Route;
 public class SavedLastClick {
     private static SavedLastClick instance = null;
     private int position = -1;
-    private Route lastClickedRoute;
+    private Route lastClickedRoute = null;
     private SavedLastClick() {
     }
 
@@ -23,18 +23,16 @@ public class SavedLastClick {
         return position;
     }
 
-    public SavedLastClick setPosition(int position) {
+    public void setPosition(int position) {
         this.position = position;
-        return this;
     }
 
     public Route getLastClickedRoute() {
         return lastClickedRoute;
     }
 
-    public SavedLastClick setLastClickedRoute(Route lastClickedRoute) {
+    public void setLastClickedRoute(Route lastClickedRoute) {
         this.lastClickedRoute = lastClickedRoute;
-        return this;
     }
 
 }
