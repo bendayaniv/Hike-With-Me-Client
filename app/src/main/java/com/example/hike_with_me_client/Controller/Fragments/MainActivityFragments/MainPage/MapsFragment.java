@@ -123,9 +123,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             for (Marker m : list) {
                 if (m.getTitle() == null) {
                     m.setVisible(mMap.getCameraPosition().zoom > 14);
-                } else {
-                    m.setVisible(mMap.getCameraPosition().zoom > 5);
                 }
+//                else {
+//                    m.setVisible(mMap.getCameraPosition().zoom > 5);
+//                }
             }
         });
 
@@ -181,7 +182,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             routes = ListOfRoutes.getInstance().getRoutes();
 
             ListOfHazards.getInstance().setHazards();
-//            if (ListOfHazards.getInstance().getHazards() != null)
             hazardsList = ListOfHazards.getInstance().getHazards();
 
             Log.d("MyMapFragment", "onMapReady1: " + routes.size());
@@ -191,7 +191,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     () -> {
                         routes = ListOfRoutes.getInstance().getRoutes();
 
-//                        if (ListOfHazards.getInstance().getHazards() != null)
                         hazardsList = ListOfHazards.getInstance().getHazards();
 
                         if (routes != null && !routes.isEmpty()) {
@@ -219,6 +218,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onPause() {
         super.onPause();
+        saveMapState();
     }
 
     @Override

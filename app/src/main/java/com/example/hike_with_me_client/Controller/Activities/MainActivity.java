@@ -137,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case Constants.MENU_HOME:
                     Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
-                    mainPageFragment.onBeforeNavigateAway();
                     mainPageFragment();
                     break;
                 case Constants.MENU_TRIPS:

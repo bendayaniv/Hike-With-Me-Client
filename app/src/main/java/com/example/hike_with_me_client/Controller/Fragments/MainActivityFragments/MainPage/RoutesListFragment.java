@@ -118,6 +118,7 @@ public class RoutesListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+        onLeavingFragment();
     }
 
     @Override
@@ -132,7 +133,7 @@ public class RoutesListFragment extends Fragment {
 
     private void onChanged(Parcelable state) {
         if (state != null) {
-            fragmentRoutesRV.getLayoutManager().onRestoreInstanceState(state);
+            Objects.requireNonNull(fragmentRoutesRV.getLayoutManager()).onRestoreInstanceState(state);
         }
     }
 }

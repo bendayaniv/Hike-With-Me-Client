@@ -76,29 +76,43 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        routesListFragment.onResume();
+        mapsFragment.onResume();
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("MyMainPageFragment", "onPause");
-        routesListFragment.onLeavingFragment();
+        routesListFragment.onPause();
+        mapsFragment.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("MyMainPageFragment", "onDestroy");
+        routesListFragment.onDestroy();
+        mapsFragment.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        routesListFragment.onDestroyView();
+        mapsFragment.onDestroyView();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        routesListFragment.onStop();
+        mapsFragment.onStop();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-    }
-
-    public void onBeforeNavigateAway() {
-//        routesListFragment.onLeavingFragment();
-        mapsFragment.saveMapState();
+        routesListFragment.onLowMemory();
+        mapsFragment.onLowMemory();
     }
 }
