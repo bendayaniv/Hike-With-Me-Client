@@ -9,6 +9,7 @@ import com.example.hike_with_me_client.Models.Hazard.Actions.GetHazardsByRoute;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_AddHazard;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetHazardsByRoute;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HazardMethods {
@@ -17,7 +18,7 @@ public class HazardMethods {
         Callback_GetHazardsByRoute callback_getHazardsByRoute = new Callback_GetHazardsByRoute() {
             @Override
             public void success(List<Hazard> hazards) {
-                if(hazards.size() == 0) {
+                if(hazards.isEmpty()) {
                     textView.setText("No hazards found");
                 } else {
                     textView.setText("Hazards found: " + hazards);
@@ -46,5 +47,9 @@ public class HazardMethods {
             }
         };
         new AddHazard(callback_addHazard).addHazard(hazard);
+    }
+
+    public static void getAllHazards(ArrayList<Hazard> hazards) {
+        // TODO - need to implement this method
     }
 }

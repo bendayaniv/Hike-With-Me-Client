@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,15 +14,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.hike_with_me_client.Controller.Fragments.LoginFragments.LoginFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MapsFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.RoutesListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
-import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
-import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
@@ -34,7 +30,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -44,34 +39,19 @@ public class MainActivity extends AppCompatActivity {
     Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
-    private MapsFragment mapsFragment;
-    private RoutesListFragment routesListFragment;
     private MainPageFragment mainPageFragment;
     private RouteFragment routeFragment;
     private LoginFragment loginFragment = new LoginFragment();
     FusedLocationProviderClient fusedLocationProviderClient;
     private BottomNavigationView bottomNavigationView;
 
-    Callback_GoToLoginActivity goToLoginActivityCallback = new Callback_GoToLoginActivity() {
-        @Override
-        public void goToLoginActivityCallback() {
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-    };
+    private FragmentManager fragmentManager;
 
-    Callback_RoutesListFragment callback_routesListFragment = new Callback_RoutesListFragment() {
-        @Override
-        public void sendLocation(double latitude, double longitude) {
-            mapsFragment.zoom(latitude, longitude);
-        }
 
-        @Override
-        public void goToRoutePage(Route route) {
-            routeFragment.setRoute(route);
-            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
-        }
+    Callback_GoToLoginActivity goToLoginActivityCallback = () -> {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     };
 
     @Override
@@ -89,16 +69,15 @@ public class MainActivity extends AppCompatActivity {
         checkingCurrentUser();
 
         createFragments();
+
+        mainPageFragment();
     }
 
     private void logoutButtonFunctionality() {
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                CurrentUser.getInstance().removeUser();
-                goToLoginActivityCallback.goToLoginActivityCallback();
-            }
+        logoutButton.setOnClickListener(v -> {
+            mAuth.signOut();
+            CurrentUser.getInstance().removeUser();
+            goToLoginActivityCallback.goToLoginActivityCallback();
         });
 
     }
@@ -116,31 +95,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createFragments() {
-        mainPageFragment();
+        mainPageFragment = new MainPageFragment();
+        mainPageFragment.setFragmentManager(fragmentManager);
 
         routeFragment = new RouteFragment();
 
         loginFragment = new LoginFragment();
     }
 
-    private void createMainPageFragments() {
-        mainPageFragment = new MainPageFragment();
-
-        mapsFragment = new MapsFragment();
-        mapsFragment.setContext(MainActivity.this);
-
-        routesListFragment = new RoutesListFragment();
-        routesListFragment.setCallbackRoutesListFragment(callback_routesListFragment);
-    }
-
     private void mainPageFragment() {
-        createMainPageFragments();
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainPageMapFragment, mapsFragment).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.mainPageRoutesListFragment, routesListFragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
     }
 
     private void initialization() {
+
+        fragmentManager = getSupportFragmentManager();
 
         initializeUserLocation();
 
@@ -163,26 +132,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialiseBottomNavigation() {
-        bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d("MyMainActivity", "onCreate: " + item.getItemId());
-                switch (item.getItemId()) {
-                    case 2131231248:
-                        Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
-                        mainPageFragment();
-                        break;
-                    case 2131231250:
-                        Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, loginFragment).commit();
-                        break;
-                    case 2131231249:
-                        Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
-                        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
-                        break;
-                }
-                return true;
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            Log.d("MyMainActivity", "onCreate: " + item.getItemId());
+            switch (item.getItemId()) {
+                case Constants.MENU_HOME:
+                    Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
+                    mainPageFragment.onBeforeNavigateAway();
+                    mainPageFragment();
+                    break;
+                case Constants.MENU_TRIPS:
+                    Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, loginFragment).commit();
+                    break;
+                case Constants.MENU_PROFILE:
+                    Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
+                    break;
             }
+            return true;
         });
     }
 
@@ -202,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if(UserLocation.getInstance().checkingForGpsAndLocationPermissions(requestCode, grantResults) == 1) {
+        if (UserLocation.getInstance().checkingForGpsAndLocationPermissions(requestCode, grantResults) == 1) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
@@ -211,10 +178,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
+        if (UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
     }
-
 
 
     @Override
@@ -235,6 +201,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(UserLocation.getInstance().getCurrentLocation() == 0) requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);;
+        if (UserLocation.getInstance().getCurrentLocation() == 0)
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
     }
+
 }

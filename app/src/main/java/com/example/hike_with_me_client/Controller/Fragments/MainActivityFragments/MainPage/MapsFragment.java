@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,17 +14,19 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
-import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.ListOfHazards;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.MapViewModel;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,6 +47,7 @@ import java.util.ArrayList;
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     GoogleMap mMap;
+    private MapViewModel mapViewModel;
     ArrayList<Route> routes;
     Context context;
     ArrayList<Marker> list = new ArrayList<>();
@@ -60,9 +64,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
 
-        routes = new ArrayList<>();
+        routes = new ArrayList<Route>();
 
-        hazardsList = new ArrayList<>();
+        hazardsList = new ArrayList<Hazard>();
+
+        mapViewModel = new ViewModelProvider(requireActivity()).get(MapViewModel.class);
 
         return view;
     }
@@ -70,6 +76,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map_fragment);
         if (mapFragment != null) {
@@ -79,14 +86,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     public void zoom(double _latitude, double _longitude) {
         LatLng randomPlace = new LatLng(_latitude, _longitude);
+        Log.d("MyMapFragment", "zoom: " + randomPlace.toString());
         CameraPosition cameraPosition = new CameraPosition.Builder()
                 .target(randomPlace)
                 .zoom(10)
                 .build();
+
         mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
     }
 
-    public void refreshMap() {
+    public void refreshMap(boolean exist) {
         mMap.clear();
         list.clear();
         for (Route route : routes) {
@@ -99,6 +108,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
 
         for (Hazard hazard : hazardsList) {
+            if (routes.stream().noneMatch(route -> route.getName().equals(hazard.getRouteName()))) {
+                continue;
+            }
+
             LatLng hazardLocation = new LatLng(hazard.getLocation().getLatitude(), hazard.getLocation().getLongitude());
             MarkerOptions marker = new MarkerOptions()
                     .position(hazardLocation)
@@ -108,19 +121,39 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.setOnCameraMoveListener(() -> {
             for (Marker m : list) {
-                if(m.getTitle() == null) {
+                if (m.getTitle() == null) {
                     m.setVisible(mMap.getCameraPosition().zoom > 14);
-                }
-                else {
+                } else {
                     m.setVisible(mMap.getCameraPosition().zoom > 5);
                 }
             }
         });
 
-        if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
-            ObjectLocation location = CurrentUser.getInstance().getLocation();
+        mapViewModel.getCameraPosition().observe(getViewLifecycleOwner(), position -> {
+            Log.d("MyMapFragment", "onViewCreated");
+            if (position != null) {
+                Log.d("MyMapFragment", "position is not null");
+                mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+            }
+        });
+
+        if (!exist) {
+            ObjectLocation location = getLocation();
             zoom(location.getLatitude(), location.getLongitude());
+            ListOfRoutes.getInstance().setFirstTime(false);
         }
+    }
+
+    private static ObjectLocation getLocation() {
+        ObjectLocation location;
+
+        if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
+            Log.d("MyMapFragment", "getLocation: CurrentUser.getInstance().getLocation()");
+            location = CurrentUser.getInstance().getLocation();
+        } else {
+            location = SavedLastClick.getInstance().getLastClickedRoute().getLocation();
+        }
+        return location;
     }
 
     private BitmapDescriptor bitmapDescriptorFromVector(Context context, @DrawableRes int vectorResId) {
@@ -143,20 +176,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
-        new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                () -> {
-                    routes = ListOfRoutes.getInstance().getRoutes();
+        initiateMap();
+        if (!ListOfRoutes.getInstance().isFirstTime()) {
+            routes = ListOfRoutes.getInstance().getRoutes();
 
-                    // TODO - in here to load all the hazard into hazardsList,
-                    //  need to be handled by the backend
+            ListOfHazards.getInstance().setHazards();
+//            if (ListOfHazards.getInstance().getHazards() != null)
+            hazardsList = ListOfHazards.getInstance().getHazards();
 
-                    if (routes != null && !routes.isEmpty()) {
-                        refreshMap();
-                    }
+            Log.d("MyMapFragment", "onMapReady1: " + routes.size());
+            refreshMap(true);
+        } else {
+            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+                    () -> {
+                        routes = ListOfRoutes.getInstance().getRoutes();
 
-                    initiateMap();
-                },
-                10000);
+//                        if (ListOfHazards.getInstance().getHazards() != null)
+                        hazardsList = ListOfHazards.getInstance().getHazards();
+
+                        if (routes != null && !routes.isEmpty()) {
+                            Log.d("MyMapFragment", "onMapReady2: " + routes.size());
+                            refreshMap(false);
+                        }
+                    },
+                    10000);
+        }
     }
 
     private void initiateMap() {
@@ -165,7 +209,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
         mMap.getUiSettings().setAllGesturesEnabled(true);
     }
-
 
     @Override
     public void onResume() {
@@ -186,5 +229,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onLowMemory() {
         super.onLowMemory();
+    }
+
+    public void saveMapState() {
+        if (mMap != null) {
+            CameraPosition position = mMap.getCameraPosition();
+            mapViewModel.setCameraPosition(position);
+        }
     }
 }

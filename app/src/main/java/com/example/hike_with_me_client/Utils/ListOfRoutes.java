@@ -11,6 +11,7 @@ public class ListOfRoutes {
 
     private static ListOfRoutes instance = null;
     ArrayList<Route> routes = new ArrayList<>();
+    boolean firstTime;
 
     public ListOfRoutes() {
         RouteMethods.getAllRoutes(routes);
@@ -19,8 +20,8 @@ public class ListOfRoutes {
     public static void initListOfRoutes() {
         if (instance == null) {
             instance = new ListOfRoutes();
+            instance.firstTime = true;
         }
-
     }
 
     public static ListOfRoutes getInstance() {
@@ -33,6 +34,14 @@ public class ListOfRoutes {
 
     public void setRoutes(ArrayList<Route> routes) {
         this.routes = routes;
+    }
+
+    public boolean isFirstTime() {
+        return firstTime;
+    }
+
+    public void setFirstTime(boolean firstTime) {
+        this.firstTime = firstTime;
     }
 
     @NonNull
