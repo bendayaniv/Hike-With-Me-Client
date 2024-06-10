@@ -127,6 +127,11 @@ public class RoutesListFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
     }
