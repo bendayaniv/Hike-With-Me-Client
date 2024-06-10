@@ -1,12 +1,13 @@
 package com.example.hike_with_me_client.Models.Route;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 import android.widget.TextView;
 
 import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoute;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
-import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoute;
+import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoutesNames;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +30,13 @@ public class RouteMethods {
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();
     }
 
+    @SuppressLint("SetTextI18n")
     public static void getSpecificRoute(String routeName, TextView textView) {
-        Callback_GetRoute callback_getRoute = new Callback_GetRoute() {
+        Callback_GetRoutesNames callback_getRoute = new Callback_GetRoutesNames() {
+
             @Override
-            public void success(Route route) {
-                textView.setText("Route found: " + route);
+            public void success(List<String> routesNames) {
+                textView.setText("Routes Names: " + routesNames);
             }
 
             @Override
@@ -42,6 +45,6 @@ public class RouteMethods {
                 textView.setText("Error: " + message);
             }
         };
-        new GetRoute(callback_getRoute).getRoute(routeName);
+        new GetRoute(callback_getRoute).getRoutesNames();
     }
 }

@@ -15,8 +15,6 @@ public interface RouteApiInterface {
     @GET("routes")
     Call<List<Route>> getAllRoutes();
 
-    @GET("routes/{route_name}")
-    Call<Route> getRoute(
-            @Path("route_name") String route_name
-    );
+    @GET("routes/allNames")
+    Call<List<String>> getRoutesNames();
 }
