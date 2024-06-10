@@ -2,7 +2,6 @@ package com.example.hike_with_me_client.Models.Route.Actions;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMasterClass;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoutesNames;
 
@@ -12,10 +11,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GetRoute extends RouteMasterClass {
+public class GetRoutesNames extends RouteMasterClass {
     private final Callback_GetRoutesNames callback_getRoute;
 
-    public GetRoute(Callback_GetRoutesNames callback_getRoute) {
+    public GetRoutesNames(Callback_GetRoutesNames callback_getRoute) {
         this.callback_getRoute = callback_getRoute;
     }
 
