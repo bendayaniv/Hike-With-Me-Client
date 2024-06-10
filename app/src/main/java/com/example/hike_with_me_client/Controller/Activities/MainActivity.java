@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,7 +34,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
     Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -76,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
     private void logoutButtonFunctionality() {
         logoutButton.setOnClickListener(v -> {
             mAuth.signOut();
+            CurrentUser.getInstance().getUser().setActive(false);
+            CurrentUser.getInstance().getUser().setLocation(null);
+            UserMethods.updateUser(CurrentUser.getInstance().getUser());
             CurrentUser.getInstance().removeUser();
             goToLoginActivityCallback.goToLoginActivityCallback();
         });
@@ -88,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
             goToLoginActivityCallback.goToLoginActivityCallback();
         } else {
             Log.d("MyMainActivity", "User is logged in: " + currentUser);
-//            textView.setText("User is logged in: " + currentUser.getUid());
             UserMethods.getSpecificUser(currentUser.getUid());
         }
 
@@ -123,8 +123,6 @@ public class MainActivity extends AppCompatActivity {
 
         initialiseBottomNavigation();
 
-//        textView = findViewById(R.id.textView);
-//
 //        logoutButton = findViewById(R.id.btn_logout);
 
 //        logoutButtonFunctionality();

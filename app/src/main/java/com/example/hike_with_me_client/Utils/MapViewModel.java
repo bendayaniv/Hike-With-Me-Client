@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.android.gms.maps.model.CameraPosition;
 
 public class MapViewModel extends ViewModel {
-    private MutableLiveData<CameraPosition> cameraPosition = new MutableLiveData<>();
+    private final MutableLiveData<CameraPosition> cameraPosition = new MutableLiveData<>();
 
     public LiveData<CameraPosition> getCameraPosition() {
         return cameraPosition;
