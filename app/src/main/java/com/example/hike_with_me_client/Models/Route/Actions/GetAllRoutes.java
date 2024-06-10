@@ -1,5 +1,7 @@
 package com.example.hike_with_me_client.Models.Route.Actions;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Models.Route.Route;
@@ -27,6 +29,7 @@ public class GetAllRoutes extends RouteMasterClass {
             public void onResponse(@NonNull Call<List<Route>> call, @NonNull Response<List<Route>> response) {
                 if(response.isSuccessful()) {
                     List<Route> routes = response.body();
+                    Log.d("tag", routes.toString());
                     callback_getAllRoutes.success(routes);
                 } else {
                     callback_getAllRoutes.error(String.valueOf(response.errorBody()));

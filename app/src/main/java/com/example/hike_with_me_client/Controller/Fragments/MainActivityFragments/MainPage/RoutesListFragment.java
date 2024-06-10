@@ -92,7 +92,7 @@ public class RoutesListFragment extends Fragment {
                 Log.d("RoutesListFragment", "itemClicked: different position - " + position);
                 SavedLastClick.getInstance().setPosition(position);
                 if (callback_routesListFragment != null) {
-                    callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+                    callback_routesListFragment.sendLocation(route.getLatitude(), route.getLongitude());
                 }
             } else {
                 Log.d("RoutesListFragment", "itemClicked: same position");

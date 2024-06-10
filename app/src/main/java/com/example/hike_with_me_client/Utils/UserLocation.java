@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
-import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
+import com.example.hike_with_me_client.Models.Objects.point;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationCallback;
@@ -27,6 +27,8 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.Task;
+
+import java.util.Date;
 
 @SuppressLint("StaticFieldLeak")
 public class UserLocation {
@@ -138,7 +140,7 @@ public class UserLocation {
                                 double currentLatitude = locationResult.getLocations().get(index).getLatitude();
                                 double currentLongitude = locationResult.getLocations().get(index).getLongitude();
                                 Log.d("MyMainActivity", "Latitude: " + currentLatitude + " Longitude: " + currentLongitude);
-                                CurrentUser.getInstance().setLocation(new ObjectLocation(currentLatitude, currentLongitude, null));
+                                CurrentUser.getInstance().setLocation(new point(currentLatitude, currentLongitude,null, null));
                             }
                         }
                     }, Looper.getMainLooper());

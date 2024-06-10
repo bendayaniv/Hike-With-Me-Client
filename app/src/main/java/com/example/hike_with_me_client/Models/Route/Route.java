@@ -1,102 +1,97 @@
 package com.example.hike_with_me_client.Models.Route;
 
-import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
-import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Models.Objects.point;
 
-public class Route {
+import java.util.Date;
 
-    private String id;
-    private String name;
-    private String description;
-    private String difficultyLevel;
-    private String length;
-    private ObjectLocation location;
-    private String imageUrl;
+public class Route extends point {
+
+    private String _id;
+    private String _name;
+    private String _description;
+    private String _difficultyLevel;
+    private String _length;
+    private String _imageUrl;
 
     public Route() {}
 
-    public Route(String id, String name, String description, String difficultyLevel, String length, ObjectLocation location) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.difficultyLevel = difficultyLevel;
-        this.length = length;
-        this.location = location;
+    public Route(double latitude, double longitude, Date date, String type, String id, String name, String description, String difficultyLevel, String length, String imageUrl) {
+        super(latitude, longitude, date, type);
+        this._id = id;
+        this._name = name;
+        this._description = description;
+        this._difficultyLevel = difficultyLevel;
+        this._length = length;
+        this._imageUrl = imageUrl;
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public Route setId(String id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
     public String getName() {
-        return name;
+        return _name;
     }
 
     public Route setName(String name) {
-        this.name = name;
+        this._name = name;
         return this;
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public Route setDescription(String description) {
-        this.description = description;
+        this._description = description;
         return this;
     }
 
     public String getDifficultyLevel() {
-        return difficultyLevel;
+        return _difficultyLevel;
     }
 
     public Route setDifficultyLevel(String difficultyLevel) {
-        this.difficultyLevel = difficultyLevel;
+        this._difficultyLevel = difficultyLevel;
         return this;
     }
 
     public String getLength() {
-        return length;
+        return _length;
     }
 
     public Route setLength(String length) {
-        this.length = length;
-        return this;
-    }
-
-    public ObjectLocation getLocation() {
-        return location;
-    }
-
-    public Route setLocation(ObjectLocation location) {
-        this.location = location;
+        this._length = length;
         return this;
     }
 
     public String getImageUrl() {
-        return imageUrl;
+        return _imageUrl;
     }
 
     public Route setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+        this._imageUrl = imageUrl;
         return this;
     }
 
     @Override
     public String toString() {
         return "Route{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", difficultyLevel=" + difficultyLevel +
-                ", length='" + length + '\'' +
-                ", location='" + location + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
+                "_id='" + _id + '\'' +
+                ", _name='" + _name + '\'' +
+                ", _description='" + _description + '\'' +
+                ", _difficultyLevel='" + _difficultyLevel + '\'' +
+                ", _length='" + _length + '\'' +
+                ", latitude=" + getLatitude() +
+                ", longitude=" + getLongitude() +
+                ", date=" + getDate() +
+                ", type='" + getType() + '\'' +
+                ", _imageUrl='" + _imageUrl + '\'' +
                 '}';
     }
 }
