@@ -45,6 +45,7 @@ public class UserMethods {
 
                 // Set CurrentUser
                 CurrentUser.getInstance().setUser(user);
+                CurrentUser.getInstance().getUser().setActive(true);
             }
 
             @Override

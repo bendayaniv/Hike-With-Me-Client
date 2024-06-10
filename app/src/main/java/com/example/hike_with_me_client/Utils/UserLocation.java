@@ -9,14 +9,14 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
-import com.example.hike_with_me_client.Models.Objects.point;
+import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationCallback;
@@ -76,7 +76,7 @@ public class UserLocation {
                     case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
                         try {
                             ResolvableApiException resolvableApiException = (ResolvableApiException) e;
-                            resolvableApiException.startResolutionForResult((Activity) context, /*2*/Constants.REQUEST_CHECK_SETTINGS);
+                            resolvableApiException.startResolutionForResult((Activity) context, Constants.REQUEST_CHECK_SETTINGS);
                         } catch (IntentSender.SendIntentException ex) {
                             ex.printStackTrace();
                         }
@@ -100,7 +100,7 @@ public class UserLocation {
         if (requestCode == Constants.REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (isGPSEnabled()) {
-                    if(getCurrentLocation() == 0) return 0;
+                    if (getCurrentLocation() == 0) return 0;
                 } else {
                     turnOnGPS();
                 }
@@ -114,7 +114,7 @@ public class UserLocation {
     public int checkingForCurrentLocationAvailability(int requestCode, int resultCode) {
         if (requestCode == Constants.REQUEST_CHECK_SETTINGS) {
             if (resultCode == Activity.RESULT_OK) {
-                if(getCurrentLocation() == 0) return 0;
+                if (getCurrentLocation() == 0) return 0;
             }
         }
         return 1;
@@ -135,12 +135,12 @@ public class UserLocation {
                             super.onLocationResult(locationResult);
                             // Only need the last location
                             LocationServices.getFusedLocationProviderClient(context).removeLocationUpdates(this);
-                            if (locationResult.getLocations().size() > 0) {
+                            if (!locationResult.getLocations().isEmpty()) {
                                 int index = locationResult.getLocations().size() - 1;
                                 double currentLatitude = locationResult.getLocations().get(index).getLatitude();
                                 double currentLongitude = locationResult.getLocations().get(index).getLongitude();
-                                Log.d("MyMainActivity", "Latitude: " + currentLatitude + " Longitude: " + currentLongitude);
-                                CurrentUser.getInstance().setLocation(new point(currentLatitude, currentLongitude,null, null));
+                                CurrentUser.getInstance().getUser().setLocation(new Location(currentLatitude, currentLongitude));
+                                UserMethods.updateUser(CurrentUser.getInstance().getUser());
                             }
                         }
                     }, Looper.getMainLooper());

@@ -2,6 +2,8 @@ package com.example.hike_with_me_client.Models.User;
 
 import androidx.annotation.NonNull;
 
+import com.example.hike_with_me_client.Models.Objects.Location;
+
 public class User {
 
     private String id;
@@ -9,15 +11,22 @@ public class User {
     private String email;
     private String password;
     private String phoneNumber;
+    private String hometown;
+    private Boolean active;
+    private Location location;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String id, String name, String email, String password, String phoneNumber) {
+    public User(String id, String name, String email, String password, String phoneNumber, String hometown, Boolean active, Location location) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.hometown = hometown;
+        this.active = active;
+        this.location = location;
     }
 
     public String getId() {
@@ -65,6 +74,33 @@ public class User {
         return this;
     }
 
+    public String getHometown() {
+        return hometown;
+    }
+
+    public User setHometown(String hometown) {
+        this.hometown = hometown;
+        return this;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public User setActive(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public User setLocation(Location location) {
+        this.location = location;
+        return this;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -74,6 +110,9 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", hometown='" + hometown + '\'' +
+                ", active=" + active +
+                ", location=" + location +
                 '}';
     }
 }

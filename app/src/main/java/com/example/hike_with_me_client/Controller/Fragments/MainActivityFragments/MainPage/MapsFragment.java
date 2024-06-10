@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
-import com.example.hike_with_me_client.Models.Objects.point;
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.ListOfHazards;
@@ -139,20 +139,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
 
         if (!exist) {
-            point location = getLocation();
+            Location location = getLocation();
             zoom(location.getLatitude(), location.getLongitude());
             ListOfRoutes.getInstance().setFirstTime(false);
         }
     }
 
-    private static point getLocation() {
-        point location;
+    private static Location getLocation() {
+        Location location;
 
         if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
-            Log.d("MyMapFragment", "getLocation: CurrentUser.getInstance().getLocation()");
-            location = CurrentUser.getInstance().getLocation();
+            location = CurrentUser.getInstance().getUser().getLocation();
         } else {
-            location = SavedLastClick.getInstance().getLastClickedRoute().getPoint();
+            location = new Location(SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLatitude(),
+                    SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLongitude());
         }
         return location;
     }

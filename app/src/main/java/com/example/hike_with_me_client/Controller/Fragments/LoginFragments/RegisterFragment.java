@@ -63,9 +63,11 @@ public class RegisterFragment extends Fragment {
             String textName = String.valueOf(editTextName.getText());
             String phoneNumber = String.valueOf(editTextPhoneNumber.getText());
 
-            if(checkingRegisterInformation(email, password, textName, phoneNumber) == 1) return;
+            if (checkingRegisterInformation(email, password, textName, phoneNumber) == 1) return;
 
-            registerInFirebaseAuth(email, password, textName, phoneNumber);
+
+
+            registerInFirebaseAuth(email, password, textName, phoneNumber, "hometown");
         });
     }
 
@@ -82,11 +84,11 @@ public class RegisterFragment extends Fragment {
                 Constants.toastMessageToUserWithProgressBar(getActivity(), (String) objects[1], progressBar);
                 return 1;
             }
-            if(((String) objects[1]).contains(Constants.EMAIL) && ((String) objects[0]).length() < 6) {
+            if (((String) objects[1]).contains(Constants.EMAIL) && ((String) objects[0]).length() < 6) {
                 Constants.toastMessageToUserWithProgressBar(getActivity(), (String) objects[2], progressBar);
                 return 1;
             }
-            if(((String) objects[1]).contains(Constants.PHONE_NUMBER) && !((String) objects[0]).matches("[0-9]+")) {
+            if (((String) objects[1]).contains(Constants.PHONE_NUMBER) && !((String) objects[0]).matches("[0-9]+")) {
                 Constants.toastMessageToUserWithProgressBar(getActivity(), (String) objects[2], progressBar);
                 return 1;
             }
@@ -94,14 +96,15 @@ public class RegisterFragment extends Fragment {
         return 0;
     }
 
-    private void registerInFirebaseAuth(String email, String password, String textName, String phoneNumber) {
+    private void registerInFirebaseAuth(String email, String password, String textName, String phoneNumber, String hometown) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Constants.toastMessageToUserWithProgressBar(getActivity(), "User created successfully", progressBar);
 
                         // Create new user at the Realtime Database
-                        User user = new User(Objects.requireNonNull(mAuth.getCurrentUser()).getUid(), textName, email, password, phoneNumber);
+                        User user = new User(Objects.requireNonNull(mAuth.getCurrentUser()).getUid(),
+                                textName, email, password, phoneNumber, hometown, true, null);
                         UserMethods.addUser(user);
 
                         // Move to the main activity
