@@ -21,7 +21,7 @@ import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
-import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
+import com.example.hike_with_me_client.Models.Objects.point;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.ListOfHazards;
@@ -99,7 +99,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.clear();
         list.clear();
         for (Route route : routes) {
-            LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
+            LatLng routeLocation = new LatLng(route.getLatitude(), route.getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
                     .position(routeLocation)
@@ -112,7 +112,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 continue;
             }
 
-            LatLng hazardLocation = new LatLng(hazard.getLocation().getLatitude(), hazard.getLocation().getLongitude());
+            LatLng hazardLocation = new LatLng(hazard.getLatitude(), hazard.getLongitude());
             MarkerOptions marker = new MarkerOptions()
                     .position(hazardLocation)
                     .icon(bitmapDescriptorFromVector(context, R.drawable.hazard_sign));
@@ -139,20 +139,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         });
 
         if (!exist) {
-            ObjectLocation location = getLocation();
+            point location = getLocation();
             zoom(location.getLatitude(), location.getLongitude());
             ListOfRoutes.getInstance().setFirstTime(false);
         }
     }
 
-    private static ObjectLocation getLocation() {
-        ObjectLocation location;
+    private static point getLocation() {
+        point location;
 
         if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
             Log.d("MyMapFragment", "getLocation: CurrentUser.getInstance().getLocation()");
             location = CurrentUser.getInstance().getLocation();
         } else {
-            location = SavedLastClick.getInstance().getLastClickedRoute().getLocation();
+            location = SavedLastClick.getInstance().getLastClickedRoute().getPoint();
         }
         return location;
     }

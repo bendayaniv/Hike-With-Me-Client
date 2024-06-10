@@ -1,14 +1,12 @@
 package com.example.hike_with_me_client.Models.Objects;
 
-import android.content.Context;
-
 import com.example.hike_with_me_client.Models.User.User;
 
 public class CurrentUser {
 
     private static CurrentUser instance = null;
     private User user;
-    private ObjectLocation location;
+    private point location;
 
     private CurrentUser() {
     }
@@ -32,11 +30,11 @@ public class CurrentUser {
         return this;
     }
 
-    public ObjectLocation getLocation() {
+    public point getLocation() {
         return location;
     }
 
-    public void setLocation(ObjectLocation location) {
+    public void setLocation(point location) {
         this.location = location;
     }
 

@@ -2,100 +2,83 @@ package com.example.hike_with_me_client.Models.Hazard;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Objects.ObjectLocation;
+import com.example.hike_with_me_client.Models.Objects.point;
 import com.example.hike_with_me_client.Utils.Constants;
 
-public class Hazard {
+import java.util.Date;
 
-    private String id;
-    private Constants.HazardType type;
-    private String description;
-    private Constants.Level severity;
-    private String reporterName;
-    private String routeName;
-    private ObjectLocation location;
+public class Hazard extends point {
+
+    private String _id;
+    private Constants.HazardType _hazardType;
+    private String _description;
+    private Constants.Level _severity;
+    private String _reporterName;
+    private String _routeName;
 
     public Hazard() {}
 
-    public Hazard(String id, Constants.HazardType type, String description, Constants.Level severity, String reporterName, String routeName, ObjectLocation location) {
-        this.id = id;
-        this.type = type;
-        this.description = description;
-        this.severity = severity;
-        this.reporterName = reporterName;
-        this.routeName = routeName;
-        this.location = location;
+    public Hazard(double latitude, double longitude, Date date, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterName, String routeName) {
+        super(latitude, longitude, date, pointType);
+        this._id = id;
+        this._hazardType = hazardType;
+        this._description = description;
+        this._severity = severity;
+        this._reporterName = reporterName;
+        this._routeName = routeName;
     }
 
     public String getId() {
-        return id;
+        return _id;
     }
 
     public Hazard setId(String id) {
-        this.id = id;
+        this._id = id;
         return this;
     }
 
-    public Constants.HazardType getType() {
-        return type;
+    public Constants.HazardType getHazardType() {
+        return _hazardType;
     }
 
-    public Hazard setType(Constants.HazardType type) {
-        this.type = type;
+    public Hazard setHazardType(Constants.HazardType hazardType) {
+        this._hazardType = hazardType;
         return this;
     }
 
     public String getDescription() {
-        return description;
+        return _description;
     }
 
     public Hazard setDescription(String description) {
-        this.description = description;
+        this._description = description;
         return this;
     }
 
     public Constants.Level getSeverity() {
-        return severity;
+        return _severity;
     }
 
     public Hazard setSeverity(Constants.Level severity) {
-        this.severity = severity;
+        this._severity = severity;
         return this;
     }
 
     public String getReporterName() {
-        return reporterName;
+        return _reporterName;
     }
 
     public Hazard setReporterName(String reporterName) {
-        this.reporterName = reporterName;
+        this._reporterName = reporterName;
         return this;
     }
 
     public String getRouteName() {
-        return routeName;
+        return _routeName;
     }
 
     public Hazard setRouteName(String routeName) {
-        this.routeName = routeName;
-        return this;
-    }
-
-    public ObjectLocation getDate() {
-        return location;
-    }
-
-    public Hazard setDate(ObjectLocation location) {
-        this.location = location;
-        return this;
-    }
-
-    public ObjectLocation getLocation() {
-        return location;
-    }
-
-    public Hazard setLocation(ObjectLocation location) {
-        this.location = location;
+        this._routeName = routeName;
         return this;
     }
 
@@ -103,13 +86,16 @@ public class Hazard {
     @Override
     public String toString() {
         return "Hazard{" +
-                "id='" + id + '\'' +
-                ", type=" + type +
-                ", description='" + description + '\'' +
-                ", severity=" + severity +
-                ", reporterName='" + reporterName + '\'' +
-                ", routeName='" + routeName + '\'' +
-                ", location='" + location + '\'' +
+                "_id='" + _id + '\'' +
+                ", _hazardType=" + _hazardType +
+                ", _description='" + _description + '\'' +
+                ", _severity=" + _severity +
+                ", _reporterName='" + _reporterName + '\'' +
+                ", _routeName='" + _routeName + '\'' +
+                ", latitude=" + getLatitude() +
+                ", longitude=" + getLongitude() +
+                ", date=" + getDate() +
+                ", pointType='" + getType() + '\'' +
                 '}';
     }
 }
