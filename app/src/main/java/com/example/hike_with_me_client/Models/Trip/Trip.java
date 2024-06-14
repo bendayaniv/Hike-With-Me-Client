@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.Trip;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Objects.point;
+import com.example.hike_with_me_client.Models.Objects.Location;
 
 import java.util.Arrays;
 
@@ -12,21 +12,21 @@ public class Trip {
     private String name;
     private String startDate;
     private String endDate;
-    private point[] locations;
+    private Location[] locations;
     private String description;
-    private String routeName;
+    private String[] routesNames;
     private String userId;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, point[] locations, String description, String routeName, String userId) {
+    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
         this.locations = locations;
         this.description = description;
-        this.routeName = routeName;
+        this.routesNames = routesNames;
         this.userId = userId;
     }
 
@@ -66,21 +66,21 @@ public class Trip {
         return this;
     }
 
-    public point[] getLocations() {
+    public Location[] getLocations() {
         return locations;
     }
 
-    public Trip setLocations(point[] locations) {
+    public Trip setLocations(Location[] locations) {
         this.locations = locations;
         return this;
     }
 
-    public void addLocation(point location) {
+    public void addLocation(Location location) {
         if (locations == null) {
-            locations = new point[1];
+            locations = new Location[1];
             locations[0] = location;
         } else {
-            point[] newLocations = new point[locations.length + 1];
+            Location[] newLocations = new Location[locations.length + 1];
             System.arraycopy(locations, 0, newLocations, 0, locations.length);
             newLocations[locations.length] = location;
             locations = newLocations;
@@ -96,12 +96,12 @@ public class Trip {
         return this;
     }
 
-    public String getRouteName() {
-        return routeName;
+    public String[] getRoutesNames() {
+        return routesNames;
     }
 
-    public Trip setRouteName(String routeName) {
-        this.routeName = routeName;
+    public Trip setRoutesNames(String[] routesNames) {
+        this.routesNames = routesNames;
         return this;
     }
 
@@ -124,7 +124,7 @@ public class Trip {
                 ", endDate='" + endDate + '\'' +
                 ", location='" + Arrays.toString(locations) + '\'' +
                 ", description='" + description + '\'' +
-                ", routeName='" + routeName + '\'' +
+                ", routeName='" + Arrays.toString(routesNames) + '\'' +
                 ", userId='" + userId + '\'' +
                 '}';
     }

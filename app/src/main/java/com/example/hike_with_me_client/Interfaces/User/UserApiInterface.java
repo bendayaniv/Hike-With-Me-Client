@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Interfaces.User;
 
+import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.List;
@@ -14,8 +15,10 @@ import retrofit2.http.Path;
 
 public interface UserApiInterface {
 
-    @GET("users")
-    Call<List<User>> getAllUsers();
+    @GET("users/getAllActiveUsers/{userId}")
+    Call<List<UserWithDistance>> getAllUsers(
+            @Path("userId") String userId
+    );
 
     @GET("users/{user_id}")
     Call<User> getUser(

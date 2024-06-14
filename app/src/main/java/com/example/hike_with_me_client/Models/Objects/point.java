@@ -2,54 +2,28 @@ package com.example.hike_with_me_client.Models.Objects;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Utils.Constants;
-
-import java.util.Date;
 
 public class point {
-    private double _latitude;
-    private double _longitude;
-    private Date _date;
-
+    private Location _location;
     private String _type;
 
     public point() {
     }
 
-    public point(double latitude, double longitude, Date date, String type) {
-        this._latitude = latitude;
-        this._longitude = longitude;
-        this._date = date;
+    public point(Location location, String type) {
+        this._location = location;
         this._type = type;
     }
 
     public point getPoint(){
         return this;
     }
-    public double getLatitude() {
-        return _latitude;
+    public Location getLocation() {
+        return _location;
     }
 
-    public point setLatitude(double latitude) {
-        this._latitude = latitude;
-        return this;
-    }
-
-    public double getLongitude() {
-        return _longitude;
-    }
-
-    public point setLongitude(double longitude) {
-        this._longitude = longitude;
-        return this;
-    }
-
-    public Date getDate() {
-        return _date;
-    }
-
-    public point setDate(Date date) {
-        this._date = date;
+    public point setLocation(Location location) {
+        this._location = location;
         return this;
     }
 
@@ -66,9 +40,7 @@ public class point {
     @Override
     public String toString() {
         return "point{" +
-                "_latitude=" + _latitude +
-                ", _longitude=" + _longitude +
-                ", _date=" + _date +
+                "_location=" + _location +
                 ", _type='" + _type + '\'' +
                 '}';
     }

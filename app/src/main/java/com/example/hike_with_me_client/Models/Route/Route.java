@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Models.Route;
 
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Objects.point;
 
 import java.util.Date;
@@ -15,8 +16,8 @@ public class Route extends point {
 
     public Route() {}
 
-    public Route(double latitude, double longitude, Date date, String type, String id, String name, String description, String difficultyLevel, String length, String imageUrl) {
-        super(latitude, longitude, date, type);
+    public Route(Location location, String type, String id, String name, String description, String difficultyLevel, String length, String imageUrl) {
+        super(location, type);
         this._id = id;
         this._name = name;
         this._description = description;
@@ -87,9 +88,7 @@ public class Route extends point {
                 ", _description='" + _description + '\'' +
                 ", _difficultyLevel='" + _difficultyLevel + '\'' +
                 ", _length='" + _length + '\'' +
-                ", latitude=" + getLatitude() +
-                ", longitude=" + getLongitude() +
-                ", date=" + getDate() +
+                ", location=" + getLocation() +
                 ", type='" + getType() + '\'' +
                 ", _imageUrl='" + _imageUrl + '\'' +
                 '}';

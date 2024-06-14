@@ -99,7 +99,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.clear();
         list.clear();
         for (Route route : routes) {
-            LatLng routeLocation = new LatLng(route.getLatitude(), route.getLongitude());
+            LatLng routeLocation = new LatLng(route.getLocation().getLatitude(), route.getLocation().getLongitude());
 
             MarkerOptions marker = new MarkerOptions()
                     .position(routeLocation)
@@ -112,7 +112,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 continue;
             }
 
-            LatLng hazardLocation = new LatLng(hazard.getLatitude(), hazard.getLongitude());
+            LatLng hazardLocation = new LatLng(hazard.getLocation().getLatitude(), hazard.getLocation().getLongitude());
             MarkerOptions marker = new MarkerOptions()
                     .position(hazardLocation)
                     .icon(bitmapDescriptorFromVector(context, R.drawable.hazard_sign));
@@ -151,8 +151,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
             location = CurrentUser.getInstance().getUser().getLocation();
         } else {
-            location = new Location(SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLatitude(),
-                    SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLongitude());
+            location = new Location(SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLocation().getLatitude(),
+                    SavedLastClick.getInstance().getLastClickedRoute().getPoint().getLocation().getLongitude(), null);
         }
         return location;
     }
