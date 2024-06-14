@@ -2,10 +2,9 @@ package com.example.hike_with_me_client.Models.Hazard;
 
 import androidx.annotation.NonNull;
 
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Objects.point;
 import com.example.hike_with_me_client.Utils.Constants;
-
-import java.util.Date;
 
 public class Hazard extends point {
 
@@ -18,8 +17,8 @@ public class Hazard extends point {
 
     public Hazard() {}
 
-    public Hazard(double latitude, double longitude, Date date, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterName, String routeName) {
-        super(latitude, longitude, date, pointType);
+    public Hazard(Location location, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterName, String routeName) {
+        super(location, pointType);
         this._id = id;
         this._hazardType = hazardType;
         this._description = description;
@@ -92,9 +91,7 @@ public class Hazard extends point {
                 ", _severity=" + _severity +
                 ", _reporterName='" + _reporterName + '\'' +
                 ", _routeName='" + _routeName + '\'' +
-                ", latitude=" + getLatitude() +
-                ", longitude=" + getLongitude() +
-                ", date=" + getDate() +
+                ", location=" + getLocation() +
                 ", pointType='" + getType() + '\'' +
                 '}';
     }

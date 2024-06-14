@@ -2,9 +2,10 @@ package com.example.hike_with_me_client.Models.User.Actions;
 
 import androidx.annotation.NonNull;
 
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.UserMasterClass;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetAllUsers;
-import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.List;
 
@@ -20,13 +21,13 @@ public class GetAllUsers extends UserMasterClass {
     }
 
     public void getAllUsers() {
-        Call<List<User>> call = userApiInterface.getAllUsers();
+        Call<List<UserWithDistance>> call = userApiInterface.getAllUsers(CurrentUser.getInstance().getUser().getId());
 
-        call.enqueue(new Callback<List<User>>() {
+        call.enqueue(new Callback<List<UserWithDistance>>() {
             @Override
-            public void onResponse(@NonNull Call<List<User>> call, @NonNull Response<List<User>> response) {
+            public void onResponse(@NonNull Call<List<UserWithDistance>> call, @NonNull Response<List<UserWithDistance>> response) {
                 if(response.isSuccessful()) {
-                    List<User> users = response.body();
+                    List<UserWithDistance> users = response.body();
                     callback_getAllUsers.success(users);
                 } else {
                     callback_getAllUsers.error(String.valueOf(response.errorBody()));
@@ -34,7 +35,7 @@ public class GetAllUsers extends UserMasterClass {
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<User>> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<List<UserWithDistance>> call, @NonNull Throwable t) {
                 callback_getAllUsers.error(t.getMessage());
                 t.printStackTrace();
             }

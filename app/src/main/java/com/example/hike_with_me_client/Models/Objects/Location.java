@@ -2,16 +2,21 @@ package com.example.hike_with_me_client.Models.Objects;
 
 import androidx.annotation.NonNull;
 
+import java.util.Date;
+
 public class Location {
 
     private double latitude;
     private double longitude;
+    private Date date;
 
-    public Location() {}
+    public Location() {
+    }
 
-    public Location(double latitude, double longitude) {
+    public Location(double latitude, double longitude, Date date) {
         this.latitude = latitude;
         this.longitude = longitude;
+        this.date = date;
     }
 
     public double getLatitude() {
@@ -32,12 +37,22 @@ public class Location {
         return this;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public Location setDate(Date date) {
+        this.date = date;
+        return this;
+    }
+
     @NonNull
     @Override
     public String toString() {
         return "Location{" +
                 "latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", date=" + date +
                 '}';
     }
 }
