@@ -7,33 +7,23 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
-import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 
 public class MainPageFragment extends Fragment {
 
     private FragmentManager fragmentManager;
     private MapsFragment mapsFragment;
-    private RouteFragment routeFragment;
     private RoutesListFragment routesListFragment;
 
     Callback_RoutesListFragment callback_routesListFragment = new Callback_RoutesListFragment() {
         @Override
         public void sendLocation(double latitude, double longitude) {
             mapsFragment.zoom(latitude, longitude);
-        }
-
-        @Override
-        public void goToRoutePage(Route route) {
-            routeFragment.setRoute(route);
-            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
         }
     };
 
@@ -64,10 +54,7 @@ public class MainPageFragment extends Fragment {
 
         mapsFragment.setContext(getContext());
         routesListFragment.setCallbackRoutesListFragment(callback_routesListFragment);
-
-        routeFragment = new RouteFragment();
-
-//        mapsFragment.initiateMapViewModel();
+        routesListFragment.setFragmentManager(fragmentManager);
 
         fragmentManager.beginTransaction().replace(R.id.mainPageMapFragment, mapsFragment).commit();
         fragmentManager.beginTransaction().replace(R.id.mainPageRoutesListFragment, routesListFragment).commit();

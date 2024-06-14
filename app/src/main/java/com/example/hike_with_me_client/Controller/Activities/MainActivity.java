@@ -15,9 +15,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.hike_with_me_client.Controller.Fragments.LoginFragments.LoginFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -38,11 +39,10 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     private MainPageFragment mainPageFragment;
-    private RouteFragment routeFragment;
-    private LoginFragment loginFragment = new LoginFragment();
+    private CommunityListFragment communityListFragment;
+    private TripsListFragment tripsListFragment;
     FusedLocationProviderClient fusedLocationProviderClient;
     private BottomNavigationView bottomNavigationView;
-
     private FragmentManager fragmentManager;
 
 
@@ -98,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
         mainPageFragment = new MainPageFragment();
         mainPageFragment.setFragmentManager(fragmentManager);
 
-        routeFragment = new RouteFragment();
 
-        loginFragment = new LoginFragment();
+        communityListFragment = new CommunityListFragment();
+
+        tripsListFragment = new TripsListFragment();
     }
 
     private void mainPageFragment() {
@@ -108,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialization() {
-
         fragmentManager = getSupportFragmentManager();
 
         initializeUserLocation();
@@ -139,11 +139,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case Constants.MENU_TRIPS:
                     Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, loginFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
+                    break;
+                case Constants.MENU_COMMUNITY:
+                    Log.d("MyMainActivity", "onCreate3 community: " + item.getItemId());
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, communityListFragment).commit();
                     break;
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
                     break;
             }
             return true;

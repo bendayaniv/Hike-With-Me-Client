@@ -21,6 +21,13 @@
         <item
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:title="@string/community"
+            android:icon="@drawable/community"
+            android:id="@+id/menu_nav_community"/>
+
+        <item
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:title="@string/profile"
             android:icon="@drawable/profile"
             android:id="@+id/menu_nav_settings"/>

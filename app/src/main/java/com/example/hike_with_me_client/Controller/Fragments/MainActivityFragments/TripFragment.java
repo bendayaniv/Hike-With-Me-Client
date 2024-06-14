@@ -11,19 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.hike_with_me_client.Models.Route.Route;
+import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.R;
 
-public class RouteFragment extends Fragment {
+public class TripFragment extends Fragment {
 
-    private Route route;
-    private TextView routeNameText;
+    private Trip trip;
+    private TextView tripNameText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_route, container, false);
+        View view = inflater.inflate(R.layout.fragment_trip, container, false);
 
         findViews(view);
 
@@ -38,20 +38,20 @@ public class RouteFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        if(route != null) {
-            createRouteDetails(view);
+        if(trip != null) {
+            createTripDetails(view);
         }
     }
 
-    private void createRouteDetails(View view) {
-        routeNameText.setText(route.getName());
+    private void createTripDetails(View view) {
+        tripNameText.setText(trip.getName());
     }
 
     private void findViews(View view) {
-        routeNameText = view.findViewById(R.id.route_fragment_text_view);
+        tripNameText = view.findViewById(R.id.text_name_trip);
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setTrip(Trip trip) {
+        this.trip = trip;
     }
 }

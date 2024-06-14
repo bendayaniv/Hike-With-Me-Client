@@ -2,7 +2,6 @@ package com.example.hike_with_me_client.Models.Trip;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_CreateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_DeleteTrip;
@@ -13,26 +12,28 @@ import com.example.hike_with_me_client.Models.Trip.Actions.GetTripsByUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.UpdateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SuppressLint("SetTextI18n")
 public class TripMethods {
 
-    public static void getTripsByUser(String userId, TextView textView) {
+    public static void getTripsByUser(ArrayList<Trip> _trips, String userId) {
         Callback_GetTripsByUser callback_getTripsByUser = new Callback_GetTripsByUser() {
             @Override
             public void success(List<Trip> trips) {
-                if(trips.size() == 0) {
-                    textView.setText("No trips found");
+                if(trips.isEmpty()) {
+                    Log.d("Trip", "No trips found");
                 } else {
-                    textView.setText("Trips found: " + trips);
+                    _trips.clear();
+                    _trips.addAll(trips);
+                    Log.d("Trip", "Trips: " + trips);
                 }
             }
 
             @Override
             public void error(String message) {
                 Log.d("Trip", "Error: " + message);
-                textView.setText("Error: " + message + "\nNo trips found");
             }
         };
         new GetTripsByUser(callback_getTripsByUser).getTripsByUser(userId);
