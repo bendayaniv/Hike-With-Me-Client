@@ -37,16 +37,16 @@ public class TripsListFragment extends Fragment {
     }
 
     private void initializing() {
-        tripFragment = new TripFragment();
-        // TODO - get all the trips of the user
-        TripMethods.getTripsByUser(trips, CurrentUser.getInstance().getUser().getId());
-        if(trips != null || trips.isEmpty()) {
-            initTripRV();
-        } else {
-            new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                    this::initTripRV,
-                    10000);
-        }
+//        tripFragment = new TripFragment();
+//        // TODO - get all the trips of the user
+//        TripMethods.getTripsByUser(trips, CurrentUser.getInstance().getUser().getId());
+//        if(trips != null || !trips.isEmpty()) {
+//            initTripRV();
+//        } else {
+//            new android.os.Handler(Looper.getMainLooper()).postDelayed(
+//                    this::initTripRV,
+//                    10000);
+//        }
     }
 
     private void initTripRV() {
