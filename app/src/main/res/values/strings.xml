@@ -19,4 +19,7 @@
     <string name="trip_fragment">Trip Fragment</string>
     <string name="trips_list_fragment">Trips List Fragment</string>
     <string name="route_fragment">Route Fragment</string>
+    <string name="hometown">Hometown</string>
+    <string name="distance">Distance</string>
+    <string name="no_items_to_display">No items to display</string>
 </resources>

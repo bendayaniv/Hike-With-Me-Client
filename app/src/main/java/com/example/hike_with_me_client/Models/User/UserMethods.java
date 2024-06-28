@@ -15,6 +15,7 @@ import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetUse
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_UpdateUser;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserMethods {
@@ -28,11 +29,13 @@ public class UserMethods {
                 } else {
                     Log.d("UserMethods", "Users found: " + users);
                 }
+                CurrentUser.getInstance().setUsersWithDistance((ArrayList<UserWithDistance>) users);
             }
 
             @Override
             public void error(String message) {
-                Log.d("UserMethods", "Error: " + message);
+                Log.d("UserMethods", "Error - all users: " + message);
+                CurrentUser.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetAllUsers(callback_getAllUsers).getAllUsers();
@@ -51,7 +54,7 @@ public class UserMethods {
 
             @Override
             public void error(String message) {
-                Log.d("UserMethods", "Error: " + message);
+                Log.d("UserMethods", "Error - specific user: " + message);
             }
         };
         new GetUser(callback_getUser).getUser(userId);
@@ -69,7 +72,7 @@ public class UserMethods {
 
             @Override
             public void error(String message) {
-                Log.d("UserMethods", "Error: " + message);
+                Log.d("UserMethods", "Error - add user: " + message);
             }
         };
         new AddUser(callback_addUser).addUser(user);
@@ -84,7 +87,7 @@ public class UserMethods {
 
             @Override
             public void error(String message) {
-                Log.d("UserMethods", "Error: " + message);
+                Log.d("UserMethods", "Error - update user: " + message);
             }
         };
         new UpdateUser(callback_updateUser).updateUser(updatedUser);
@@ -100,7 +103,7 @@ public class UserMethods {
 
             @Override
             public void error(String message) {
-                Log.d("UserMethods", "Error: " + message);
+                Log.d("UserMethods", "Error - delete user: " + message);
             }
         };
         new DeleteUser(callback_deleteUser).deleteUser(userId);
