@@ -101,22 +101,19 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void setCallbackRouteItemForAdapter() {
-        routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
-            @Override
-            public void itemClicked(Route route, int position) {
-                int lastPosition = SavedLastClick.getInstance().getPosition();
-                SavedLastClick.getInstance().setLastClickedRoute(route);
-                if (lastPosition != position) {
-                    Log.d("RoutesListFragment", "itemClicked: different position - " + position);
-                    SavedLastClick.getInstance().setPosition(position);
-                    if (callback_routesListFragment != null) {
-                        callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
-                    }
-                } else {
-                    Log.d("RoutesListFragment", "itemClicked: same position");
-                    routeFragment.setRoute(route);
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
+        routeItemAdapter.setCallbackRouteItem((route, position) -> {
+            int lastPosition = SavedLastClick.getInstance().getPosition();
+            SavedLastClick.getInstance().setLastClickedRoute(route);
+            if (lastPosition != position) {
+                Log.d("RoutesListFragment", "itemClicked: different position - " + position);
+                SavedLastClick.getInstance().setPosition(position);
+                if (callback_routesListFragment != null) {
+                    callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
                 }
+            } else {
+                Log.d("RoutesListFragment", "itemClicked: same position");
+                routeFragment.setRoute(route);
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
             }
         });
     }
