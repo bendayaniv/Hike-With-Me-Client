@@ -15,27 +15,27 @@ import retrofit2.http.Path;
 
 public interface UserApiInterface {
 
-    @GET("users/getAllActiveUsers/{userId}")
+    @GET("hike-with-me/users/getAllActiveUsers/{userId}")
     Call<List<UserWithDistance>> getAllUsers(
             @Path("userId") String userId
     );
 
-    @GET("users/{user_id}")
+    @GET("hike-with-me/users/{user_id}")
     Call<User> getUser(
             @Path("user_id") String user_id
     );
 
-    @POST("users/addUser")
+    @POST("hike-with-me/users/addUser")
     Call<User> addUser(
             @Body User user
     );
 
-    @PUT("users")
+    @PUT("hike-with-me/users")
     Call<User> updateUser(
             @Body User user
     );
 
-    @DELETE("users/{user_id}")
+    @DELETE("hike-with-me/users/{user_id}")
     Call<String> deleteUser(
             @Path("user_id") String user_id
     );

@@ -11,12 +11,12 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RecommendationApiInterface {
-    @GET("recommendations/{route_name}")
+    @GET("hike-with-me/recommendations/{route_name}")
     Call<List<Recommendation>> getRecommendationsByRoute(
             @Path("route_name") String route
     );
 
-    @POST("recommendations/addRecommendation")
+    @POST("hike-with-me/recommendations/addRecommendation")
     Call<Recommendation> addRecommendation(
             @Body Recommendation recommendation
     );
