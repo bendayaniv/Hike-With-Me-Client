@@ -22,10 +22,10 @@ import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
-import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Route;
+import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
@@ -80,6 +80,7 @@ public class RoutesListFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
+                RouteMethods.getAllRoutes(ListOfRoutes.getInstance().getRoutes());
                 ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
 
                 if (loadedRoutes != null && !loadedRoutes.isEmpty()) {
@@ -96,8 +97,7 @@ public class RoutesListFragment extends Fragment {
                     progressBarRoutesList.setVisibility(View.GONE);
                 }
             }
-        }, 500);
-
+        }, 1500);
     }
 
     private void setCallbackRouteItemForAdapter() {

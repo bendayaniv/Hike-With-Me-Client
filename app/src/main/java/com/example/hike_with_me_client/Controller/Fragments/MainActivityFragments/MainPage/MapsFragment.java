@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
+import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
@@ -182,6 +183,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
+            HazardMethods.getAllHazards(ListOfHazards.getInstance().getHazards());
             ArrayList<Hazard> loadedHazards = ListOfHazards.getInstance().getHazards();
 
             if (loadedRoutes != null && !loadedRoutes.isEmpty() &&
@@ -193,8 +195,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 progressBarMap.setVisibility(View.GONE);
                 refreshMap();
             }
-
-        }, 500);
+        }, 1500);
     }
 
     private void initiateMap() {
