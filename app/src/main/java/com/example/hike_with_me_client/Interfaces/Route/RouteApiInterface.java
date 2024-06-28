@@ -12,9 +12,9 @@ import retrofit2.http.Path;
 
 public interface RouteApiInterface {
 
-    @GET("routes")
+    @GET("hike-with-me/routes")
     Call<List<Route>> getAllRoutes();
 
-    @GET("routes/allNames")
+    @GET("hike-with-me/routes/allNames")
     Call<List<String>> getRoutesNames();
 }

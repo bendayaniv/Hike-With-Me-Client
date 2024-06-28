@@ -14,22 +14,22 @@ import retrofit2.http.Path;
 
 public interface TripApiInterface {
 
-    @GET("trips/{user_id}")
+    @GET("hike-with-me/trips/{user_id}")
     Call<List<Trip>> getTrips(
             @Path("user_id") String user_id
     );
 
-    @POST("trips/createTrip")
+    @POST("hike-with-me/trips/createTrip")
     Call<Trip> createTrip(
             @Body Trip trip
     );
 
-    @PUT("trips")
+    @PUT("hike-with-me/trips")
     Call<Trip> updateTrip(
             @Body Trip trip
     );
 
-    @DELETE("trips/{user_id}/{trip_id}")
+    @DELETE("hike-with-me/trips/{user_id}/{trip_id}")
     Call<String> deleteTrip(
             @Path("user_id") String user_id,
             @Path("trip_id") String trip_id
