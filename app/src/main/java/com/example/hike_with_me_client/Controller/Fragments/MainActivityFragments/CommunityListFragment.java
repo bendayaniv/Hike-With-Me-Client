@@ -66,6 +66,7 @@ public class CommunityListFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void init() {
+        fragmentCommunityRV.setVisibility(View.GONE);
         emptyCommunityListTV.setVisibility(View.GONE);
         progressBarCommunityList.setVisibility(View.VISIBLE);
 
@@ -84,7 +85,6 @@ public class CommunityListFragment extends Fragment {
                     progressBarCommunityList.setVisibility(View.GONE);
                     userItemAdapter.notifyDataSetChanged();
                 } else {
-                    userItemAdapter.notifyDataSetChanged();
                     emptyCommunityListTV.setVisibility(View.VISIBLE);
                     emptyCommunityListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
                     fragmentCommunityRV.setVisibility(View.GONE);

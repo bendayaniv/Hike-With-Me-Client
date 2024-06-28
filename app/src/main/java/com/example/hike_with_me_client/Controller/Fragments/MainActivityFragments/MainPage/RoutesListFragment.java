@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,22 +11,26 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.example.hike_with_me_client.Utils.SharedViewModel;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -35,6 +40,8 @@ public class RoutesListFragment extends Fragment {
     ArrayList<Route> routes;
     private RecyclerView fragmentRoutesRV;
     private RouteItemAdapter routeItemAdapter;
+    private MaterialTextView emptyRoutesListTV;
+    private ProgressBar progressBarRoutesList;
     private Callback_RoutesListFragment callback_routesListFragment;
     private SharedViewModel sharedViewModel;
     private RouteFragment routeFragment;
@@ -63,49 +70,50 @@ public class RoutesListFragment extends Fragment {
 
     private void initializing() {
         routeFragment = new RouteFragment();
-        if (!ListOfRoutes.getInstance().getRoutes().isEmpty()) {
-            initRouteRV();
-        } else {
-            new android.os.Handler(Looper.getMainLooper()).postDelayed(
-                    this::initRouteRV,
-                    10000);
-        }
-    }
 
-    private void initRouteRV() {
-        initAndScroll();
+        fragmentRoutesRV.setVisibility(View.GONE);
+        emptyRoutesListTV.setVisibility(View.GONE);
+        progressBarRoutesList.setVisibility(View.VISIBLE);
 
-        setCallbackRouteItemForAdapter();
-    }
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
 
-    private void initAndScroll() {
-        routes = ListOfRoutes.getInstance().getRoutes();
-        routeItemAdapter = new RouteItemAdapter(getContext(), routes);
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void run() {
+                ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
 
-        fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
-        fragmentRoutesRV.setAdapter(routeItemAdapter);
+                if (loadedRoutes != null && !loadedRoutes.isEmpty()) {
+                    routes.clear();
+                    routes.addAll(loadedRoutes);
+                    fragmentRoutesRV.setVisibility(View.VISIBLE);
+                    emptyRoutesListTV.setVisibility(View.GONE);
+                    progressBarRoutesList.setVisibility(View.GONE);
+                    routeItemAdapter.notifyDataSetChanged();
+                } else {
+                    fragmentRoutesRV.setVisibility(View.GONE);
+                    emptyRoutesListTV.setVisibility(View.VISIBLE);
+                    emptyRoutesListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
+                    progressBarRoutesList.setVisibility(View.GONE);
+                }
+            }
+        }, 500);
 
-        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
-        sharedViewModel.getRecyclerViewState().observe(getViewLifecycleOwner(), this::onChanged);
     }
 
     private void setCallbackRouteItemForAdapter() {
-        routeItemAdapter.setCallbackRouteItem(new Callback_RouteItem() {
-            @Override
-            public void itemClicked(Route route, int position) {
-                int lastPosition = SavedLastClick.getInstance().getPosition();
-                SavedLastClick.getInstance().setLastClickedRoute(route);
-                if (lastPosition != position) {
-                    Log.d("RoutesListFragment", "itemClicked: different position - " + position);
-                    SavedLastClick.getInstance().setPosition(position);
-                    if (callback_routesListFragment != null) {
-                        callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
-                    }
-                } else {
-                    Log.d("RoutesListFragment", "itemClicked: same position");
-                    routeFragment.setRoute(route);
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
+        routeItemAdapter.setCallbackRouteItem((route, position) -> {
+            int lastPosition = SavedLastClick.getInstance().getPosition();
+            SavedLastClick.getInstance().setLastClickedRoute(route);
+            if (lastPosition != position) {
+                Log.d("RoutesListFragment", "itemClicked: different position - " + position);
+                SavedLastClick.getInstance().setPosition(position);
+                if (callback_routesListFragment != null) {
+                    callback_routesListFragment.sendLocation(route.getLocation().getLatitude(), route.getLocation().getLongitude());
                 }
+            } else {
+                Log.d("RoutesListFragment", "itemClicked: same position");
+                routeFragment.setRoute(route);
+                fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
             }
         });
     }
@@ -116,7 +124,20 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void findViews(View view) {
+        routes = new ArrayList<>();
+
+        routeItemAdapter = new RouteItemAdapter(getContext(), routes);
+        setCallbackRouteItemForAdapter();
+
         fragmentRoutesRV = view.findViewById(R.id.fragmentRoutesRV);
+        fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentRoutesRV.setAdapter(routeItemAdapter);
+
+        emptyRoutesListTV = view.findViewById(R.id.emptyRoutesListTV);
+        progressBarRoutesList = view.findViewById(R.id.progressBarRoutesList);
+
+        sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
+        sharedViewModel.getRecyclerViewState().observe(getViewLifecycleOwner(), this::onChanged);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.example.hike_with_me_client.Models.Route;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoutesNames;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
@@ -24,6 +25,7 @@ public class RouteMethods {
             @Override
             public void error(String message) {
                 Log.d("RouteMethods", "Error: " + message);
+                CurrentUser.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();
