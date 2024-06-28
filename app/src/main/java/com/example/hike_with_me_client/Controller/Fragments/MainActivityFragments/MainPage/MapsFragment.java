@@ -198,7 +198,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             refreshMap(false);
                         }
                     },
-                    10000);
+                    5000);
         }
     }
 

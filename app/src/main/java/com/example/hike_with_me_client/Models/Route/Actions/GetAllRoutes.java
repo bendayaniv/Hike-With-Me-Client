@@ -8,8 +8,10 @@ import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Route.RouteMasterClass;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +34,14 @@ public class GetAllRoutes extends RouteMasterClass {
                     Log.d("tag", routes.toString());
                     callback_getAllRoutes.success(routes);
                 } else {
-                    callback_getAllRoutes.error(String.valueOf(response.errorBody()));
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        assert errorBody != null;
+                        String errorMessage = errorBody.string();
+                        callback_getAllRoutes.error(errorMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
