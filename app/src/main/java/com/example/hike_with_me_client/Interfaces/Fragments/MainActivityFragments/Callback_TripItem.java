@@ -2,9 +2,6 @@ package com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragmen
 
 import com.example.hike_with_me_client.Models.Trip.Trip;
 
-import java.io.File;
-import java.util.ArrayList;
-
 public interface Callback_TripItem {
-    void itemClicked(Trip trip, ArrayList<File> images, int position);
+    void itemClicked(Trip trip, int position);
 }

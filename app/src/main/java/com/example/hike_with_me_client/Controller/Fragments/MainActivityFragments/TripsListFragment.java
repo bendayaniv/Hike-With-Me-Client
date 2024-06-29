@@ -25,6 +25,7 @@ import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Utils.File;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -44,12 +45,10 @@ public class TripsListFragment extends Fragment {
     private Handler handler;
     private Runnable retryRunnable;
 
-    Callback_TripItem callback_tripItem = (trip, images, position) -> {
-        Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
-        // TODO - move to trip fragment
-//        tripFragment.setTrip(trip);
-//        tripFragment.setImages(images);
-//        fragmentManager.beginTransaction().replace(R.id.fragment_container, tripFragment).addToBackStack(null).commit();
+    Callback_TripItem callback_tripItem = (trip, position) -> {
+        CurrentUser.getInstance().setUrlsImages(null);
+        TripMethods.getTripImages(CurrentUser.getInstance().getUser().getName(), trip.getName());
+        loadTripsImagesFromServer(trip);
     };
 
     @Override
@@ -72,14 +71,8 @@ public class TripsListFragment extends Fragment {
 
     private void initializing() {
         tripFragment = new TripFragment();
-        // TODO - get all the trips of the user
+
         TripMethods.getTripsByUser();
-//        if(trips != null && !trips.isEmpty()) {
-//            initTripRV();
-//        } else {
-//            // TODO - show message that there are no trips
-//            Toast.makeText(getContext(), "No trips found", Toast.LENGTH_SHORT).show();
-//        }
 
         handler = new Handler(Looper.getMainLooper());
 
@@ -96,10 +89,10 @@ public class TripsListFragment extends Fragment {
         });
         addTripFab.setVisibility(View.GONE);
 
-        loadDataFromServer();
+        loadTripsFromServer();
     }
 
-    private void loadDataFromServer() {
+    private void loadTripsFromServer() {
         retryRunnable = new Runnable() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -109,10 +102,12 @@ public class TripsListFragment extends Fragment {
                 if (loadedTrips != null && !loadedTrips.isEmpty()) {
                     trips.clear();
                     trips.addAll(loadedTrips);
+
                     emptyTripsListTV.setVisibility(View.GONE);
                     fragmentTripsRV.setVisibility(View.VISIBLE);
                     progressBarTripsList.setVisibility(View.GONE);
                     addTripFab.setVisibility(View.VISIBLE);
+                    tripItemAdapter.notifyDataSetChanged();
                 } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
                         !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
                     emptyTripsListTV.setVisibility(View.VISIBLE);
@@ -129,18 +124,31 @@ public class TripsListFragment extends Fragment {
         handler.post(retryRunnable);
     }
 
-//    private void initTripRV() {
-//        initAndScroll();
-//
-//        setCallbackTripItemForAdapter();
-//    }
+    private void loadTripsImagesFromServer(Trip trip) {
+        retryRunnable = new Runnable() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void run() {
+                ArrayList<File> urlsImages = CurrentUser.getInstance().getUrlsImages();
 
-    private void setCallbackTripItemForAdapter() {
+                if (urlsImages != null && !urlsImages.isEmpty()) {
+                    trip.setImages(urlsImages);
+                    tripItemAdapter.notifyDataSetChanged();
 
-    }
+                    tripFragment.setTrip(trip);
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
 
-    private void initAndScroll() {
+                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
+                        CurrentUser.getInstance().getErrorMessageFromServer().contains("image")) {
+                    tripFragment.setTrip(trip);
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
+                } else {
+                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
+                }
+            }
+        };
 
+        handler.post(retryRunnable);
     }
 
     private void findViews(View view) {

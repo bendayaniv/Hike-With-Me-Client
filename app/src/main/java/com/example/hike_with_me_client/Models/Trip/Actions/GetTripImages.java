@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripImages;
 import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 
-import java.io.File;
+import com.example.hike_with_me_client.Utils.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -23,13 +23,13 @@ public class GetTripImages extends TripMasterClass {
     }
 
     public void getTripImages(String userName, String tripName) {
-         Call<ArrayList<File>> call = tripApiInterface.getTripImages(userName, tripName);
+         Call<List<File>> call = tripApiInterface.getTripImages(userName, tripName);
 
-         call.enqueue(new Callback<ArrayList<File>>() {
+         call.enqueue(new Callback<List<File>>() {
              @Override
-             public void onResponse(@NonNull Call<ArrayList<File>> call, @NonNull Response<ArrayList<File>> response) {
+             public void onResponse(@NonNull Call<List<File>> call, @NonNull Response<List<File>> response) {
                  if(response.isSuccessful()) {
-                     ArrayList<File> images = response.body();
+                     List<File> images = response.body();
                      callback_getTripImages.success(images);
                  } else {
                      ResponseBody errorBody = response.errorBody();
@@ -44,7 +44,7 @@ public class GetTripImages extends TripMasterClass {
              }
 
              @Override
-             public void onFailure(@NonNull Call<ArrayList<File>> call, @NonNull Throwable t) {
+             public void onFailure(@NonNull Call<List<File>> call, @NonNull Throwable t) {
                  callback_getTripImages.error(t.getMessage());
                  t.printStackTrace();
              }

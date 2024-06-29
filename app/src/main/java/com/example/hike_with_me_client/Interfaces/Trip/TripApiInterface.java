@@ -1,14 +1,9 @@
 package com.example.hike_with_me_client.Interfaces.Trip;
 
-import android.annotation.SuppressLint;
-import android.media.Image;
-
-import androidx.browser.customtabs.CustomTabsService;
-
 import com.example.hike_with_me_client.Models.Trip.Trip;
 
-import java.io.File;
-import java.util.ArrayList;
+import com.example.hike_with_me_client.Utils.File;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -52,7 +47,7 @@ public interface TripApiInterface {
     );
 
     @GET("hike-with-me/trips/{userName}/{tripName}")
-    Call<ArrayList<File>> getTripImages(
+    Call<List<File>> getTripImages(
             @Path("userName") String userName,
             @Path("tripName") String tripName
     );

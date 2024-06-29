@@ -18,8 +18,8 @@ import com.example.hike_with_me_client.Models.Trip.Actions.GetTripsByUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.UpdateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
+import com.example.hike_with_me_client.Utils.File;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,19 +110,18 @@ public class TripMethods {
         new UploadImages(callback_uploadImages).uploadImages(images, userName, tripName);
     }
 
-    public static void getTripImages(ArrayList<File> _images, String userName, String tripName) {
+    public static void getTripImages(String userName, String tripName) {
         // TODO - get images
         Callback_GetTripImages callback_getTripImages = new Callback_GetTripImages() {
             @Override
-            public void success(ArrayList<File> images) {
+            public void success(List<File> images) {
                 if(images.isEmpty()) {
                     Log.d("Trip", "No images found");
                 } else {
                     Log.d("Trip", "Images: " + images);
                 }
 
-                _images.clear();
-                _images.addAll(images);
+                CurrentUser.getInstance().setUrlsImages(images);
             }
 
             @Override
