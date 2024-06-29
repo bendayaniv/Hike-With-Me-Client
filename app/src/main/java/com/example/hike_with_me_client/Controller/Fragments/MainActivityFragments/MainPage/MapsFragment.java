@@ -22,11 +22,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
-import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.ListOfHazards;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.MapViewModel;
@@ -57,6 +57,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     ArrayList<Hazard> hazardsList;
     private ProgressBar progressBarMap;
 
+    private Handler handler;
+    private Runnable retryRunnable;
+
     public void setContext(Context context) {
         this.context = context;
     }
@@ -71,6 +74,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         routes = new ArrayList<>();
 
         progressBarMap = view.findViewById(R.id.progressBarMap);
+
+        handler = new Handler(Looper.getMainLooper());
 
         hazardsList = new ArrayList<>();
 
@@ -181,20 +186,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         progressBarMap.setVisibility(View.VISIBLE);
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
-            ArrayList<Hazard> loadedHazards = ListOfHazards.getInstance().getHazards();
+        loadDataFromServer();
+    }
 
-            if (loadedRoutes != null && !loadedRoutes.isEmpty() &&
-                    loadedHazards != null) {
-                routes.clear();
-                routes.addAll(loadedRoutes);
-                hazardsList.clear();
-                hazardsList.addAll(loadedHazards);
-                progressBarMap.setVisibility(View.GONE);
-                refreshMap();
+    private void loadDataFromServer() {
+        retryRunnable = new Runnable() {
+            @Override
+            public void run() {
+                ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
+                ArrayList<Hazard> loadedHazards = ListOfHazards.getInstance().getHazards();
+
+                if (loadedRoutes != null && !loadedRoutes.isEmpty() &&
+                        loadedHazards != null) {
+                    routes.clear();
+                    routes.addAll(loadedRoutes);
+                    hazardsList.clear();
+                    hazardsList.addAll(loadedHazards);
+                    progressBarMap.setVisibility(View.GONE);
+                    refreshMap();
+                } else {
+                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
+                }
             }
-        }, 1500);
+        };
+
+        handler.post(retryRunnable);
     }
 
     private void initiateMap() {
