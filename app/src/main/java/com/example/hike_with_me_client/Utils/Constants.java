@@ -15,6 +15,8 @@ public class Constants {
     public static final int REQUEST_CHECK_SETTINGS = 10001;
     public static final int REQUEST_CODE = 10002;
 
+    public static final long RETRY_INTERVAL = 1500;
+
     public enum HazardType {
         ROCKS,
         WATER,

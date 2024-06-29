@@ -23,6 +23,7 @@ import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class CommunityListFragment extends Fragment {
     private MaterialTextView emptyCommunityListTV;
     private UserItemAdapter userItemAdapter;
     private ProgressBar progressBarCommunityList;
+
+    private Handler handler;
+    private Runnable retryRunnable;
 
     Callback_UserItem callback_userItem = (user, position) -> Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
 
@@ -57,10 +61,9 @@ public class CommunityListFragment extends Fragment {
 
     private void initializing() {
         UserMethods.getAllUsers();
-        initUsersRV();
-    }
 
-    private void initUsersRV() {
+        handler = new Handler(Looper.getMainLooper());
+
         init();
     }
 
@@ -70,8 +73,11 @@ public class CommunityListFragment extends Fragment {
         emptyCommunityListTV.setVisibility(View.GONE);
         progressBarCommunityList.setVisibility(View.VISIBLE);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        loadDataFromServer();
+    }
 
+    private void loadDataFromServer() {
+        retryRunnable = new Runnable() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
@@ -84,15 +90,19 @@ public class CommunityListFragment extends Fragment {
                     fragmentCommunityRV.setVisibility(View.VISIBLE);
                     progressBarCommunityList.setVisibility(View.GONE);
                     userItemAdapter.notifyDataSetChanged();
-                } else {
+                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
+                        !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
                     emptyCommunityListTV.setVisibility(View.VISIBLE);
                     emptyCommunityListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
                     fragmentCommunityRV.setVisibility(View.GONE);
                     progressBarCommunityList.setVisibility(View.GONE);
-
+                } else {
+                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
                 }
             }
-        }, 500);
+        };
+
+        handler.post(retryRunnable);
     }
 
 
@@ -119,23 +129,27 @@ public class CommunityListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         CurrentUser.getInstance().setUsersWithDistance(null);
+        CurrentUser.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         CurrentUser.getInstance().setUsersWithDistance(null);
+        CurrentUser.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         CurrentUser.getInstance().setUsersWithDistance(null);
+        CurrentUser.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         CurrentUser.getInstance().setUsersWithDistance(null);
+        CurrentUser.getInstance().setErrorMessageFromServer(null);
     }
 }

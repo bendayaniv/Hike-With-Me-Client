@@ -25,8 +25,8 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
 import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Route;
-import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.example.hike_with_me_client.Utils.SharedViewModel;
@@ -46,6 +46,9 @@ public class RoutesListFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     private RouteFragment routeFragment;
     private FragmentManager fragmentManager;
+
+    private Handler handler;
+    private Runnable retryRunnable;
 
     public void setCallbackRoutesListFragment(Callback_RoutesListFragment callback_routesListFragment) {
         this.callback_routesListFragment = callback_routesListFragment;
@@ -69,14 +72,19 @@ public class RoutesListFragment extends Fragment {
     }
 
     private void initializing() {
+        handler = new Handler(Looper.getMainLooper());
+
         routeFragment = new RouteFragment();
 
         fragmentRoutesRV.setVisibility(View.GONE);
         emptyRoutesListTV.setVisibility(View.GONE);
         progressBarRoutesList.setVisibility(View.VISIBLE);
 
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+        loadDataFromServer();
+    }
 
+    private void loadDataFromServer() {
+        retryRunnable = new Runnable() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
@@ -89,14 +97,20 @@ public class RoutesListFragment extends Fragment {
                     emptyRoutesListTV.setVisibility(View.GONE);
                     progressBarRoutesList.setVisibility(View.GONE);
                     routeItemAdapter.notifyDataSetChanged();
-                } else {
+                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
+                        !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
                     fragmentRoutesRV.setVisibility(View.GONE);
                     emptyRoutesListTV.setVisibility(View.VISIBLE);
                     emptyRoutesListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
                     progressBarRoutesList.setVisibility(View.GONE);
                 }
+                else {
+                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
+                }
             }
-        }, 1500);
+        };
+
+        handler.post(retryRunnable);
     }
 
     private void setCallbackRouteItemForAdapter() {
