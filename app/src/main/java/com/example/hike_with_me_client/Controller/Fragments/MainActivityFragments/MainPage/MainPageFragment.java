@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
+import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
+import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
 
 public class MainPageFragment extends Fragment {
@@ -38,6 +40,8 @@ public class MainPageFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_main_page, container, false);
 
+        RouteMethods.getAllRoutes();
+        HazardMethods.getAllHazards();
         initFragments();
 
         return view;

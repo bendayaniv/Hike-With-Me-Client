@@ -2,7 +2,6 @@ package com.example.hike_with_me_client.Models.Hazard;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.widget.TextView;
 
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetAllHazards;
 import com.example.hike_with_me_client.Models.Hazard.Actions.AddHazard;
@@ -10,17 +9,18 @@ import com.example.hike_with_me_client.Models.Hazard.Actions.GetAllHazards;
 import com.example.hike_with_me_client.Models.Hazard.Actions.GetHazardsByRoute;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_AddHazard;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetHazardsByRoute;
+import com.example.hike_with_me_client.Utils.ListOfHazards;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HazardMethods {
 
-    public static void getAllHazards(ArrayList<Hazard> _hazards) {
+    public static void getAllHazards() {
         Callback_GetAllHazards callback_getAllHazards = new Callback_GetAllHazards() {
             @Override
             public void success(List<Hazard> hazards) {
-                _hazards.addAll(hazards);
+                ListOfHazards.getInstance().setHazards((ArrayList<Hazard>) hazards);
             }
 
             @Override

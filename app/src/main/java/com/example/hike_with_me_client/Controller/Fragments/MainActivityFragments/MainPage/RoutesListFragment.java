@@ -80,7 +80,6 @@ public class RoutesListFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
-                RouteMethods.getAllRoutes(ListOfRoutes.getInstance().getRoutes());
                 ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
 
                 if (loadedRoutes != null && !loadedRoutes.isEmpty()) {

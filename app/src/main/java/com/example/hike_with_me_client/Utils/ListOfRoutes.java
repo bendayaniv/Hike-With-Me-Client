@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class ListOfRoutes {
 
     private static ListOfRoutes instance = null;
-    ArrayList<Route> routes = new ArrayList<>();
+    ArrayList<Route> routes;
     boolean firstTime;
 
     public ListOfRoutes() {
-        RouteMethods.getAllRoutes(routes);
+        RouteMethods.getAllRoutes();
     }
 
     public static void initListOfRoutes() {

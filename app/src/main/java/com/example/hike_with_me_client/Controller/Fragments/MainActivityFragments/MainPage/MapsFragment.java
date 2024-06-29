@@ -183,7 +183,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
             ArrayList<Route> loadedRoutes = ListOfRoutes.getInstance().getRoutes();
-            HazardMethods.getAllHazards(ListOfHazards.getInstance().getHazards());
             ArrayList<Hazard> loadedHazards = ListOfHazards.getInstance().getHazards();
 
             if (loadedRoutes != null && !loadedRoutes.isEmpty() &&

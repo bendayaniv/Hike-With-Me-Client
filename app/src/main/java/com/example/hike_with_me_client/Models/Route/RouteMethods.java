@@ -8,18 +8,18 @@ import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoutesNames;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoutesNames;
+import com.example.hike_with_me_client.Utils.ListOfRoutes;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RouteMethods {
 
-    public static void getAllRoutes(ArrayList<Route> _routes) {
+    public static void getAllRoutes() {
         Callback_GetAllRoutes callback_getAllRoutes = new Callback_GetAllRoutes() {
             @Override
             public void success(List<Route> routes) {
-                _routes.clear();
-                _routes.addAll(routes);
+                ListOfRoutes.getInstance().setRoutes((ArrayList<Route>) routes);
             }
 
             @Override
