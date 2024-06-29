@@ -3,7 +3,9 @@ package com.example.hike_with_me_client.Models.Trip;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Utils.File;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Trip {
@@ -16,6 +18,7 @@ public class Trip {
     private String description;
     private String[] routesNames;
     private String userId;
+    private ArrayList<File> images;
 
     public Trip() {}
 
@@ -114,6 +117,14 @@ public class Trip {
         return this;
     }
 
+    public ArrayList<File> getImages() {
+        return images;
+    }
+
+    public void setImages(ArrayList<File> images) {
+        this.images = images;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -126,6 +137,7 @@ public class Trip {
                 ", description='" + description + '\'' +
                 ", routeName='" + Arrays.toString(routesNames) + '\'' +
                 ", userId='" + userId + '\'' +
+                ", images='" + images + '\'' +
                 '}';
     }
 }

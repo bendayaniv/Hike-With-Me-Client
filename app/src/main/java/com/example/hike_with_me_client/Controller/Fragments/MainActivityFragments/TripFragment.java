@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,9 @@ public class TripFragment extends Fragment {
 
     private void findViews(View view) {
         tripNameText = view.findViewById(R.id.text_name_trip);
+        tripNameText.setOnClickListener(v -> {
+            Log.d("TripFragment", "tripNameText: " + trip);
+        });
     }
 
     public void setTrip(Trip trip) {

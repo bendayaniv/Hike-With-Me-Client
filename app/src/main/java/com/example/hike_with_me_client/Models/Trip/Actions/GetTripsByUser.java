@@ -3,11 +3,14 @@ package com.example.hike_with_me_client.Models.Trip.Actions;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripsByUser;
+import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 
+import java.io.IOException;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -19,8 +22,8 @@ public class GetTripsByUser extends TripMasterClass {
         callback_getTripsByUser = callbackGetTripsByUser;
     }
 
-    public void getTripsByUser(String userId) {
-         Call<List<Trip>> call = tripApiInterface.getTrips(userId);
+    public void getTripsByUser() {
+         Call<List<Trip>> call = tripApiInterface.getTrips(CurrentUser.getInstance().getUser().getId());
          call.enqueue(new Callback<List<Trip>>() {
              @Override
              public void onResponse(@NonNull Call<List<Trip>> call, @NonNull Response<List<Trip>> response) {
@@ -28,7 +31,14 @@ public class GetTripsByUser extends TripMasterClass {
                      List<Trip> trips = response.body();
                      callback_getTripsByUser.success(trips);
                  } else {
-                     callback_getTripsByUser.error(String.valueOf(response.errorBody()));
+                     ResponseBody errorBody = response.errorBody();
+                     try {
+                         assert errorBody != null;
+                         String errorMessage = errorBody.string();
+                         callback_getTripsByUser.error(errorMessage);
+                     } catch (IOException e) {
+                         e.printStackTrace();
+                     }
                  }
              }
 

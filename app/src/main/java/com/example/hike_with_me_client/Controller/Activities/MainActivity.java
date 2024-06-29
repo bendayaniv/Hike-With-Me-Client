@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
@@ -102,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         communityListFragment = new CommunityListFragment();
 
         tripsListFragment = new TripsListFragment();
+        tripsListFragment.setFragmentManager(fragmentManager);
     }
 
     private void mainPageFragment() {
