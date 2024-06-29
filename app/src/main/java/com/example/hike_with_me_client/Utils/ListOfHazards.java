@@ -12,7 +12,7 @@ public class ListOfHazards {
     ArrayList<Hazard> hazards = new ArrayList<>();
 
     public ListOfHazards() {
-        HazardMethods.getAllHazards(hazards);
+        HazardMethods.getAllHazards();
     }
 
     public static void initListOfHazards() {
@@ -29,8 +29,8 @@ public class ListOfHazards {
         return hazards;
     }
 
-    public void setHazards() {
-        HazardMethods.getAllHazards(hazards);
+    public void setHazards(ArrayList<Hazard> hazards) {
+        this.hazards = hazards;
     }
 
     @NonNull
