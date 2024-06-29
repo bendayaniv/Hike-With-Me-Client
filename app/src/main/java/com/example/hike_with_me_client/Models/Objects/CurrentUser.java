@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Models.Objects;
 
+import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class CurrentUser {
     private static CurrentUser instance = null;
     private User user;
     private ArrayList<UserWithDistance> usersWithDistance;
+    private ArrayList<Trip> trips;
     private String errorMessageFromServer;
 
     private CurrentUser() {
@@ -43,6 +45,14 @@ public class CurrentUser {
 
     public void setUsersWithDistance(ArrayList<UserWithDistance> usersWithDistance) {
         this.usersWithDistance = usersWithDistance;
+    }
+
+    public ArrayList<Trip> getTrips() {
+        return trips;
+    }
+
+    public void setTrips(ArrayList<Trip> trips) {
+        this.trips = trips;
     }
 
     public String getErrorMessageFromServer() {

@@ -35,4 +35,14 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addTripFab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/fab_description"
+        android:src="@drawable/add"
+        app:backgroundTint="@color/white"/>
+
 </FrameLayout>
