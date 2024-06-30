@@ -78,35 +78,45 @@ public class MainPageFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        routesListFragment.onPause();
-        mapsFragment.onPause();
+        if (routesListFragment != null)
+            routesListFragment.onDestroy();
+        if (mapsFragment != null)
+            mapsFragment.onDestroy();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        routesListFragment.onDestroy();
-        mapsFragment.onDestroy();
+        if (routesListFragment != null)
+            routesListFragment.onDestroy();
+        if (mapsFragment != null)
+            mapsFragment.onDestroy();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        routesListFragment.onDestroyView();
-        mapsFragment.onDestroyView();
+        if (routesListFragment != null)
+            routesListFragment.onDestroy();
+        if (mapsFragment != null)
+            mapsFragment.onDestroy();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        routesListFragment.onStop();
-        mapsFragment.onStop();
+        if (routesListFragment != null)
+            routesListFragment.onDestroy();
+        if (mapsFragment != null)
+            mapsFragment.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        routesListFragment.onLowMemory();
-        mapsFragment.onLowMemory();
+        if (routesListFragment != null)
+            routesListFragment.onDestroy();
+        if (mapsFragment != null)
+            mapsFragment.onDestroy();
     }
 }
