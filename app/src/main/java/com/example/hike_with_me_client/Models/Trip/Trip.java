@@ -3,7 +3,6 @@ package com.example.hike_with_me_client.Models.Trip;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
-import com.example.hike_with_me_client.Utils.File;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,11 +17,11 @@ public class Trip {
     private String description;
     private String[] routesNames;
     private String userId;
-    private ArrayList<File> images;
+    private ArrayList<String> imagesUrls;
 
     public Trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId) {
+    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId, ArrayList<String> imagesUrls) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -31,6 +30,7 @@ public class Trip {
         this.description = description;
         this.routesNames = routesNames;
         this.userId = userId;
+        this.imagesUrls = imagesUrls;
     }
 
     public String getId() {
@@ -117,12 +117,12 @@ public class Trip {
         return this;
     }
 
-    public ArrayList<File> getImages() {
-        return images;
+    public ArrayList<String> getImagesUrls() {
+        return imagesUrls;
     }
 
-    public void setImages(ArrayList<File> images) {
-        this.images = images;
+    public void setImagesUrls(ArrayList<String> imagesUrls) {
+        this.imagesUrls = imagesUrls;
     }
 
     @NonNull
@@ -137,7 +137,7 @@ public class Trip {
                 ", description='" + description + '\'' +
                 ", routeName='" + Arrays.toString(routesNames) + '\'' +
                 ", userId='" + userId + '\'' +
-                ", images='" + images + '\'' +
+                ", urlsImages='" + imagesUrls + '\'' +
                 '}';
     }
 }

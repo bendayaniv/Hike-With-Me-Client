@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.User.Actions;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Utils.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.UserMasterClass;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetAllUsers;

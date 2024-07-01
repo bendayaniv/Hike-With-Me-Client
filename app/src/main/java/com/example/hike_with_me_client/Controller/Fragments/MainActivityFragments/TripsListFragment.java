@@ -20,12 +20,12 @@ import android.widget.Toast;
 
 import com.example.hike_with_me_client.Adapters.TripItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_TripItem;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.File;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.ListOfTrips;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -46,9 +46,8 @@ public class TripsListFragment extends Fragment {
     private Runnable retryRunnable;
 
     Callback_TripItem callback_tripItem = (trip, position) -> {
-        CurrentUser.getInstance().setUrlsImages(null);
-        TripMethods.getTripImages(CurrentUser.getInstance().getUser().getName(), trip.getName());
-        loadTripsImagesFromServer(trip);
+        tripFragment.setTrip(trip);
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
     };
 
     @Override
@@ -97,7 +96,7 @@ public class TripsListFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
-                ArrayList<Trip> loadedTrips = CurrentUser.getInstance().getTrips();
+                ArrayList<Trip> loadedTrips = ListOfTrips.getInstance().getTrips();
 
                 if (loadedTrips != null && !loadedTrips.isEmpty()) {
                     trips.clear();
@@ -108,40 +107,13 @@ public class TripsListFragment extends Fragment {
                     progressBarTripsList.setVisibility(View.GONE);
                     addTripFab.setVisibility(View.VISIBLE);
                     tripItemAdapter.notifyDataSetChanged();
-                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
-                        !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
+                } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
+                        !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
                     emptyTripsListTV.setVisibility(View.VISIBLE);
-                    emptyTripsListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
+                    emptyTripsListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
                     fragmentTripsRV.setVisibility(View.GONE);
                     progressBarTripsList.setVisibility(View.GONE);
                     addTripFab.setVisibility(View.VISIBLE);
-                } else {
-                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
-                }
-            }
-        };
-
-        handler.post(retryRunnable);
-    }
-
-    private void loadTripsImagesFromServer(Trip trip) {
-        retryRunnable = new Runnable() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void run() {
-                ArrayList<File> urlsImages = CurrentUser.getInstance().getUrlsImages();
-
-                if (urlsImages != null && !urlsImages.isEmpty()) {
-                    trip.setImages(urlsImages);
-                    tripItemAdapter.notifyDataSetChanged();
-
-                    tripFragment.setTrip(trip);
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
-
-                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
-                        CurrentUser.getInstance().getErrorMessageFromServer().contains("image")) {
-                    tripFragment.setTrip(trip);
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
                 } else {
                     handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
                 }
@@ -156,7 +128,7 @@ public class TripsListFragment extends Fragment {
 
         trips = new ArrayList<>();
 
-        tripItemAdapter = new TripItemAdapter(trips);
+        tripItemAdapter = new TripItemAdapter(trips, getContext());
         tripItemAdapter.setCallbackTripItem(callback_tripItem);
 
         fragmentTripsRV = view.findViewById(R.id.fragmentTripsRV);
@@ -180,28 +152,28 @@ public class TripsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        CurrentUser.getInstance().setTrips(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ListOfTrips.getInstance().setTrips(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        CurrentUser.getInstance().setTrips(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ListOfTrips.getInstance().setTrips(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        CurrentUser.getInstance().setTrips(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ListOfTrips.getInstance().setTrips(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        CurrentUser.getInstance().setTrips(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ListOfTrips.getInstance().setTrips(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 }

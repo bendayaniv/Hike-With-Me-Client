@@ -21,7 +21,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Utils.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.example.hike_with_me_client.Utils.UserLocation;

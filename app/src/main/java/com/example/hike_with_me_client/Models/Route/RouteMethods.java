@@ -3,11 +3,11 @@ package com.example.hike_with_me_client.Models.Route;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoutesNames;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoutesNames;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class RouteMethods {
             @Override
             public void error(String message) {
                 Log.d("RouteMethods", "Error: " + message);
-                CurrentUser.getInstance().setErrorMessageFromServer(message);
+                ErrorMessageFromServer.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();

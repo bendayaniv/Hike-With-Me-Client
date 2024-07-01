@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Utils.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;

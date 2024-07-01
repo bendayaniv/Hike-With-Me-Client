@@ -2,8 +2,6 @@ package com.example.hike_with_me_client.Interfaces.Trip;
 
 import com.example.hike_with_me_client.Models.Trip.Trip;
 
-import com.example.hike_with_me_client.Utils.File;
-
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -44,12 +42,6 @@ public interface TripApiInterface {
             @Part List<MultipartBody.Part> files,
             @Body String userName,
             @Body String tripName
-    );
-
-    @GET("hike-with-me/trips/{userName}/{tripName}")
-    Call<List<File>> getTripImages(
-            @Path("userName") String userName,
-            @Path("tripName") String tripName
     );
 
     @DELETE("hike-with-me/trips/{userName}/{tripName}/{imageName}")

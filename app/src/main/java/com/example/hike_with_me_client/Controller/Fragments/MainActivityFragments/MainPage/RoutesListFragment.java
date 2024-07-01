@@ -23,10 +23,10 @@ import android.widget.ProgressBar;
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.SavedLastClick;
 import com.example.hike_with_me_client.Utils.SharedViewModel;
@@ -97,11 +97,11 @@ public class RoutesListFragment extends Fragment {
                     emptyRoutesListTV.setVisibility(View.GONE);
                     progressBarRoutesList.setVisibility(View.GONE);
                     routeItemAdapter.notifyDataSetChanged();
-                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
-                        !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
+                } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
+                        !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
                     fragmentRoutesRV.setVisibility(View.GONE);
                     emptyRoutesListTV.setVisibility(View.VISIBLE);
-                    emptyRoutesListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
+                    emptyRoutesListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
                     progressBarRoutesList.setVisibility(View.GONE);
                 }
                 else {

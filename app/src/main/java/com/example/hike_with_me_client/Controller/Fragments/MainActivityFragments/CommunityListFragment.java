@@ -19,7 +19,8 @@ import android.widget.Toast;
 
 import com.example.hike_with_me_client.Adapters.UserItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_UserItem;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
@@ -90,10 +91,10 @@ public class CommunityListFragment extends Fragment {
                     fragmentCommunityRV.setVisibility(View.VISIBLE);
                     progressBarCommunityList.setVisibility(View.GONE);
                     userItemAdapter.notifyDataSetChanged();
-                } else if (CurrentUser.getInstance().getErrorMessageFromServer() != null &&
-                        !CurrentUser.getInstance().getErrorMessageFromServer().isEmpty()) {
+                } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
+                        !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
                     emptyCommunityListTV.setVisibility(View.VISIBLE);
-                    emptyCommunityListTV.setText(CurrentUser.getInstance().getErrorMessageFromServer());
+                    emptyCommunityListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
                     fragmentCommunityRV.setVisibility(View.GONE);
                     progressBarCommunityList.setVisibility(View.GONE);
                 } else {
@@ -129,27 +130,27 @@ public class CommunityListFragment extends Fragment {
     public void onPause() {
         super.onPause();
         CurrentUser.getInstance().setUsersWithDistance(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         CurrentUser.getInstance().setUsersWithDistance(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         CurrentUser.getInstance().setUsersWithDistance(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         CurrentUser.getInstance().setUsersWithDistance(null);
-        CurrentUser.getInstance().setErrorMessageFromServer(null);
+        ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 }

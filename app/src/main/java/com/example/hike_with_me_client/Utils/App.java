@@ -2,8 +2,6 @@ package com.example.hike_with_me_client.Utils;
 
 import android.app.Application;
 
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
-
 public class App extends Application {
 
     @Override
@@ -14,5 +12,7 @@ public class App extends Application {
         UserLocation.initUserLocation();
         ListOfRoutes.initListOfRoutes();
         ListOfHazards.initListOfHazards();
+        ListOfTrips.initListOfTrips();
+        ErrorMessageFromServer.initErrorMessageFromServer();
     }
 }
