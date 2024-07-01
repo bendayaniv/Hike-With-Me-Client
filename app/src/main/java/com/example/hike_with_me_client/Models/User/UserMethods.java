@@ -13,7 +13,8 @@ import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_Delete
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_UpdateUser;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
+import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,7 @@ public class UserMethods {
             @Override
             public void error(String message) {
                 Log.d("UserMethods", "Error - all users: " + message);
-                CurrentUser.getInstance().setErrorMessageFromServer(message);
+                ErrorMessageFromServer.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetAllUsers(callback_getAllUsers).getAllUsers();

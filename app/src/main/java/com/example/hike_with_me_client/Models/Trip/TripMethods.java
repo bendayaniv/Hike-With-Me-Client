@@ -6,19 +6,17 @@ import android.util.Log;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_CreateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_DeleteImage;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_DeleteTrip;
-import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripImages;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripsByUser;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UploadImages;
-import com.example.hike_with_me_client.Models.Objects.CurrentUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.CreateTrip;
 import com.example.hike_with_me_client.Models.Trip.Actions.DeleteImage;
 import com.example.hike_with_me_client.Models.Trip.Actions.DeleteTrip;
-import com.example.hike_with_me_client.Models.Trip.Actions.GetTripImages;
 import com.example.hike_with_me_client.Models.Trip.Actions.GetTripsByUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.UpdateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
-import com.example.hike_with_me_client.Utils.File;
+import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.ListOfTrips;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,13 +35,13 @@ public class TripMethods {
                 } else {
                     Log.d("Trip", "Trips: " + trips);
                 }
-                CurrentUser.getInstance().setTrips((ArrayList<Trip>) trips);
+                ListOfTrips.getInstance().setTrips((ArrayList<Trip>) trips);
             }
 
             @Override
             public void error(String message) {
                 Log.d("Trip", "Error: " + message);
-                CurrentUser.getInstance().setErrorMessageFromServer(message);
+                ErrorMessageFromServer.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetTripsByUser(callback_getTripsByUser).getTripsByUser();
@@ -108,29 +106,6 @@ public class TripMethods {
             }
         };
         new UploadImages(callback_uploadImages).uploadImages(images, userName, tripName);
-    }
-
-    public static void getTripImages(String userName, String tripName) {
-        // TODO - get images
-        Callback_GetTripImages callback_getTripImages = new Callback_GetTripImages() {
-            @Override
-            public void success(List<File> images) {
-                if(images.isEmpty()) {
-                    Log.d("Trip", "No images found");
-                } else {
-                    Log.d("Trip", "Images: " + images);
-                }
-
-                CurrentUser.getInstance().setUrlsImages(images);
-            }
-
-            @Override
-            public void error(String error) {
-                Log.d("Trip", "Error: " + error);
-                CurrentUser.getInstance().setErrorMessageFromServer(error);
-            }
-        };
-        new GetTripImages(callback_getTripImages).getTripImages(userName, tripName);
     }
 
     public static void deleteImage(String userName, String tripName, String imageName) {
