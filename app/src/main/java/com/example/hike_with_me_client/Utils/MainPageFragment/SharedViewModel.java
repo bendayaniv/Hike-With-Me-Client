@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Utils;
+package com.example.hike_with_me_client.Utils.MainPageFragment;
 
 import android.os.Parcelable;
 

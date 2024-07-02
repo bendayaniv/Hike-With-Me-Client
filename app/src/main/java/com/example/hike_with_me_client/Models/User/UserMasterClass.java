@@ -1,7 +1,7 @@
 package com.example.hike_with_me_client.Models.User;
 
 import com.example.hike_with_me_client.Interfaces.User.UserApiInterface;
-import com.example.hike_with_me_client.Utils.MasterClass;
+import com.example.hike_with_me_client.Utils.Rertofit.MasterClass;
 
 public class UserMasterClass extends MasterClass {
 

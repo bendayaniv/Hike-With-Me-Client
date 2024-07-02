@@ -13,8 +13,8 @@ import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_Delete
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetAllUsers;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_GetUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_UpdateUser;
-import com.example.hike_with_me_client.Utils.CurrentUser;
-import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 
 import java.util.ArrayList;
 import java.util.List;

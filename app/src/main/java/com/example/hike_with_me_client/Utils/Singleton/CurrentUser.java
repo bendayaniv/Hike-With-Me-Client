@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Utils;
+package com.example.hike_with_me_client.Utils.Singleton;
 
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.User;
