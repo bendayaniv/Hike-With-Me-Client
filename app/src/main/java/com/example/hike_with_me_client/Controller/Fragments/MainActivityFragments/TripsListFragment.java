@@ -24,8 +24,8 @@ import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.ListOfTrips;
+import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 

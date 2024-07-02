@@ -15,8 +15,6 @@ import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Route.RouteMethods;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.ListOfHazards;
-import com.example.hike_with_me_client.Utils.ListOfRoutes;
 
 public class MainPageFragment extends Fragment {
 

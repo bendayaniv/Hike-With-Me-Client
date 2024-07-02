@@ -9,7 +9,7 @@ import com.example.hike_with_me_client.Models.Hazard.Actions.GetAllHazards;
 import com.example.hike_with_me_client.Models.Hazard.Actions.GetHazardsByRoute;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_AddHazard;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetHazardsByRoute;
-import com.example.hike_with_me_client.Utils.ListOfHazards;
+import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
 
 import java.util.ArrayList;
 import java.util.List;

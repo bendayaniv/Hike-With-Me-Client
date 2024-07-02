@@ -21,10 +21,10 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
-import com.example.hike_with_me_client.Utils.CurrentUser;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.SavedLastClick;
-import com.example.hike_with_me_client.Utils.UserLocation;
+import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
+import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;

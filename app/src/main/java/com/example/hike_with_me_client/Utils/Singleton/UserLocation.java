@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Utils;
+package com.example.hike_with_me_client.Utils.Singleton;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -16,6 +16,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.User.UserMethods;
+import com.example.hike_with_me_client.Utils.Constants;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationCallback;

@@ -1,7 +1,7 @@
 package com.example.hike_with_me_client.Models.Recommendation;
 
 import com.example.hike_with_me_client.Interfaces.Recommendation.RecommendationApiInterface;
-import com.example.hike_with_me_client.Utils.MasterClass;
+import com.example.hike_with_me_client.Utils.Rertofit.MasterClass;
 
 public class RecommendationMasterClass extends MasterClass {
 

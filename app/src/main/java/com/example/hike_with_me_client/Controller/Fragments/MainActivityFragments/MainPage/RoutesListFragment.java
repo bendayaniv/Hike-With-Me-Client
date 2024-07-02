@@ -27,10 +27,10 @@ import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.ListOfRoutes;
-import com.example.hike_with_me_client.Utils.SavedLastClick;
-import com.example.hike_with_me_client.Utils.SharedViewModel;
+import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
+import com.example.hike_with_me_client.Utils.MainPageFragment.SharedViewModel;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.util.ArrayList;
