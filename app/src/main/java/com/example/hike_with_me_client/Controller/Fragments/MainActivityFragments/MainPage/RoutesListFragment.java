@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -144,6 +145,7 @@ public class RoutesListFragment extends Fragment {
 
         fragmentRoutesRV = view.findViewById(R.id.fragmentRoutesRV);
         fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
+        fragmentRoutesRV.setItemAnimator(new DefaultItemAnimator());
         fragmentRoutesRV.setAdapter(routeItemAdapter);
 
         emptyRoutesListTV = view.findViewById(R.id.emptyRoutesListTV);

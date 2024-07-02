@@ -1,6 +1,5 @@
 package com.example.hike_with_me_client.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.TripItemViewHolder> {
+public class TripItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final ArrayList<Trip> trips;
     private final Context context;
@@ -35,27 +34,38 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.TripIt
         this.callback_tripItem = callback_tripItem;
     }
 
-    @NonNull
     @Override
-    public TripItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_list_item, parent, false);
-        return new TripItemViewHolder(view);
+    public int getItemViewType(int position) {
+        if (trips.get(position).getImagesUrls() != null && !trips.get(position).getImagesUrls().isEmpty()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 
-    @SuppressLint("UseCompatLoadingForDrawables")
+    @NonNull
     @Override
-    public void onBindViewHolder(@NonNull TripItemViewHolder holder, int position) {
-        Trip trip = getItem(position);
-
-        if (trip.getImagesUrls() != null && !trip.getImagesUrls().isEmpty()) {
-            Glide.with(context).load(trip.getImagesUrls().get(0)).into(holder.card_background_image);
-
-//            String name = getFileNameFromUrl(trip.getImagesUrls().get(0));
-
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == 0) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_list_item_without_image, parent, false);
+            return new TripItemWithoutImageViewHolder(view);
         } else {
-            holder.card_background_image.setVisibility(View.GONE);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.trip_list_item_with_image, parent, false);
+            return new TripItemWithImageViewHolder(view);
         }
-        holder.name_text_view.setText(trip.getName());
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == 0) {
+            ((TripItemWithoutImageViewHolder) holder).name_text_view.setText(trips.get(position).getName());
+        } else {
+            Trip trip = trips.get(position);
+            if (trip.getImagesUrls() != null && !trip.getImagesUrls().isEmpty()) {
+                Glide.with(context).load(trip.getImagesUrls().get(0)).into(((TripItemWithImageViewHolder) holder).card_background_image);
+            }
+            ((TripItemWithImageViewHolder) holder).name_text_view.setText(trip.getName());
+        }
     }
 
     public String getFileNameFromUrl(String url) {
@@ -78,12 +88,12 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.TripIt
         return trips.get(position);
     }
 
-    public class TripItemViewHolder extends RecyclerView.ViewHolder {
+    public class TripItemWithImageViewHolder extends RecyclerView.ViewHolder {
 
         private final AppCompatImageView card_background_image;
         private final MaterialTextView name_text_view;
 
-        public TripItemViewHolder(@NonNull View itemView) {
+        public TripItemWithImageViewHolder(@NonNull View itemView) {
             super(itemView);
 
             card_background_image = itemView.findViewById(R.id.card_background_image);
@@ -96,6 +106,25 @@ public class TripItemAdapter extends RecyclerView.Adapter<TripItemAdapter.TripIt
                 }
             });
         }
+    }
+
+    public class TripItemWithoutImageViewHolder extends RecyclerView.ViewHolder {
+
+        private final MaterialTextView name_text_view;
+
+        public TripItemWithoutImageViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            name_text_view = itemView.findViewById(R.id.name_text_view);
+
+            itemView.setOnClickListener(v -> {
+                if (callback_tripItem != null) {
+                    callback_tripItem.itemClicked(trips.get(getAdapterPosition()), getAdapterPosition());
+                }
+            });
+        }
+
+
     }
 
 }
