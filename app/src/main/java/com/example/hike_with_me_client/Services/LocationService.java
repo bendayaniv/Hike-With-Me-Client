@@ -1,7 +1,6 @@
 package com.example.hike_with_me_client.Services;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -41,9 +40,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.gson.Gson;
 
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * LocationService is a foreground service that handles location tracking and notifications.
@@ -52,123 +49,39 @@ import java.util.List;
  */
 public class LocationService extends Service {
 
-    // Constants
-    /**
-     * Action to start the foreground service.
-     */
+    // 1. Constants
     public static final String START_FOREGROUND_SERVICE = "START_FOREGROUND_SERVICE";
-
-    /**
-     * Action to stop the foreground service.
-     */
     public static final String STOP_FOREGROUND_SERVICE = "STOP_FOREGROUND_SERVICE";
-
-    /**
-     * Broadcast action for location updates.
-     */
     public static final String BROADCAST_LOCATION = "BROADCAST_LOCATION";
-
-    /**
-     * Key for notification data in broadcast intent.
-     */
-    public static final String BROADCAST_NOTIFICATION_KEY = "BROADCAST_NOTIFICATION_KEY";
-
-    /**
-     * Key for location data in broadcast intent.
-     */
     public static final String BROADCAST_LOCATION_KEY = "BROADCAST_LOCATION_KEY";
-
-    /**
-     * Key for counter data in broadcast intent.
-     */
     public static final String BROADCAST_COUNTER_KEY = "BROADCAST_COUNTER_KEY";
-
-    /**
-     * ID for the main notification.
-     */
-    public static int NOTIFICATION_ID = 168;
-
-    /**
-     * Channel ID for the main notification.
-     */
-    public static String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
-
-    /**
-     * Main action for the notification intent.
-     */
-    public static String MAIN_ACTION = "com.example.servicestest.locationservice.action.main";
-
-    /**
-     * Channel ID for silent notifications.
-     */
-    public static String SILENT_CHANNEL_ID = "com.example.servicestest.SILENT_CHANNEL_ID";
+    public static final int NOTIFICATION_ID = 168;
+    public static final String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
+    public static final String MAIN_ACTION = "com.example.servicestest.locationservice.action.main";
+    private static final String WAKE_LOCK_TAG = "LocationService:WakeLock";
+    private static final String LOG_TAG = "LocationService";
 
     // Time intervals
     private static final int LOCATION_UPDATE_INTERVAL_MS = 1000;
     private static final float LOCATION_UPDATE_DISTANCE_METERS = 0.0f;
     private static final int PERIODIC_TASK_INTERVAL_MS = 2000;
-    private static final int CLEAR_NOTIFICATIONS_INTERVAL = 30; // Run every 60 seconds (30 * 2000ms)
     private static final int POPUP_NOTIFICATION_INTERVAL = 5; // Run every 10 seconds (5 * 2000ms)
 
-    // Notification related
-    private static final int INITIAL_POPUP_NOTIFICATION_ID = 1000;
-    private static final int MAX_ACTIVE_NOTIFICATIONS = 5;
-    private static final long NOTIFICATION_EXPIRY_TIME_MS = 60000; // 1 minute
-
-    // Member variables
+    // 2. Member variables
     private boolean isServiceRunningRightNow = false;
     private boolean isShowingNotification = false;
-    private NotificationCompat.Builder notificationBuilder;
     private final Handler handler = new Handler();
     private Runnable runnable;
-    private final int interval = 2000; // 2 seconds interval for periodic tasks
     private int counter = 0;
     private int anotherCounter = 0;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private PowerManager.WakeLock wakeLock;
     private PowerManager powerManager;
     private Intent intent;
-    private int popupNotificationId = INITIAL_POPUP_NOTIFICATION_ID;
+    private com.example.hike_with_me_client.Utils.NotificationManager notificationManager;
 
-    /**
-     * Maximum number of notifications to show at once.
-     */
-    private static final int MAX_NOTIFICATIONS = MAX_ACTIVE_NOTIFICATIONS;
 
-    /**
-     * Time after which a notification expires (in milliseconds).
-     */
-    private static final long NOTIFICATION_EXPIRY_TIME = NOTIFICATION_EXPIRY_TIME_MS; // 1 minute
-
-    private LinkedList<NotificationInfo> activeNotifications = new LinkedList<>();
-
-    /**
-     * Represents information about an active notification.
-     */
-    private static class NotificationInfo {
-        int id;
-        long timestamp;
-
-        NotificationInfo(int id, long timestamp) {
-            this.id = id;
-            this.timestamp = timestamp;
-        }
-    }
-
-    // Wake lock tag
-    private static final String WAKE_LOCK_TAG = "LocationService:WakeLock";
-
-    private static final String LOG_TAG = "LocationService";
-
-    private void logMessage(String message) {
-        Log.d(LOG_TAG, message);
-    }
-
-    private void logError(String message, Throwable e) {
-        Log.e(LOG_TAG, message, e);
-    }
-
-    // 1. Service Lifecycle Methods
+    // 3. Service Lifecycle Methods
 
     /**
      * Called when the service is created. Initializes notification channels.
@@ -176,9 +89,7 @@ public class LocationService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        createNotificationChannel();
-        createPopupNotificationChannel();
-        createSilentNotificationChannel();
+        notificationManager = new com.example.hike_with_me_client.Utils.NotificationManager(this);
     }
 
     /**
@@ -189,32 +100,6 @@ public class LocationService extends Service {
      * @param startId A unique integer representing this specific request to start.
      * @return The return value indicates what semantics the system should use for the service's current started state.
      */
-//    @Override
-//    public int onStartCommand(Intent intent, int flags, int startId) {
-//        if (intent == null || intent.getAction() == null) {
-//            return START_NOT_STICKY;
-//        }
-//        String action = intent.getAction();
-//
-//        this.intent = new Intent(BROADCAST_LOCATION);
-//
-//        if (action.equals(START_FOREGROUND_SERVICE)) {
-//            if (isServiceRunningRightNow) {
-//                return START_STICKY;
-//            }
-//
-//            // Start service with a blank notification
-//            startServiceWithoutNotification();
-//            // Start GPS updates
-//            startGPSUpdates();
-//            // Start periodic tasks
-//            startRecording();
-//        } else if (action.equals(STOP_FOREGROUND_SERVICE)) {
-//            stopRecording();
-//        }
-//
-//        return START_STICKY;
-//    }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent == null || intent.getAction() == null) {
@@ -263,7 +148,7 @@ public class LocationService extends Service {
         return null;
     }
 
-    // 2. Location Handling
+    // 4. Location Handling
 
     /**
      * Starts GPS updates using FusedLocationProviderClient.
@@ -276,7 +161,7 @@ public class LocationService extends Service {
 
                 LocationRequest locationRequest = new LocationRequest.Builder(LOCATION_UPDATE_INTERVAL_MS)
                         .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
-                        .setMinUpdateDistanceMeters(0.0f)
+                        .setMinUpdateDistanceMeters(LOCATION_UPDATE_DISTANCE_METERS)
                         .setMinUpdateIntervalMillis(LOCATION_UPDATE_INTERVAL_MS)
                         .build();
 
@@ -318,101 +203,28 @@ public class LocationService extends Service {
         }
     };
 
-    // 3. Notification Management
+    // 5. Notification Management
 
     /**
-     * Creates the main notification channel.
+     * Updates the content of the main notification.
+     *
+     * @param content The new content to display in the notification.
      */
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel serviceChannel = new NotificationChannel(
-                    CHANNEL_ID,
-                    "Foreground Service Channel",
-                    NotificationManager.IMPORTANCE_DEFAULT
-            );
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(serviceChannel);
-        }
+    private void updateNotificationContent(String content) {
+        notificationManager.updateNotificationContent(content, counter, anotherCounter);
+        anotherCounter++;
     }
 
     /**
-     * Creates the channel for pop-up notifications.
+     * Shows a new pop-up notification.
      */
-    private void createPopupNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            String channelId = "popup_channel_id";
-            CharSequence channelName = "Pop-up Notifications";
-            String channelDescription = "Channel for pop-up notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
-            channel.setDescription(channelDescription);
-            channel.enableLights(true);
-            channel.setLightColor(Color.RED);
-            channel.enableVibration(true);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
-    }
-
-    /**
-     * Creates the channel for silent notifications.
-     */
-    private void createSilentNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    SILENT_CHANNEL_ID,
-                    "Silent Notifications",
-                    NotificationManager.IMPORTANCE_MIN);
-            channel.setSound(null, null);
-            channel.enableLights(false);
-            channel.enableVibration(false);
-            channel.setShowBadge(false);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+    private void showPopUpNotification() {
+        notificationManager.showPopUpNotification(counter);
     }
 
     /**
      * Creates and shows a notification for the foreground service
      */
-//    private void notifyToUserForForegroundService() {
-//        Intent notificationIntent = new Intent(this, MainActivity.class);
-//        notificationIntent.setAction(MAIN_ACTION);
-//        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-//
-//        notificationBuilder = getNotificationBuilder(this,
-//                CHANNEL_ID,
-//                NotificationManagerCompat.IMPORTANCE_LOW);
-//
-//
-//        notificationBuilder
-//                .setContentIntent(pendingIntent)
-//                .setOngoing(true) // true - sticky notification, false - swipeable notification
-//                .setSmallIcon(R.drawable.man_walking)
-//                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_round))
-//                .setContentTitle("App in progress")
-//                .setContentText(counter + "");
-//
-//        Notification notification = notificationBuilder.build();
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-//            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
-//        } else {
-//            startForeground(NOTIFICATION_ID, notification);
-//        }
-//
-//        isShowingNotification = true;
-//    }
-    private void notifyToUserForForegroundService() {
-        PendingIntent pendingIntent = createNotificationPendingIntent();
-        notificationBuilder = createNotificationBuilder();
-        Notification notification = notificationBuilder.build();
-        startForegroundWithNotification(notification);
-    }
-
     private PendingIntent createNotificationPendingIntent() {
         Intent notificationIntent = new Intent(this, MainActivity.class);
         notificationIntent.setAction(MAIN_ACTION);
@@ -439,115 +251,7 @@ public class LocationService extends Service {
         isShowingNotification = true;
     }
 
-    /**
-     * Updates the content of the main notification.
-     *
-     * @param content The new content to display in the notification.
-     */
-    private void updateNotificationContent(String content) {
-        try {
-            // Check if the notificationBuilder has been initialized
-            if (notificationBuilder != null) {
-                // Set the notification content text to the current counter value
-                notificationBuilder.setContentText("Counter: " + counter + "\nAnother Counter: " + anotherCounter
-                        + "\n" + content);
-
-                intent.putExtra(BROADCAST_COUNTER_KEY, counter);
-
-                anotherCounter++;
-
-                // Get the NotificationManager system service
-                final NotificationManager notificationManager = (NotificationManager) getSystemService(Service.NOTIFICATION_SERVICE);
-
-                // Update the existing notification with the new content
-                // NOTIFICATION_ID ensures we're updating the correct notification
-                notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
-
-                // Log a debug message to indicate the notification has been updated
-                logMessage("Notification content updated");
-            }
-        } catch (Exception e) {
-            logError("Error updating notification content", e);
-        }
-    }
-
-    /**
-     * Shows a new pop-up notification.
-     */
-    private void showPopUpNotification() {
-        try {
-            clearExpiredNotifications();
-
-            if (activeNotifications.size() >= MAX_NOTIFICATIONS) {
-                // Remove the oldest notification
-                NotificationInfo oldest = activeNotifications.removeFirst();
-                NotificationManagerCompat.from(this).cancel(oldest.id);
-            }
-
-            String popupChannelId = "popup_channel_id";
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, popupChannelId)
-                    .setSmallIcon(R.drawable.man_walking)
-                    .setContentTitle("Counter Update")
-                    .setContentText("Current count: " + counter)
-                    .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true)
-                    .setDefaults(NotificationCompat.DEFAULT_ALL);
-
-            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                int notificationId = popupNotificationId++;
-                notificationManager.notify(notificationId, builder.build());
-                activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
-                logMessage("Pop-up notification shown");
-            } else {
-                logMessage("Notification permission not granted");
-            }
-        } catch (Exception e) {
-            logError("Error showing pop-up notification", e);
-        }
-    }
-
-    // 4. Periodic Task Management
-
-//    /**
-//     * Starts periodic tasks for the service
-//     */
-//    private void startRecording() {
-//        isServiceRunningRightNow = true;
-//        runnable = new Runnable() {
-//            public void run() {
-//                // Log for debugging
-//                Log.d("LocationService", "Periodic task executed");
-//
-//                // Check and update notification permission
-//                checkAndUpdateNotificationPermission();
-//
-//                if (counter % 30 == 0) { // Since the interval is 2 seconds, we check every 60 seconds
-//                    clearExpiredNotifications();
-//                }
-//
-//                // Show pop-up notification every 10 seconds
-//                if (counter % 5 == 0) { // Since the interval is 2 seconds, we check for multiples of 5
-//                    showPopUpNotification();
-//                }
-//
-//                // Increment the counter for the next update
-//                counter++;
-//
-//                // Schedule the next run
-//                handler.postDelayed(this, interval);
-//            }
-//        };
-//
-//        handler.post(runnable);
-//
-//
-//        // Keep CPU working
-//        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-//        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "PassiveApp:tag");
-//        wakeLock.acquire();
-//    }
+    // 6. Periodic Task Management
 
     /**
      * Starts periodic tasks for the service
@@ -573,7 +277,6 @@ public class LocationService extends Service {
                 scheduleNextRun();
             }
         };
-//        handler.post(runnable);
         handler.postDelayed(runnable, PERIODIC_TASK_INTERVAL_MS);
     }
 
@@ -583,10 +286,6 @@ public class LocationService extends Service {
     private void performPeriodicTasks() {
         logMessage("Periodic task executed");
         checkAndUpdateNotificationPermission();
-
-        if (counter % CLEAR_NOTIFICATIONS_INTERVAL == 0) {
-            clearExpiredNotifications();
-        }
 
         if (counter % POPUP_NOTIFICATION_INTERVAL == 0) {
             showPopUpNotification();
@@ -599,7 +298,7 @@ public class LocationService extends Service {
      * Schedules the next run of periodic tasks
      */
     private void scheduleNextRun() {
-        handler.postDelayed(runnable, interval);
+        handler.postDelayed(runnable, PERIODIC_TASK_INTERVAL_MS);
     }
 
     /**
@@ -610,41 +309,6 @@ public class LocationService extends Service {
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKE_LOCK_TAG);
         wakeLock.acquire();
     }
-
-//    /**
-//     * Stops the service and removes notifications
-//     */
-//    private void stopRecording() {
-//        handler.removeCallbacks(runnable);
-//        Log.d("LocationService", "Service stopped");
-//
-//        wakeLock.release();
-//
-//        // Stop GPS
-//        if (fusedLocationProviderClient != null) {
-//            Task<Void> task = fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-//            task.addOnCompleteListener(new OnCompleteListener<Void>() {
-//                @Override
-//                public void onComplete(@NonNull Task<Void> task) {
-//                    if (task.isSuccessful()) {
-//                        Log.d("pttt", "stop Location Callback removed.");
-//                    } else {
-//                        Log.d("pttt", "stop Failed to remove Location Callback.");
-//                    }
-//                    stopSelf();
-//                }
-//            });
-//        }
-//
-//        // Stop the foreground service
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            stopForeground(STOP_FOREGROUND_REMOVE);
-//        } else {
-//            stopForeground(true);
-//        }
-//
-//        isServiceRunningRightNow = false;
-//    }
 
     /**
      * Stops the service and removes notifications
@@ -698,6 +362,63 @@ public class LocationService extends Service {
         isServiceRunningRightNow = false;
     }
 
+    // 7. Utility Methods
+
+    /**
+     * Starts the service with a blank notification
+     */
+    private void startServiceWithoutNotification() {
+        isServiceRunningRightNow = true;
+        isShowingNotification = false;
+        Notification notification = notificationManager.createForegroundNotification(counter);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
+        } else {
+            startForeground(NOTIFICATION_ID, notification);
+        }
+    }
+
+    /**
+     * Checks for notification permission and updates the service accordingly
+     */
+    private void checkAndUpdateNotificationPermission() {
+        logMessage("Checking notification permission");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            logMessage("Notification permission check (TIRAMISU)");
+            boolean hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
+                    == PackageManager.PERMISSION_GRANTED;
+
+            if (hasPermission) {
+                if (!isShowingNotification) {
+                    logMessage("Notification permission granted - showing notification");
+                    Notification notification = notificationManager.createForegroundNotification(counter);
+                    startForegroundWithNotification(notification);
+                    isShowingNotification = true;
+                }
+                if (isServiceRunningRightNow) {
+                    logMessage("Notification permission granted - updating notification content");
+                }
+            } else {
+                if (isShowingNotification) {
+                    logMessage("Notification permission not granted - removing notification");
+                    NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
+                    startForeground(NOTIFICATION_ID, createBlankNotification());
+                    isShowingNotification = false;
+                } else {
+                    logError("Notification permission not granted", null);
+                }
+            }
+        }
+    }
+
+    private void logMessage(String message) {
+        Log.d(LOG_TAG, message);
+    }
+
+    private void logError(String message, Throwable e) {
+        Log.e(LOG_TAG, message, e);
+    }
+
     // 5. Utility Methods
 
     /**
@@ -731,96 +452,6 @@ public class LocationService extends Service {
                 nChannel.enableLights(true);
                 nChannel.setLightColor(Color.BLUE);
                 nm.createNotificationChannel(nChannel);
-            }
-        }
-    }
-
-    /**
-     * Clears expired notifications.
-     */
-    private void clearExpiredNotifications() {
-        long currentTime = System.currentTimeMillis();
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-
-        Iterator<NotificationInfo> iterator = activeNotifications.iterator();
-        while (iterator.hasNext()) {
-            NotificationInfo info = iterator.next();
-            if (currentTime - info.timestamp > NOTIFICATION_EXPIRY_TIME) {
-                notificationManager.cancel(info.id);
-                iterator.remove();
-            } else {
-                // Notifications are ordered by time, so we can stop checking once we find a non-expired one
-                break;
-            }
-        }
-    }
-
-    /**
-     * Clears all active notifications.
-     */
-    private void clearAllNotifications() {
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        for (NotificationInfo info : activeNotifications) {
-            notificationManager.cancel(info.id);
-        }
-        activeNotifications.clear();
-    }
-
-    /**
-     * Starts the service with a blank notification
-     */
-    private void startServiceWithoutNotification() {
-        isServiceRunningRightNow = true;
-        isShowingNotification = false;
-        Notification notification = createInitialNotification();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            startForeground(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
-        } else {
-            startForeground(NOTIFICATION_ID, notification);
-        }
-    }
-
-    /**
-     * Creates an initial blank notification.
-     */
-    private Notification createInitialNotification() {
-        return new NotificationCompat.Builder(this, SILENT_CHANNEL_ID)
-                .setContentTitle("")
-                .setContentText("")
-                .setSmallIcon(R.drawable.man_walking)
-                .setPriority(NotificationCompat.PRIORITY_MIN)
-                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
-                .build();
-    }
-
-    /**
-     * Checks for notification permission and updates the service accordingly
-     */
-    private void checkAndUpdateNotificationPermission() {
-        logMessage("Checking notification permission");
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            logMessage("Notification permission check (TIRAMISU)");
-            boolean hasPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
-                    == PackageManager.PERMISSION_GRANTED;
-
-            if (hasPermission) {
-                if (!isShowingNotification) {
-                    logMessage("Notification permission granted - showing notification");
-                    notifyToUserForForegroundService();
-                    isShowingNotification = true;
-                }
-                if (isServiceRunningRightNow) {
-                    logMessage("Notification permission granted - updating notification content");
-                }
-            } else {
-                if (isShowingNotification) {
-                    logMessage("Notification permission not granted - removing notification");
-                    NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
-                    startForeground(NOTIFICATION_ID, createBlankNotification());
-                    isShowingNotification = false;
-                } else {
-                    logError("Notification permission not granted", null);
-                }
             }
         }
     }
