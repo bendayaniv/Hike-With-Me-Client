@@ -61,14 +61,14 @@ public class LocationService extends Service {
 
     // 2. Member variables
     private boolean isServiceRunningRightNow = false;
-    private boolean isShowingNotification = false;
+//    private boolean isShowingNotification = false;
     private final Handler handler = new Handler();
     private Runnable runnable;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private PowerManager.WakeLock wakeLock;
     private PowerManager powerManager;
     private com.example.hike_with_me_client.Utils.NotificationManager notificationManager;
-    private boolean enableStickyNotification = false;
+//    private boolean enableStickyNotification = false;
     private boolean enablePopUpNotifications = true;
 
     // 3. Service Lifecycle Methods
@@ -257,8 +257,8 @@ public class LocationService extends Service {
                 CurrentUser.getInstance().getUser().setLocation(myLoc);
                 UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
-                if (enableStickyNotification)
-                    updateNotificationContent("lat: " + lat + ", lon: " + lon);
+//                if (enableStickyNotification)
+//                    updateNotificationContent("lat: " + lat + ", lon: " + lon);
             } catch (Exception e) {
                 logError("Error processing location update", e);
             }
@@ -267,14 +267,14 @@ public class LocationService extends Service {
 
     // 5. Notification Management
 
-    /**
-     * Updates the content of the main notification.
-     *
-     * @param content The new content to display in the notification.
-     */
-    private void updateNotificationContent(String content) {
-        notificationManager.updateNotificationContent(content, 0, 1);
-    }
+//    /**
+//     * Updates the content of the main notification.
+//     *
+//     * @param content The new content to display in the notification.
+//     */
+//    private void updateNotificationContent(String content) {
+//        notificationManager.updateNotificationContent(content, 0, 1);
+//    }
 
     /**
      * Shows a new pop-up notification.
@@ -314,17 +314,17 @@ public class LocationService extends Service {
         } else {
             startForeground(NOTIFICATION_ID, notification);
         }
-        isShowingNotification = true;
+//        isShowingNotification = true;
     }
 
-    private void updateNotificationVisibility() {
-        if (enableStickyNotification) {
-            Notification notification = notificationManager.createForegroundNotification();
-            startForegroundWithNotification(notification);
-        } else {
-            startForegroundWithSilentNotification();
-        }
-    }
+//    private void updateNotificationVisibility() {
+//        if (enableStickyNotification) {
+//            Notification notification = notificationManager.createForegroundNotification();
+//            startForegroundWithNotification(notification);
+//        } else {
+//            startForegroundWithSilentNotification();
+//        }
+//    }
 
     private void startForegroundWithSilentNotification() {
         Notification silentNotification = notificationManager.createSilentNotification();
@@ -333,7 +333,7 @@ public class LocationService extends Service {
         } else {
             startForeground(NOTIFICATION_ID, silentNotification);
         }
-        isShowingNotification = false;
+//        isShowingNotification = false;
     }
 
 //    /**
@@ -512,7 +512,8 @@ public class LocationService extends Service {
 //    }
     private void startServiceWithoutNotification() {
         isServiceRunningRightNow = true;
-        updateNotificationVisibility();
+//        updateNotificationVisibility();
+        startForegroundWithSilentNotification();
     }
 
     /**
@@ -526,26 +527,26 @@ public class LocationService extends Service {
                     == PackageManager.PERMISSION_GRANTED;
 
             if (hasPermission) {
-                if (!isShowingNotification && enableStickyNotification /*&& false*/) {
-                    logMessage("Notification permission granted - showing notification");
-                    Notification notification = notificationManager.createForegroundNotification();
-                    startForegroundWithNotification(notification);
-                    isShowingNotification = true;
-                } else {
-                    logMessage("Notification permission granted - not showing notification");
-                }
+//                if (!isShowingNotification && enableStickyNotification /*&& false*/) {
+//                    logMessage("Notification permission granted - showing notification");
+//                    Notification notification = notificationManager.createForegroundNotification();
+//                    startForegroundWithNotification(notification);
+//                    isShowingNotification = true;
+//                } else {
+//                    logMessage("Notification permission granted - not showing notification");
+//                }
                 if (isServiceRunningRightNow) {
                     logMessage("Notification permission granted - updating notification content");
                 }
             } else {
-                if (isShowingNotification) {
-                    logMessage("Notification permission not granted - removing notification");
-                    NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
-                    startForeground(NOTIFICATION_ID, createBlankNotification());
-                    isShowingNotification = false;
-                } else {
+//                if (isShowingNotification) {
+//                    logMessage("Notification permission not granted - removing notification");
+//                    NotificationManagerCompat.from(this).cancel(NOTIFICATION_ID);
+//                    startForeground(NOTIFICATION_ID, createBlankNotification());
+//                    isShowingNotification = false;
+//                } else {
                     logError("Notification permission not granted", null);
-                }
+//                }
             }
         }
     }

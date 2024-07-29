@@ -194,19 +194,19 @@ public class NotificationManager {
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
-    /**
-     * Updates the content of the foreground notification.
-     *
-     * @param content        Additional content to display in the notification.
-     * @param counter        The current counter value.
-     * @param anotherCounter Another counter value to display.
-     */
-    public void updateNotificationContent(String content, int counter, int anotherCounter) {
-        if (notificationBuilder != null) {
-            notificationBuilder.setContentText("Counter: " + counter + "\nAnother Counter: " + anotherCounter + "\n" + content);
-            getSystemNotificationManager().notify(NOTIFICATION_ID, notificationBuilder.build());
-        }
-    }
+//    /**
+//     * Updates the content of the foreground notification.
+//     *
+//     * @param content        Additional content to display in the notification.
+//     * @param counter        The current counter value.
+//     * @param anotherCounter Another counter value to display.
+//     */
+//    public void updateNotificationContent(String content, int counter, int anotherCounter) {
+//        if (notificationBuilder != null) {
+//            notificationBuilder.setContentText("Counter: " + counter + "\nAnother Counter: " + anotherCounter + "\n" + content);
+//            getSystemNotificationManager().notify(NOTIFICATION_ID, notificationBuilder.build());
+//        }
+//    }
 
     /**
      * Shows a pop-up notification with the current counter value.
