@@ -16,6 +16,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -28,6 +29,7 @@ import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Services.LocationService;
+import com.example.hike_with_me_client.Utils.NotificationManager;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
@@ -99,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        startService();
         startLocationService();
+
+        handleNotificationClick(getIntent());
 
         stopLocationService();
     }
@@ -230,6 +234,23 @@ public class MainActivity extends AppCompatActivity {
         // Set initial notification states
 //        enableStickyNotification(false);  // Start without sticky notification
         enablePopUpNotifications(true);   // Enable pop-up notifications
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotificationClick(intent);
+    }
+
+    private void handleNotificationClick(Intent intent) {
+        if (intent != null && NotificationManager.OPEN_APP_DISMISS_NOTIFICATIONS.equals(intent.getAction())) {
+            // Dismiss all notifications
+            NotificationManagerCompat.from(this).cancelAll();
+
+            // Optionally, you can add logic here to navigate to a specific part of your app
+            // For example, you might want to show the MainPageFragment
+            mainPageFragment();
+        }
     }
 
     private void stopLocationService() {

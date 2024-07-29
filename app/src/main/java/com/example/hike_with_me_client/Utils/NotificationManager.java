@@ -41,6 +41,7 @@ import androidx.core.content.ContextCompat;
 public class NotificationManager {
 
     // Constants
+    public static final String OPEN_APP_DISMISS_NOTIFICATIONS = "OPEN_APP_DISMISS_NOTIFICATIONS";
     private static final String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
     private static final String SILENT_CHANNEL_ID = "com.example.servicestest.SILENT_CHANNEL_ID";
     private static final String POPUP_CHANNEL_ID = "popup_channel_id";
@@ -187,6 +188,13 @@ public class NotificationManager {
         return PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
+    private PendingIntent createPopupNotificationPendingIntent() {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(OPEN_APP_DISMISS_NOTIFICATIONS);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+    }
+
     /**
      * Updates the content of the foreground notification.
      *
@@ -254,7 +262,8 @@ public class NotificationManager {
                         .setContentText(hazard.getDescription())
                         .setPriority(NotificationCompat.PRIORITY_HIGH)
                         .setAutoCancel(true)
-                        .setDefaults(NotificationCompat.DEFAULT_ALL);
+                        .setDefaults(NotificationCompat.DEFAULT_ALL)
+                        .setContentIntent(createPopupNotificationPendingIntent());
 
                 int notificationId = popupNotificationId++;
                 // Check for notification permission
