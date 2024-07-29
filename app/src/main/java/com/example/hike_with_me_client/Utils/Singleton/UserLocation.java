@@ -137,8 +137,8 @@ public class UserLocation {
                                 int index = locationResult.getLocations().size() - 1;
                                 double currentLatitude = locationResult.getLocations().get(index).getLatitude();
                                 double currentLongitude = locationResult.getLocations().get(index).getLongitude();
-                                    CurrentUser.getInstance().getUser().setLocation(new Location(currentLatitude, currentLongitude, null));
-                                    UserMethods.updateUser(CurrentUser.getInstance().getUser());
+                                CurrentUser.getInstance().getUser().setLocation(new Location(currentLatitude, currentLongitude, null));
+                                UserMethods.updateUser(CurrentUser.getInstance().getUser());
                             }
                         }
                     }, Looper.getMainLooper());

@@ -16,7 +16,7 @@ import retrofit2.http.Path;
 public interface UserApiInterface {
 
     @GET("hike-with-me/users/getAllActiveUsers/{userId}")
-    Call<List<UserWithDistance>> getAllUsers(
+    Call<List<UserWithDistance>> getAllActiveUsers(
             @Path("userId") String userId
     );
 

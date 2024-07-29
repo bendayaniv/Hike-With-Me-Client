@@ -258,7 +258,7 @@ public class LocationService extends Service {
                 double lat = location.getLatitude();
                 double lon = location.getLongitude();
 
-                logMessage("Location update received: " + lon + ", " + lat);
+                logMessage("Location update received: " + lat + ", " + lon);
 
                 Location myLoc = new Location()
                         .setLatitude(lat)
@@ -269,7 +269,7 @@ public class LocationService extends Service {
                 intent.putExtra(BROADCAST_LOCATION_KEY, json);
                 LocalBroadcastManager.getInstance(LocationService.this).sendBroadcast(intent);
 
-//                if (enableStickyNotification)
+                if (enableStickyNotification)
                     updateNotificationContent("lat: " + lat + ", lon: " + lon);
             } catch (Exception e) {
                 logError("Error processing location update", e);

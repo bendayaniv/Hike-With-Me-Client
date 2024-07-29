@@ -6,7 +6,7 @@ import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.Actions.AddUser;
 import com.example.hike_with_me_client.Models.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_AddUser;
-import com.example.hike_with_me_client.Models.User.Actions.GetAllUsers;
+import com.example.hike_with_me_client.Models.User.Actions.GetAllActiveUsers;
 import com.example.hike_with_me_client.Models.User.Actions.GetUser;
 import com.example.hike_with_me_client.Models.User.Actions.UpdateUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_DeleteUser;
@@ -39,7 +39,7 @@ public class UserMethods {
                 ErrorMessageFromServer.getInstance().setErrorMessageFromServer(message);
             }
         };
-        new GetAllUsers(callback_getAllUsers).getAllUsers();
+        new GetAllActiveUsers(callback_getAllUsers).getAllActiveUsers();
     }
 
     public static void getSpecificUser(String userId) {
