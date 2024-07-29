@@ -229,9 +229,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LocationService.class);
         intent.setAction(LocationService.START_FOREGROUND_SERVICE);
         startForegroundServiceCompat(intent);
-
-        // Set initial notification states
-        enablePopUpNotifications(true);   // Enable pop-up notifications
     }
 
     @Override
@@ -256,13 +253,6 @@ public class MainActivity extends AppCompatActivity {
     private void stopLocationService() {
         Intent intent = new Intent(this, LocationService.class);
         intent.setAction(LocationService.STOP_FOREGROUND_SERVICE);
-        startForegroundServiceCompat(intent);
-    }
-
-    private void enablePopUpNotifications(boolean enable) {
-        Intent intent = new Intent(this, LocationService.class);
-        intent.setAction(enable ? LocationService.ACTION_ENABLE_POPUP_NOTIFICATIONS
-                : LocationService.ACTION_DISABLE_POPUP_NOTIFICATIONS);
         startForegroundServiceCompat(intent);
     }
 

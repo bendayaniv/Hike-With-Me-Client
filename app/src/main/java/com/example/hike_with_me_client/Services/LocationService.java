@@ -43,8 +43,6 @@ public class LocationService extends Service {
     public static final int NOTIFICATION_ID = 168;
     private static final String WAKE_LOCK_TAG = "LocationService:WakeLock";
     private static final String LOG_TAG = "LocationService";
-    public static final String ACTION_ENABLE_POPUP_NOTIFICATIONS = "ACTION_ENABLE_POPUP_NOTIFICATIONS";
-    public static final String ACTION_DISABLE_POPUP_NOTIFICATIONS = "ACTION_DISABLE_POPUP_NOTIFICATIONS";
 
     // Time intervals
     private static final int LOCATION_UPDATE_INTERVAL_MS = 1000;
@@ -59,7 +57,6 @@ public class LocationService extends Service {
     private PowerManager.WakeLock wakeLock;
     private PowerManager powerManager;
     private com.example.hike_with_me_client.Utils.NotificationManager notificationManager;
-    private boolean enablePopUpNotifications = true;
 
     // 3. Service Lifecycle Methods
 
@@ -94,12 +91,6 @@ public class LocationService extends Service {
                 break;
             case STOP_FOREGROUND_SERVICE:
                 stopRecording();
-                break;
-            case ACTION_ENABLE_POPUP_NOTIFICATIONS:
-                enablePopUpNotifications = true;
-                break;
-            case ACTION_DISABLE_POPUP_NOTIFICATIONS:
-                enablePopUpNotifications = false;
                 break;
         }
 
@@ -187,15 +178,6 @@ public class LocationService extends Service {
 
     // 5. Notification Management
 
-    /**
-     * Shows a new pop-up notification.
-     */
-    private void showPopUpNotification() {
-        if (enablePopUpNotifications) {
-            notificationManager.showPopUpNotification();
-        }
-    }
-
     private void startForegroundWithSilentNotification() {
         Notification silentNotification = notificationManager.createSilentNotification();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -241,7 +223,7 @@ public class LocationService extends Service {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             checkAndUpdateNotificationPermission();
         }
-        showPopUpNotification();
+        notificationManager.showPopUpNotification();
     }
 
     /**
@@ -257,7 +239,7 @@ public class LocationService extends Service {
     private void acquireWakeLock() {
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKE_LOCK_TAG);
-        wakeLock.acquire(10*60*1000L /*10 minutes*/);
+        wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
     }
 
     /**

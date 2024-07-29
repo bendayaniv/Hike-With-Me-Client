@@ -16,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.hike_with_me_client.Controller.Activities.MainActivity;
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -189,32 +190,35 @@ public class NotificationManager {
 
             // get over all didNotNoticed and show the pop-up notification
             for (Hazard hazard : didNotNoticed) {
+                // TODO - handle in both sides that Hazard object will have userId instead of the name of the user
+                if (!hazard.getReporterName().equals(CurrentUser.getInstance().getUser().getName())) {
 //                Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // To set the icon app
 
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
-                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
-                        .setSmallIcon(R.drawable.hazard_sign)
-                        .setContentTitle("Hazard In Your Area!")
-                        .setContentText(hazard.getDescription())
-                        .setPriority(NotificationCompat.PRIORITY_HIGH)
-                        .setAutoCancel(true)
-                        .setDefaults(NotificationCompat.DEFAULT_ALL)
-                        .setContentIntent(createPopupNotificationPendingIntent());
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
+                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
+                            .setSmallIcon(R.drawable.hazard_sign)
+                            .setContentTitle("Hazard In Your Area!")
+                            .setContentText(hazard.getDescription())
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setAutoCancel(true)
+                            .setDefaults(NotificationCompat.DEFAULT_ALL)
+                            .setContentIntent(createPopupNotificationPendingIntent());
 
-                int notificationId = popupNotificationId++;
-                // Check for notification permission
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                    int notificationId = popupNotificationId++;
+                    // Check for notification permission
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+                            activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
+                        } else {
+                            // Handle the case where permission is not granted
+                            Log.e("NotificationManager", "Notification permission not granted");
+                        }
+                    } else {
+                        // For versions below Android 13, no runtime permission is needed
                         NotificationManagerCompat.from(context).notify(notificationId, builder.build());
                         activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
-                    } else {
-                        // Handle the case where permission is not granted
-                        Log.e("NotificationManager", "Notification permission not granted");
                     }
-                } else {
-                    // For versions below Android 13, no runtime permission is needed
-                    NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-                    activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
                 }
             }
         }
