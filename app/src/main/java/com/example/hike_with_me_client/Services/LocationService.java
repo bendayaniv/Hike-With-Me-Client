@@ -49,8 +49,8 @@ public class LocationService extends Service {
     public static final String MAIN_ACTION = "com.example.servicestest.locationservice.action.main";
     private static final String WAKE_LOCK_TAG = "LocationService:WakeLock";
     private static final String LOG_TAG = "LocationService";
-    public static final String ACTION_ENABLE_STICKY_NOTIFICATION = "ACTION_ENABLE_STICKY_NOTIFICATION";
-    public static final String ACTION_DISABLE_STICKY_NOTIFICATION = "ACTION_DISABLE_STICKY_NOTIFICATION";
+//    public static final String ACTION_ENABLE_STICKY_NOTIFICATION = "ACTION_ENABLE_STICKY_NOTIFICATION";
+//    public static final String ACTION_DISABLE_STICKY_NOTIFICATION = "ACTION_DISABLE_STICKY_NOTIFICATION";
     public static final String ACTION_ENABLE_POPUP_NOTIFICATIONS = "ACTION_ENABLE_POPUP_NOTIFICATIONS";
     public static final String ACTION_DISABLE_POPUP_NOTIFICATIONS = "ACTION_DISABLE_POPUP_NOTIFICATIONS";
 
@@ -157,14 +157,14 @@ public class LocationService extends Service {
             case STOP_FOREGROUND_SERVICE:
                 stopRecording();
                 break;
-            case ACTION_ENABLE_STICKY_NOTIFICATION:
-                enableStickyNotification = true;
-                updateNotificationVisibility();
-                break;
-            case ACTION_DISABLE_STICKY_NOTIFICATION:
-                enableStickyNotification = false;
-                updateNotificationVisibility();
-                break;
+//            case ACTION_ENABLE_STICKY_NOTIFICATION:
+//                enableStickyNotification = true;
+//                updateNotificationVisibility();
+//                break;
+//            case ACTION_DISABLE_STICKY_NOTIFICATION:
+//                enableStickyNotification = false;
+//                updateNotificationVisibility();
+//                break;
             case ACTION_ENABLE_POPUP_NOTIFICATIONS:
                 enablePopUpNotifications = true;
                 break;
