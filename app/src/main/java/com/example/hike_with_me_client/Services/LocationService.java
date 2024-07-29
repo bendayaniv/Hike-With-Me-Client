@@ -2,16 +2,11 @@ package com.example.hike_with_me_client.Services;
 
 import android.Manifest;
 import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -26,13 +21,10 @@ import com.example.hike_with_me_client.Models.Objects.Location;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.hike_with_me_client.Models.User.UserMethods;
-import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
@@ -41,9 +33,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.Gson;
-
-import java.util.LinkedList;
 
 /**
  * LocationService is a foreground service that handles location tracking and notifications.
@@ -55,9 +44,6 @@ public class LocationService extends Service {
     // 1. Constants
     public static final String START_FOREGROUND_SERVICE = "START_FOREGROUND_SERVICE";
     public static final String STOP_FOREGROUND_SERVICE = "STOP_FOREGROUND_SERVICE";
-    public static final String BROADCAST_LOCATION = "BROADCAST_LOCATION";
-    public static final String BROADCAST_LOCATION_KEY = "BROADCAST_LOCATION_KEY";
-    public static final String BROADCAST_COUNTER_KEY = "BROADCAST_COUNTER_KEY";
     public static final int NOTIFICATION_ID = 168;
     public static final String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
     public static final String MAIN_ACTION = "com.example.servicestest.locationservice.action.main";
@@ -71,20 +57,16 @@ public class LocationService extends Service {
     // Time intervals
     private static final int LOCATION_UPDATE_INTERVAL_MS = 1000;
     private static final float LOCATION_UPDATE_DISTANCE_METERS = 0.0f;
-    private static final int PERIODIC_TASK_INTERVAL_MS = 10000;
-    private static final int POPUP_NOTIFICATION_INTERVAL = 5; // Run every 10 seconds (5 * 2000ms)
+    private static final int PERIODIC_TASK_INTERVAL_MS = /*60000*/5000; // Every 60 seconds
 
     // 2. Member variables
     private boolean isServiceRunningRightNow = false;
     private boolean isShowingNotification = false;
     private final Handler handler = new Handler();
     private Runnable runnable;
-    private int counter = 0;
-    private int anotherCounter = 0;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private PowerManager.WakeLock wakeLock;
     private PowerManager powerManager;
-    private Intent intent;
     private com.example.hike_with_me_client.Utils.NotificationManager notificationManager;
     private boolean enableStickyNotification = false;
     private boolean enablePopUpNotifications = true;
@@ -291,8 +273,7 @@ public class LocationService extends Service {
      * @param content The new content to display in the notification.
      */
     private void updateNotificationContent(String content) {
-        notificationManager.updateNotificationContent(content, counter, anotherCounter);
-        anotherCounter++;
+        notificationManager.updateNotificationContent(content, 0, 1);
     }
 
     /**
@@ -303,7 +284,7 @@ public class LocationService extends Service {
 //    }
     private void showPopUpNotification() {
         if (enablePopUpNotifications) {
-            notificationManager.showPopUpNotification(counter);
+            notificationManager.showPopUpNotification();
         }
     }
 
@@ -338,7 +319,7 @@ public class LocationService extends Service {
 
     private void updateNotificationVisibility() {
         if (enableStickyNotification) {
-            Notification notification = notificationManager.createForegroundNotification(counter);
+            Notification notification = notificationManager.createForegroundNotification();
             startForegroundWithNotification(notification);
         } else {
             startForegroundWithSilentNotification();
@@ -444,8 +425,6 @@ public class LocationService extends Service {
 //        if (counter % POPUP_NOTIFICATION_INTERVAL == 0) {
         showPopUpNotification();
 //        }
-
-        counter++;
     }
 
     /**
@@ -549,7 +528,7 @@ public class LocationService extends Service {
             if (hasPermission) {
                 if (!isShowingNotification && enableStickyNotification /*&& false*/) {
                     logMessage("Notification permission granted - showing notification");
-                    Notification notification = notificationManager.createForegroundNotification(counter);
+                    Notification notification = notificationManager.createForegroundNotification();
                     startForegroundWithNotification(notification);
                     isShowingNotification = true;
                 } else {

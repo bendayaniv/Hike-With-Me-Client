@@ -152,10 +152,9 @@ public class NotificationManager {
     /**
      * Creates a foreground notification for the service.
      *
-     * @param counter The current counter value to display in the notification.
      * @return A Notification object for the foreground service.
      */
-    public Notification createForegroundNotification(int counter) {
+    public Notification createForegroundNotification() {
         PendingIntent pendingIntent = createNotificationPendingIntent();
         notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setContentIntent(pendingIntent)
@@ -163,7 +162,7 @@ public class NotificationManager {
                 .setSmallIcon(R.drawable.man_walking)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round))
                 .setContentTitle("App in progress")
-                .setContentText(String.valueOf(counter));
+                .setContentText(String.valueOf(0));
         return notificationBuilder.build();
     }
 
@@ -211,10 +210,8 @@ public class NotificationManager {
 
     /**
      * Shows a pop-up notification with the current counter value.
-     *
-     * @param counter The current counter value to display in the pop-up notification.
      */
-    public void showPopUpNotification(int counter) {
+    public void showPopUpNotification() {
         clearExpiredNotifications();
 
         if (activeNotifications.size() >= MAX_ACTIVE_NOTIFICATIONS) {
