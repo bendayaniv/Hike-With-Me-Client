@@ -129,6 +129,16 @@ public class NotificationManager {
         return notificationBuilder.build();
     }
 
+    public Notification createSilentNotification() {
+        return new NotificationCompat.Builder(context, SILENT_CHANNEL_ID)
+                .setContentTitle("")
+                .setContentText("")
+                .setSmallIcon(R.drawable.man_walking) // Create a transparent icon
+                .setPriority(NotificationCompat.PRIORITY_MIN)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+                .build();
+    }
+
     /**
      * Creates a PendingIntent for the notification.
      *
