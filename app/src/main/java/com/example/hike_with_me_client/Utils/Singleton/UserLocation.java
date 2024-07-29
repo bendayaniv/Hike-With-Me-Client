@@ -94,21 +94,6 @@ public class UserLocation {
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
-    public int checkingForGpsAndLocationPermissions(int requestCode, int[] grantResults) {
-        if (requestCode == Constants.REQUEST_CODE) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (isGPSEnabled()) {
-                    if (getCurrentLocation() == 0) return 0;
-                } else {
-                    turnOnGPS();
-                }
-            } else {
-                return 0;
-            }
-        }
-        return 1;
-    }
-
     public int checkingForCurrentLocationAvailability(int requestCode, int resultCode) {
         if (requestCode == Constants.REQUEST_CHECK_SETTINGS) {
             if (resultCode == Activity.RESULT_OK) {

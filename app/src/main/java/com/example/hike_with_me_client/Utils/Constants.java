@@ -13,7 +13,8 @@ public class Constants {
     public static final int MENU_PROFILE = 2131231025;
 
     public static final int REQUEST_CHECK_SETTINGS = 10001;
-    public static final int REQUEST_CODE = 10002;
+    public static final int LOCATION_PERMISSION_REQUEST_CODE = 10002;
+    public static final int NOTIFICATION_PERMISSION_REQUEST_CODE = 10003;
 
     public static final long RETRY_INTERVAL = 1500;
 
