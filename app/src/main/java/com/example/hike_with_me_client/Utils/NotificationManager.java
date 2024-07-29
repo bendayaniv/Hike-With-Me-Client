@@ -6,7 +6,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -45,7 +44,6 @@ public class NotificationManager {
     private static final String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
     private static final String SILENT_CHANNEL_ID = "com.example.servicestest.SILENT_CHANNEL_ID";
     private static final String POPUP_CHANNEL_ID = "popup_channel_id";
-    private static final int NOTIFICATION_ID = 168;
     private static final int INITIAL_POPUP_NOTIFICATION_ID = 1000;
     private static final int MAX_ACTIVE_NOTIFICATIONS = 5;
     private static final long NOTIFICATION_EXPIRY_TIME_MS = 60000; // 1 minute
@@ -67,7 +65,6 @@ public class NotificationManager {
      */
     public NotificationManager(Context context) {
         this.context = context;
-        // clean SharedPreferences
         context.deleteSharedPreferences(DB_FILE);
         preferences = context.getSharedPreferences(DB_FILE, Context.MODE_PRIVATE);
         createNotificationChannels();
@@ -149,23 +146,6 @@ public class NotificationManager {
 
     // Notification Creation and Update Methods
 
-    /**
-     * Creates a foreground notification for the service.
-     *
-     * @return A Notification object for the foreground service.
-     */
-    public Notification createForegroundNotification() {
-        PendingIntent pendingIntent = createNotificationPendingIntent();
-        notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true)
-                .setSmallIcon(R.drawable.man_walking)
-                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher_round))
-                .setContentTitle("App in progress")
-                .setContentText(String.valueOf(0));
-        return notificationBuilder.build();
-    }
-
     public Notification createSilentNotification() {
         return new NotificationCompat.Builder(context, SILENT_CHANNEL_ID)
                 .setContentTitle("")
@@ -176,37 +156,12 @@ public class NotificationManager {
                 .build();
     }
 
-    /**
-     * Creates a PendingIntent for the notification.
-     *
-     * @return A PendingIntent that opens the MainActivity when the notification is tapped.
-     */
-    private PendingIntent createNotificationPendingIntent() {
-        Intent notificationIntent = new Intent(context, MainActivity.class);
-        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        return PendingIntent.getActivity(context, NOTIFICATION_ID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-    }
-
     private PendingIntent createPopupNotificationPendingIntent() {
         Intent intent = new Intent(context, MainActivity.class);
         intent.setAction(OPEN_APP_DISMISS_NOTIFICATIONS);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
-
-//    /**
-//     * Updates the content of the foreground notification.
-//     *
-//     * @param content        Additional content to display in the notification.
-//     * @param counter        The current counter value.
-//     * @param anotherCounter Another counter value to display.
-//     */
-//    public void updateNotificationContent(String content, int counter, int anotherCounter) {
-//        if (notificationBuilder != null) {
-//            notificationBuilder.setContentText("Counter: " + counter + "\nAnother Counter: " + anotherCounter + "\n" + content);
-//            getSystemNotificationManager().notify(NOTIFICATION_ID, notificationBuilder.build());
-//        }
-//    }
 
     /**
      * Shows a pop-up notification with the current counter value.
@@ -219,22 +174,7 @@ public class NotificationManager {
             NotificationManagerCompat.from(context).cancel(oldest.id);
         }
 
-        Log.d("NotificationManager", "ListOfHazards.getInstance().getHazards(): " + ListOfHazards.getInstance().getHazards());
-
-//        context.getSharedPreferences()
         ArrayList<Hazard> alreadyNoticed = getList();
-        Log.d("NotificationManager", "alreadyNoticed: " + alreadyNoticed);
-
-//        ArrayList<Hazard> didNotNoticed = new ArrayList<>();
-//
-//        Log.d("NotificationManager", "didNotNoticed1: " + didNotNoticed);
-//
-//        // for loop who gets all over ListOfHazards.getInstance().getHazards(), check which is not in list of alreadyNoticed, and put them in didNotNoticed
-//        for (Hazard hazard : ListOfHazards.getInstance().getHazards()) {
-//            if (!alreadyNoticed.contains(hazard)) {
-//                didNotNoticed.add(hazard);
-//            }
-//        }
 
         List<Hazard> didNotNoticed = ListOfHazards.getInstance().getHazards().stream()
                 .filter(hazard -> alreadyNoticed.stream()
@@ -280,32 +220,6 @@ public class NotificationManager {
             }
         }
 
-////        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // To set the icon app
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
-//                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
-//                .setSmallIcon(R.drawable.hazard_sign)
-//                .setContentTitle("Hazard In Your Area!")
-//                .setContentText(ListOfHazards.getInstance().getHazards().get(0).getDescription())
-//                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setAutoCancel(true)
-//                .setDefaults(NotificationCompat.DEFAULT_ALL);
-//
-//        int notificationId = popupNotificationId++;
-//        // Check for notification permission
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-//            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-//                NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-//                activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
-//            } else {
-//                // Handle the case where permission is not granted
-//                Log.e("NotificationManager", "Notification permission not granted");
-//            }
-//        } else {
-//            // For versions below Android 13, no runtime permission is needed
-//            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-//            activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
-//        }
     }
 
     // Utility Methods
