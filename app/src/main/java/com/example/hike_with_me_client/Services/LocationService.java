@@ -16,8 +16,8 @@ import android.util.Log;
 import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.Location;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -28,7 +28,6 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 /**
@@ -167,25 +166,22 @@ public class LocationService extends Service {
     /**
      * Callback for location updates.
      */
-    private LocationListener locationCallback = new LocationListener() {
-        @Override
-        public void onLocationChanged(@NonNull android.location.Location location) {
-            try {
-                double lat = location.getLatitude();
-                double lon = location.getLongitude();
+    private LocationListener locationCallback = location -> {
+        try {
+            double lat = location.getLatitude();
+            double lon = location.getLongitude();
 
-                logMessage("Location update received: " + lat + ", " + lon);
+            logMessage("Location update received: " + lat + ", " + lon);
 
-                Location myLoc = new Location()
-                        .setLatitude(lat)
-                        .setLongitude(lon)
-                        .setDate(null);
+            Location myLoc = new Location()
+                    .setLatitude(lat)
+                    .setLongitude(lon)
+                    .setDate(null);
 
-                CurrentUser.getInstance().getUser().setLocation(myLoc);
-                UserMethods.updateUser(CurrentUser.getInstance().getUser());
-            } catch (Exception e) {
-                logError("Error processing location update", e);
-            }
+            CurrentUser.getInstance().getUser().setLocation(myLoc);
+            UserMethods.updateUser(CurrentUser.getInstance().getUser());
+        } catch (Exception e) {
+            logError("Error processing location update", e);
         }
     };
 
@@ -229,12 +225,10 @@ public class LocationService extends Service {
      * Initializes and starts the periodic tasks
      */
     private void startPeriodicTasks() {
-        runnable = new Runnable() {
-            public void run() {
-                performPeriodicTasks();
-                scheduleNextRun();
-                HazardMethods.getNearHazards();
-            }
+        runnable = () -> {
+            performPeriodicTasks();
+            scheduleNextRun();
+            HazardMethods.getNearHazards();
         };
         handler.postDelayed(runnable, PERIODIC_TASK_INTERVAL_MS);
     }
@@ -244,7 +238,9 @@ public class LocationService extends Service {
      */
     private void performPeriodicTasks() {
         logMessage("Periodic task executed");
-        checkAndUpdateNotificationPermission();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            checkAndUpdateNotificationPermission();
+        }
         showPopUpNotification();
     }
 
@@ -261,7 +257,7 @@ public class LocationService extends Service {
     private void acquireWakeLock() {
         powerManager = (PowerManager) getSystemService(POWER_SERVICE);
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, WAKE_LOCK_TAG);
-        wakeLock.acquire();
+        wakeLock.acquire(10*60*1000L /*10 minutes*/);
     }
 
     /**
@@ -293,16 +289,13 @@ public class LocationService extends Service {
     private void stopGPSUpdates() {
         if (fusedLocationProviderClient != null) {
             Task<Void> task = fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-            task.addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        logMessage("Location updates stopped successfully");
-                    } else {
-                        logError("Failed to remove location callback", null);
-                    }
-                    stopSelf();
+            task.addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()) {
+                    logMessage("Location updates stopped successfully");
+                } else {
+                    logError("Failed to remove location callback", null);
                 }
+                stopSelf();
             });
         }
     }
@@ -329,6 +322,7 @@ public class LocationService extends Service {
     /**
      * Checks for notification permission and updates the service accordingly
      */
+    @RequiresApi(api = Build.VERSION_CODES.TIRAMISU)
     private void checkAndUpdateNotificationPermission() {
         logMessage("Checking notification permission");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

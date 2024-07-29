@@ -41,8 +41,8 @@ public class NotificationManager {
 
     // Constants
     public static final String OPEN_APP_DISMISS_NOTIFICATIONS = "OPEN_APP_DISMISS_NOTIFICATIONS";
-    private static final String CHANNEL_ID = "com.example.servicestest.CHANNEL_ID_FOREGROUND";
-    private static final String SILENT_CHANNEL_ID = "com.example.servicestest.SILENT_CHANNEL_ID";
+    private static final String CHANNEL_ID = "com.example.hike_with_me_client.CHANNEL_ID_FOREGROUND";
+    private static final String SILENT_CHANNEL_ID = "com.example.hike_with_me_client.SILENT_CHANNEL_ID";
     private static final String POPUP_CHANNEL_ID = "popup_channel_id";
     private static final int INITIAL_POPUP_NOTIFICATION_ID = 1000;
     private static final int MAX_ACTIVE_NOTIFICATIONS = 5;
@@ -50,9 +50,8 @@ public class NotificationManager {
 
     // Member variables
     private final Context context;
-    private NotificationCompat.Builder notificationBuilder;
     private int popupNotificationId = INITIAL_POPUP_NOTIFICATION_ID;
-    private LinkedList<NotificationInfo> activeNotifications = new LinkedList<>();
+    private final LinkedList<NotificationInfo> activeNotifications = new LinkedList<>();
 
     public static final String DB_FILE = "HIKE_WITH_ME_LOCAL_DB";
     private static SharedPreferences preferences;
@@ -65,7 +64,7 @@ public class NotificationManager {
      */
     public NotificationManager(Context context) {
         this.context = context;
-        context.deleteSharedPreferences(DB_FILE);
+        context.deleteSharedPreferences(DB_FILE); // TODO - not needed for the long term
         preferences = context.getSharedPreferences(DB_FILE, Context.MODE_PRIVATE);
         createNotificationChannels();
     }
@@ -87,7 +86,7 @@ public class NotificationManager {
             }.getType();
             list = gson.fromJson(serializeObject, type);
         }
-        return list == null ? new ArrayList<Hazard>() : list;
+        return list == null ? new ArrayList<>() : list;
     }
 
     // Notification Channel Creation Methods
