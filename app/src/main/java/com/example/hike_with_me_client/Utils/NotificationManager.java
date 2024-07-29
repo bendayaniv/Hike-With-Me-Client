@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
@@ -13,9 +15,17 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.example.hike_with_me_client.Controller.Activities.MainActivity;
+import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -45,6 +55,10 @@ public class NotificationManager {
     private int popupNotificationId = INITIAL_POPUP_NOTIFICATION_ID;
     private LinkedList<NotificationInfo> activeNotifications = new LinkedList<>();
 
+    public static final String DB_FILE = "HIKE_WITH_ME_LOCAL_DB";
+    private static SharedPreferences preferences;
+    private static SharedPreferences.Editor editor;
+
     /**
      * Constructor for NotificationManager.
      *
@@ -52,7 +66,30 @@ public class NotificationManager {
      */
     public NotificationManager(Context context) {
         this.context = context;
+        // clean SharedPreferences
+        context.deleteSharedPreferences(DB_FILE);
+        preferences = context.getSharedPreferences(DB_FILE, Context.MODE_PRIVATE);
         createNotificationChannels();
+    }
+
+    public void setList(List<Hazard> list) {
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor = preferences.edit();
+        editor.putString(DB_FILE, json);
+        editor.commit();
+    }
+
+    public ArrayList<Hazard> getList() {
+        ArrayList<Hazard> list = null;
+        String serializeObject = preferences.getString(DB_FILE, null);
+        if (serializeObject != null) {
+            Gson gson = new Gson();
+            Type type = new TypeToken<ArrayList<Hazard>>() {
+            }.getType();
+            list = gson.fromJson(serializeObject, type);
+        }
+        return list == null ? new ArrayList<Hazard>() : list;
     }
 
     // Notification Channel Creation Methods
@@ -177,29 +214,92 @@ public class NotificationManager {
             NotificationManagerCompat.from(context).cancel(oldest.id);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
-                .setSmallIcon(R.drawable.man_walking)
-                .setContentTitle("Counter Update")
-                .setContentText("Current count: " + counter)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true)
-                .setDefaults(NotificationCompat.DEFAULT_ALL);
+        Log.d("NotificationManager", "ListOfHazards.getInstance().getHazards(): " + ListOfHazards.getInstance().getHazards());
 
-        int notificationId = popupNotificationId++;
-        // Check for notification permission
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
-                NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-                activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
-            } else {
-                // Handle the case where permission is not granted
-                Log.e("NotificationManager", "Notification permission not granted");
+//        context.getSharedPreferences()
+        ArrayList<Hazard> alreadyNoticed = getList();
+        Log.d("NotificationManager", "alreadyNoticed: " + alreadyNoticed);
+
+//        ArrayList<Hazard> didNotNoticed = new ArrayList<>();
+//
+//        Log.d("NotificationManager", "didNotNoticed1: " + didNotNoticed);
+//
+//        // for loop who gets all over ListOfHazards.getInstance().getHazards(), check which is not in list of alreadyNoticed, and put them in didNotNoticed
+//        for (Hazard hazard : ListOfHazards.getInstance().getHazards()) {
+//            if (!alreadyNoticed.contains(hazard)) {
+//                didNotNoticed.add(hazard);
+//            }
+//        }
+
+        List<Hazard> didNotNoticed = ListOfHazards.getInstance().getHazards().stream()
+                .filter(hazard -> alreadyNoticed.stream()
+                        .noneMatch(noticed -> noticed.getId().equals(hazard.getId())))
+                .collect(Collectors.toList());
+
+        Log.d("NotificationManager", "didNotNoticed1: " + didNotNoticed);
+
+        // updating the SharedPreferences with setList with the ListOfHazards.getInstance().getHazards() if there is a new hazard
+        if (!didNotNoticed.isEmpty()) {
+            Log.d("NotificationManager", "didNotNoticed2: " + didNotNoticed);
+            setList(ListOfHazards.getInstance().getHazards());
+
+            // get over all didNotNoticed and show the pop-up notification
+            for (Hazard hazard : didNotNoticed) {
+//                Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // To set the icon app
+
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
+                        .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
+                        .setSmallIcon(R.drawable.hazard_sign)
+                        .setContentTitle("Hazard In Your Area!")
+                        .setContentText(hazard.getDescription())
+                        .setPriority(NotificationCompat.PRIORITY_HIGH)
+                        .setAutoCancel(true)
+                        .setDefaults(NotificationCompat.DEFAULT_ALL);
+
+                int notificationId = popupNotificationId++;
+                // Check for notification permission
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+                        NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+                        activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
+                    } else {
+                        // Handle the case where permission is not granted
+                        Log.e("NotificationManager", "Notification permission not granted");
+                    }
+                } else {
+                    // For versions below Android 13, no runtime permission is needed
+                    NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+                    activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
+                }
             }
-        } else {
-            // For versions below Android 13, no runtime permission is needed
-            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
-            activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
         }
+
+////        Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // To set the icon app
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
+//                .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
+//                .setSmallIcon(R.drawable.hazard_sign)
+//                .setContentTitle("Hazard In Your Area!")
+//                .setContentText(ListOfHazards.getInstance().getHazards().get(0).getDescription())
+//                .setPriority(NotificationCompat.PRIORITY_HIGH)
+//                .setAutoCancel(true)
+//                .setDefaults(NotificationCompat.DEFAULT_ALL);
+//
+//        int notificationId = popupNotificationId++;
+//        // Check for notification permission
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED) {
+//                NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+//                activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
+//            } else {
+//                // Handle the case where permission is not granted
+//                Log.e("NotificationManager", "Notification permission not granted");
+//            }
+//        } else {
+//            // For versions below Android 13, no runtime permission is needed
+//            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
+//            activeNotifications.addLast(new NotificationInfo(notificationId, System.currentTimeMillis()));
+//        }
     }
 
     // Utility Methods

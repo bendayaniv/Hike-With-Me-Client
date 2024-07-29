@@ -84,6 +84,8 @@ public class UserMethods {
             @Override
             public void success(User user) {
                 Log.d("UserMethods", "User updated: " + user);
+                // Set CurrentUser
+                CurrentUser.getInstance().setUser(user);
             }
 
             @Override

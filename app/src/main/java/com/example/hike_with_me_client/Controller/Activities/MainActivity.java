@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Controller.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
+//import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -23,6 +23,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
+import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -58,25 +59,25 @@ public class MainActivity extends AppCompatActivity {
         finish();
     };
 
-    private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onReceive(Context context, Intent intent) {
-
-//            String json = intent.getStringExtra(LocationService.BROADCAST_NOTIFICATION_KEY);
-            String json = intent.getStringExtra(LocationService.BROADCAST_LOCATION_KEY);
-            int counter = intent.getIntExtra(LocationService.BROADCAST_COUNTER_KEY, 0);
-            try {
-                Location myLoc = new Gson().fromJson(json, Location.class);
-//                panel_LBL_info.setText(json + "\nCounter: " + counter);
-                Log.d("MyMainActivity", "locationBroadcastReceiver: " + myLoc.toString());
-
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-
-        }
-    };
+//    private BroadcastReceiver locationBroadcastReceiver = new BroadcastReceiver() {
+//        @SuppressLint("SetTextI18n")
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+////            String json = intent.getStringExtra(LocationService.BROADCAST_NOTIFICATION_KEY);
+//            String json = intent.getStringExtra(LocationService.BROADCAST_LOCATION_KEY);
+//            int counter = intent.getIntExtra(LocationService.BROADCAST_COUNTER_KEY, 0);
+//            try {
+//                Location myLoc = new Gson().fromJson(json, Location.class);
+////                panel_LBL_info.setText(json + "\nCounter: " + counter);
+//                Log.d("MyMainActivity", "locationBroadcastReceiver: " + myLoc.toString());
+//
+//            } catch (Exception exception) {
+//                exception.printStackTrace();
+//            }
+//
+//        }
+//    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
 
 //        startService();
         startLocationService();
+
+        stopLocationService();
     }
 
     private void logoutButtonFunctionality() {
@@ -165,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case Constants.MENU_HOME:
                     startLocationService();
+//                    stopLocationService();
+//                    Log.d("Hazard", "Near Hazards");
+//                    HazardMethods.getNearHazards();
+//                    Log.d("Hazard", "Near Hazards found");
                     Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
                     mainPageFragment();
                     break;
@@ -221,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
         startForegroundServiceCompat(intent);
 
         // Set initial notification states
-        enableStickyNotification(false);  // Start without sticky notification
+//        enableStickyNotification(false);  // Start without sticky notification
         enablePopUpNotifications(true);   // Enable pop-up notifications
     }
 
@@ -231,12 +238,12 @@ public class MainActivity extends AppCompatActivity {
         startForegroundServiceCompat(intent);
     }
 
-    private void enableStickyNotification(boolean enable) {
-        Intent intent = new Intent(this, LocationService.class);
-        intent.setAction(enable ? LocationService.ACTION_ENABLE_STICKY_NOTIFICATION
-                : LocationService.ACTION_DISABLE_STICKY_NOTIFICATION);
-        startForegroundServiceCompat(intent);
-    }
+//    private void enableStickyNotification(boolean enable) {
+//        Intent intent = new Intent(this, LocationService.class);
+//        intent.setAction(enable ? LocationService.ACTION_ENABLE_STICKY_NOTIFICATION
+//                : LocationService.ACTION_DISABLE_STICKY_NOTIFICATION);
+//        startForegroundServiceCompat(intent);
+//    }
 
     private void enablePopUpNotifications(boolean enable) {
         Intent intent = new Intent(this, LocationService.class);
@@ -266,14 +273,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        IntentFilter intentFilter = new IntentFilter(LocationService.BROADCAST_LOCATION);
-        LocalBroadcastManager.getInstance(this).registerReceiver(locationBroadcastReceiver, intentFilter);
+//        IntentFilter intentFilter = new IntentFilter(LocationService.BROADCAST_LOCATION);
+//        LocalBroadcastManager.getInstance(this).registerReceiver(locationBroadcastReceiver, intentFilter);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationBroadcastReceiver);
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(locationBroadcastReceiver);
     }
 
     @Override

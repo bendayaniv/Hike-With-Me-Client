@@ -20,6 +20,7 @@ import android.os.PowerManager;
 import android.util.Log;
 
 import com.example.hike_with_me_client.Controller.Activities.MainActivity;
+import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.Location;
 
 import androidx.annotation.NonNull;
@@ -30,7 +31,9 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -68,7 +71,7 @@ public class LocationService extends Service {
     // Time intervals
     private static final int LOCATION_UPDATE_INTERVAL_MS = 1000;
     private static final float LOCATION_UPDATE_DISTANCE_METERS = 0.0f;
-    private static final int PERIODIC_TASK_INTERVAL_MS = 2000;
+    private static final int PERIODIC_TASK_INTERVAL_MS = 10000;
     private static final int POPUP_NOTIFICATION_INTERVAL = 5; // Run every 10 seconds (5 * 2000ms)
 
     // 2. Member variables
@@ -163,7 +166,7 @@ public class LocationService extends Service {
         }
 
         String action = intent.getAction();
-        this.intent = new Intent(BROADCAST_LOCATION);
+//        this.intent = new Intent(BROADCAST_LOCATION);
 
         switch (action) {
             case START_FOREGROUND_SERVICE:
@@ -265,9 +268,12 @@ public class LocationService extends Service {
                         .setLongitude(lon)
                         .setDate(null);
 
-                String json = new Gson().toJson(myLoc);
-                intent.putExtra(BROADCAST_LOCATION_KEY, json);
-                LocalBroadcastManager.getInstance(LocationService.this).sendBroadcast(intent);
+//                String json = new Gson().toJson(myLoc);
+//                intent.putExtra(BROADCAST_LOCATION_KEY, json);
+//                LocalBroadcastManager.getInstance(LocationService.this).sendBroadcast(intent);
+
+                CurrentUser.getInstance().getUser().setLocation(myLoc);
+                UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
                 if (enableStickyNotification)
                     updateNotificationContent("lat: " + lat + ", lon: " + lon);
@@ -349,40 +355,40 @@ public class LocationService extends Service {
         isShowingNotification = false;
     }
 
-    /**
-     * Creates a notification builder based on the Android version
-     */
-    public static NotificationCompat.Builder getNotificationBuilder(Context context, String channelId, int importance) {
-        NotificationCompat.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            prepareChannel(context, channelId, importance);
-            builder = new NotificationCompat.Builder(context, channelId);
-        } else {
-            builder = new NotificationCompat.Builder(context);
-        }
-        return builder;
-    }
+//    /**
+//     * Creates a notification builder based on the Android version
+//     */
+//    public static NotificationCompat.Builder getNotificationBuilder(Context context, String channelId, int importance) {
+//        NotificationCompat.Builder builder;
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            prepareChannel(context, channelId, importance);
+//            builder = new NotificationCompat.Builder(context, channelId);
+//        } else {
+//            builder = new NotificationCompat.Builder(context);
+//        }
+//        return builder;
+//    }
 
-    /**
-     * Prepares the notification channel for Android O and above
-     */
-    private static void prepareChannel(Context context, String id, int importance) {
-        final String appName = context.getString(R.string.app_name);
-        String notifications_channel_description = "HIKE-WITH-ME app location channel";
-        final NotificationManager nm = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
-
-        if (nm != null) {
-            NotificationChannel nChannel = nm.getNotificationChannel(id);
-
-            if (nChannel == null) {
-                nChannel = new NotificationChannel(id, appName, importance);
-                nChannel.setDescription(notifications_channel_description);
-                nChannel.enableLights(true);
-                nChannel.setLightColor(Color.BLUE);
-                nm.createNotificationChannel(nChannel);
-            }
-        }
-    }
+//    /**
+//     * Prepares the notification channel for Android O and above
+//     */
+//    private static void prepareChannel(Context context, String id, int importance) {
+//        final String appName = context.getString(R.string.app_name);
+//        String notifications_channel_description = "HIKE-WITH-ME app location channel";
+//        final NotificationManager nm = (NotificationManager) context.getSystemService(Service.NOTIFICATION_SERVICE);
+//
+//        if (nm != null) {
+//            NotificationChannel nChannel = nm.getNotificationChannel(id);
+//
+//            if (nChannel == null) {
+//                nChannel = new NotificationChannel(id, appName, importance);
+//                nChannel.setDescription(notifications_channel_description);
+//                nChannel.enableLights(true);
+//                nChannel.setLightColor(Color.BLUE);
+//                nm.createNotificationChannel(nChannel);
+//            }
+//        }
+//    }
 
     /**
      * Creates a blank notification for when permissions are not granted
@@ -422,6 +428,7 @@ public class LocationService extends Service {
             public void run() {
                 performPeriodicTasks();
                 scheduleNextRun();
+                HazardMethods.getNearHazards();
             }
         };
         handler.postDelayed(runnable, PERIODIC_TASK_INTERVAL_MS);
@@ -434,9 +441,9 @@ public class LocationService extends Service {
         logMessage("Periodic task executed");
         checkAndUpdateNotificationPermission();
 
-        if (counter % POPUP_NOTIFICATION_INTERVAL == 0) {
-            showPopUpNotification();
-        }
+//        if (counter % POPUP_NOTIFICATION_INTERVAL == 0) {
+        showPopUpNotification();
+//        }
 
         counter++;
     }
