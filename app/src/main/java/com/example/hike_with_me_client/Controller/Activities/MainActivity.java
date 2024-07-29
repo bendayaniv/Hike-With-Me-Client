@@ -139,22 +139,32 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MyMainActivity", "onCreate: " + item.getItemId());
             switch (item.getItemId()) {
                 case Constants.MENU_HOME:
-                    startLocationService(); // TODO - put it only on onCreate
-                    Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate1 MENU_HOME: " + item.getItemId());
                     mainPageFragment();
+
+                    // TODO - activate it when creating trip and it is active himself
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+                    startLocationService();
+
                     break;
                 case Constants.MENU_TRIPS:
-                    Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate2 MENU_TRIPS: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
                     break;
                 case Constants.MENU_COMMUNITY:
-                    Log.d("MyMainActivity", "onCreate3 community: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_COMMUNITY: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, communityListFragment).commit();
                     break;
                 case Constants.MENU_PROFILE:
-                    stopLocationService(); // TODO - put it on logout logic
-                    Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
+
+                    // TODO - activate it when there is not trip that is active
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+                    stopLocationService();
+
                     break;
             }
             return true;
@@ -213,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
     }
 
+    // Service Methods //
+
     private void startLocationService() {
         Intent intent = new Intent(this, LocationService.class);
         intent.setAction(LocationService.START_FOREGROUND_SERVICE);
@@ -237,6 +249,8 @@ public class MainActivity extends AppCompatActivity {
         // Optionally, can add logic here to navigate to a specific part of the app
         // For example, might want to show the MainPageFragment
         mainPageFragment();
+
+        // TODO - maybe in here we could do zoom in in the map to the location of the notification
     }
 
     private void stopLocationService() {
@@ -259,6 +273,8 @@ public class MainActivity extends AppCompatActivity {
             startService(intent);
         }
     }
+
+    // Service Methods //
 
     private void checkAndRequestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
