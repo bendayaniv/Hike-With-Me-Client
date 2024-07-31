@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private MainPageFragment mainPageFragment;
     private CommunityListFragment communityListFragment;
     private TripsListFragment tripsListFragment;
+    private ProfileFragment profileFragment;
     FusedLocationProviderClient fusedLocationProviderClient;
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         communityListFragment = new CommunityListFragment();
-
+        profileFragment = new ProfileFragment();
+        profileFragment.setFragmentManager(fragmentManager);
         tripsListFragment = new TripsListFragment();
         tripsListFragment.setFragmentManager(fragmentManager);
     }
@@ -147,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
                     break;
             }
             return true;

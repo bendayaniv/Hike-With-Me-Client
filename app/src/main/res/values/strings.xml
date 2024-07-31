@@ -26,4 +26,6 @@
     <string name="start_date_yyyy_mm_dd">Start Date: YYYY-MM-DD</string>
     <string name="end_date_yyyy_mm_dd">End Date: YYYY-MM-DD</string>
     <string name="fab_description">FAB_Description</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
