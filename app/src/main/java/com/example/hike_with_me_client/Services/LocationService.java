@@ -171,6 +171,8 @@ public class LocationService extends Service {
 
             CurrentUser.getInstance().getUser().setLocation(myLoc);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
+
+            // TODO - also need to handle to save the list of the locations for the user trip to show his path on the map
         } catch (Exception e) {
             logError("Error processing location update", e);
         }
