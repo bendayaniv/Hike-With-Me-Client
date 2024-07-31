@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
@@ -21,6 +24,8 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
+import com.example.hike_with_me_client.Services.LocationService;
+import com.example.hike_with_me_client.Utils.NotificationManager;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
@@ -134,20 +139,32 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MyMainActivity", "onCreate: " + item.getItemId());
             switch (item.getItemId()) {
                 case Constants.MENU_HOME:
-                    Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate1 MENU_HOME: " + item.getItemId());
                     mainPageFragment();
+
+                    // TODO - activate it when creating trip and it is active himself
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+                    startLocationService();
+
                     break;
                 case Constants.MENU_TRIPS:
-                    Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate2 MENU_TRIPS: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
                     break;
                 case Constants.MENU_COMMUNITY:
-                    Log.d("MyMainActivity", "onCreate3 community: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_COMMUNITY: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, communityListFragment).commit();
                     break;
                 case Constants.MENU_PROFILE:
-                    Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
+
+                    // TODO - activate it when there is not trip that is active
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+                    stopLocationService();
+
                     break;
             }
             return true;
@@ -170,8 +187,31 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (UserLocation.getInstance().checkingForGpsAndLocationPermissions(requestCode, grantResults) == 1) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        Log.d("MainActivity", "onRequestPermissionsResult: requestCode=" + requestCode);
+
+        switch (requestCode) {
+            case Constants.LOCATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Location permission granted
+                    Log.d("MainActivity", "Location permission granted");
+                    // Handle location permission granted
+                } else {
+                    // Location permission denied
+                    Log.d("MainActivity", "Location permission denied");
+                    // Handle location permission denied
+                }
+                break;
+            case Constants.NOTIFICATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Notification permission granted
+                    Log.d("MainActivity", "Notification permission granted");
+                    // Handle notification permission granted
+                } else {
+                    // Notification permission denied
+                    Log.d("MainActivity", "Notification permission denied");
+                    // Handle notification permission denied
+                }
+                break;
         }
     }
 
@@ -180,9 +220,74 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
     }
 
+    // Service Methods //
+
+    private void startLocationService() {
+        Intent intent = new Intent(this, LocationService.class);
+        intent.setAction(LocationService.START_FOREGROUND_SERVICE);
+        startForegroundServiceCompat(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotificationClick(intent);
+    }
+
+    private void handleNotificationClick(Intent intent) {
+        if (intent != null && NotificationManager.OPEN_APP_DISMISS_NOTIFICATIONS.equals(intent.getAction())) {
+            // Dismiss all notifications
+            NotificationManagerCompat.from(this).cancelAll();
+        }
+
+        // Optionally, can add logic here to navigate to a specific part of the app
+        // For example, might want to show the MainPageFragment
+        mainPageFragment();
+
+        // TODO - maybe in here we could do zoom in in the map to the location of the notification
+    }
+
+    private void stopLocationService() {
+        Intent intent = new Intent(this, LocationService.class);
+        intent.setAction(LocationService.STOP_FOREGROUND_SERVICE);
+        startForegroundServiceCompat(intent);
+    }
+
+    private void startForegroundServiceCompat(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+    }
+
+    // Service Methods //
+
+    private void checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, Constants.NOTIFICATION_PERMISSION_REQUEST_CODE);
+            } else {
+                // Notification permission is already granted
+                Log.d("MainActivity", "Notification permission already granted");
+            }
+        } else {
+            // For Android versions below 13, notification permission is granted by default
+            Log.d("MainActivity", "Notification permission not required for this Android version");
+        }
+    }
+
+    private void checkAndRequestLocationPermission() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            // Location permission is already granted
+            Log.d("MainActivity", "Location permission already granted");
+        }
+    }
 
     @Override
     protected void onDestroy() {
@@ -200,10 +305,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
-        if (UserLocation.getInstance().getCurrentLocation() == 0)
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
+        checkAndRequestLocationPermission();
+        checkAndRequestNotificationPermission();
     }
 
 }
