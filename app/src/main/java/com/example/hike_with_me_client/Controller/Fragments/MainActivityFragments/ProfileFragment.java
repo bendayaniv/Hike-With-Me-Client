@@ -2,15 +2,20 @@ package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragmen
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Models.User.User;
@@ -37,6 +42,9 @@ public class ProfileFragment extends Fragment {
     TextView profileName;
     TextView profileHometown;
     TextView profileEmail;
+
+    ImageView profileImage;
+    TextView phoneNum;
     Button editButton;
     public ProfileFragment() {
         // Required empty public constructor
@@ -64,6 +72,7 @@ public class ProfileFragment extends Fragment {
             mEmail = getArguments().getString(ARG_EMAIL);
             mHometown = getArguments().getString(ARG_HOMETOWN);
         }
+        handler = new Handler(Looper.getMainLooper());
     }
 
     @Override
@@ -73,12 +82,12 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         // Initialize UI elements
-        ImageView profileImage = view.findViewById(R.id.profile_image);
-        TextView profileName = view.findViewById(R.id.profile_name);
-        TextView phoneNum = view.findViewById(R.id.phone_number);
-        TextView profileEmail = view.findViewById(R.id.profile_email);
-        TextView profileHometown = view.findViewById(R.id.profile_hometown);
-        Button editButton = view.findViewById(R.id.edit_button);
+        profileImage = view.findViewById(R.id.profile_image);
+        profileName = view.findViewById(R.id.profile_name);
+        phoneNum = view.findViewById(R.id.phone_number);
+        profileEmail = view.findViewById(R.id.profile_email);
+        profileHometown = view.findViewById(R.id.profile_hometown);
+        editButton = view.findViewById(R.id.edit_button);
 
         // Set data to UI elements
         profileName.setText(mParam1);
@@ -86,43 +95,56 @@ public class ProfileFragment extends Fragment {
         profileEmail.setText(mEmail);
         profileHometown.setText(mHometown);
 
+        //handler = new Handler(Looper.getMainLooper());
+        loadUserProfileFromServer();
         // Set edit button click listener
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Implement the logic to edit the profile
-                // For example, you can open a new fragment or an activity to edit the profile
+                // TODO - move to create trip fragment
+                Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
             }
         });
 
         return view;
     }
 
-    private void loadUserProfile() {
+    private void loadUserProfileFromServer() {
         retryRunnable = new Runnable() {
             @Override
             public void run() {
-                User loadedUser = CurrentUser.getInstance().getUser();//?
+                // Fetch the current user profile
+                User loadedUser = CurrentUser.getInstance().getUser();
 
                 if (loadedUser != null) {
                     // Update UI with the loaded profile details
                     profileName.setText(loadedUser.getName());
                     profileEmail.setText(loadedUser.getEmail());
                     profileHometown.setText(loadedUser.getHometown());
-                   // profileDetailsContainer.setVisibility(View.VISIBLE);
+                    phoneNum.setText(loadedUser.getPhoneNumber());
+                    profileImage.setImageResource(R.drawable.profile); // Assuming a placeholder image
                     editButton.setVisibility(View.VISIBLE);
                 } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
                         !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
-                   // profileDetailsContainer.setVisibility(View.GONE);
-                    editButton.setVisibility(View.VISIBLE);
+                    // Display error message if available
+                    profileName.setText(R.string.name);
+                    profileEmail.setText(R.string.email);
+                    profileHometown.setText(R.string.hometown);
+                    phoneNum.setText(R.string.phone_number);
+                    editButton.setVisibility(View.GONE);
+                    //emptyProfileListTV.setVisibility(View.VISIBLE);
+                    //emptyProfileListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
                 } else {
-                    handler.postDelayed(retryRunnable, 3000); // Retry interval in milliseconds
+                    // Retry fetching user profile if no data and no error message
+                    handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
                 }
             }
         };
 
         handler.post(retryRunnable);
     }
+
 
     public void setFragmentManager(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
@@ -131,6 +153,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        //loadUserProfileFromServer();
     }
 
     @Override

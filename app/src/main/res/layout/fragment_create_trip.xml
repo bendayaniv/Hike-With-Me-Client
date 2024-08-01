@@ -50,13 +50,6 @@
             android:layout_marginTop="16dp"
             android:padding="16dp"/>
 
-        <EditText
-            android:id="@+id/trip_user_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/trip_user_id"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"/>
 
         <EditText
             android:id="@+id/trip_images_urls"

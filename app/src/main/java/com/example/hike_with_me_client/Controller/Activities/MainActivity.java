@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity {
     private void createFragments() {
         mainPageFragment = new MainPageFragment();
         mainPageFragment.setFragmentManager(fragmentManager);
-
-
         communityListFragment = new CommunityListFragment();
         profileFragment = new ProfileFragment();
         profileFragment.setFragmentManager(fragmentManager);
