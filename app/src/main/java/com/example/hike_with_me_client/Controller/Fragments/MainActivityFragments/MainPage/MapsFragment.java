@@ -152,7 +152,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private static Location getLocation() {
         Location location;
-
         if (SavedLastClick.getInstance().getLastClickedRoute() == null) {
             location = CurrentUser.getInstance().getUser().getLocation();
         } else {

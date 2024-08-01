@@ -15,15 +15,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GetAllUsers extends UserMasterClass {
+public class GetAllActiveUsers extends UserMasterClass {
     private final Callback_GetAllUsers callback_getAllUsers;
 
-    public GetAllUsers(Callback_GetAllUsers callback_getAllUsers) {
+    public GetAllActiveUsers(Callback_GetAllUsers callback_getAllUsers) {
         this.callback_getAllUsers = callback_getAllUsers;
     }
 
-    public void getAllUsers() {
-        Call<List<UserWithDistance>> call = userApiInterface.getAllUsers(CurrentUser.getInstance().getUser().getId());
+    public void getAllActiveUsers() {
+        Call<List<UserWithDistance>> call = userApiInterface.getAllActiveUsers(CurrentUser.getInstance().getUser().getId());
 
         call.enqueue(new Callback<List<UserWithDistance>>() {
             @Override

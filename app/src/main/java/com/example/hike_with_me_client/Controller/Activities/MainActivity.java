@@ -4,7 +4,9 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -173,8 +175,31 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (UserLocation.getInstance().checkingForGpsAndLocationPermissions(requestCode, grantResults) == 1) {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        Log.d("MainActivity", "onRequestPermissionsResult: requestCode=" + requestCode);
+
+        switch (requestCode) {
+            case Constants.LOCATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Location permission granted
+                    Log.d("MainActivity", "Location permission granted");
+                    // Handle location permission granted
+                } else {
+                    // Location permission denied
+                    Log.d("MainActivity", "Location permission denied");
+                    // Handle location permission denied
+                }
+                break;
+            case Constants.NOTIFICATION_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Notification permission granted
+                    Log.d("MainActivity", "Notification permission granted");
+                    // Handle notification permission granted
+                } else {
+                    // Notification permission denied
+                    Log.d("MainActivity", "Notification permission denied");
+                    // Handle notification permission denied
+                }
+                break;
         }
     }
 
@@ -183,10 +208,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
     }
 
+    // Service Methods //
 
+    private void checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, Constants.NOTIFICATION_PERMISSION_REQUEST_CODE);
+            } else {
+                // Notification permission is already granted
+                Log.d("MainActivity", "Notification permission already granted");
+            }
+        } else {
+            // For Android versions below 13, notification permission is granted by default
+            Log.d("MainActivity", "Notification permission not required for this Android version");
+        }
+    }
+    private void checkAndRequestLocationPermission() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            // Location permission is already granted
+            Log.d("MainActivity", "Location permission already granted");
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -205,8 +252,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (UserLocation.getInstance().getCurrentLocation() == 0)
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.REQUEST_CODE);
+        checkAndRequestLocationPermission();
+        checkAndRequestNotificationPermission();
     }
 
 }

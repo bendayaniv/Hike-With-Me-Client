@@ -4,11 +4,13 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetAllHazards;
+import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetNearHazards;
 import com.example.hike_with_me_client.Models.Hazard.Actions.AddHazard;
 import com.example.hike_with_me_client.Models.Hazard.Actions.GetAllHazards;
 import com.example.hike_with_me_client.Models.Hazard.Actions.GetHazardsByRoute;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_AddHazard;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetHazardsByRoute;
+import com.example.hike_with_me_client.Models.Hazard.Actions.GetNearHazards;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
 
 import java.util.ArrayList;
@@ -29,6 +31,24 @@ public class HazardMethods {
             }
         };
         new GetAllHazards(callback_getAllHazards).getAllHazards();
+    }
+
+    public static void getNearHazards() {
+        Log.d("Hazard", "Getting near hazards 1");
+        Callback_GetNearHazards callback_getNearHazards = new Callback_GetNearHazards() {
+            @Override
+            public void success(List<Hazard> hazards) {
+                ListOfHazards.getInstance().setHazards((ArrayList<Hazard>) hazards);
+                Log.d("Hazard", "Hazards found: " + hazards.size());
+            }
+
+            @Override
+            public void error(String message) {
+                Log.d("Hazard", "Error: " + message + "\nNo hazards found");
+            }
+        };
+        Log.d("Hazard", "Getting near hazards 2");
+        new GetNearHazards(callback_getNearHazards).getNearHazards();
     }
 
     @SuppressLint("SetTextI18n")

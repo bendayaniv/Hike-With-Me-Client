@@ -15,6 +15,11 @@ public interface HazardApiInterface {
     @GET("hike-with-me/hazards")
     Call<List<Hazard>> getAllHazards();
 
+    @GET("hike-with-me/hazards/nearHazards/{userId}")
+    Call<List<Hazard>> getNearHazards(
+            @Path("userId") String userId
+    );
+
     @GET("hike-with-me/hazards/{route_name}")
     Call<List<Hazard>> getHazardsByRoute(
             @Path("route_name") String route
