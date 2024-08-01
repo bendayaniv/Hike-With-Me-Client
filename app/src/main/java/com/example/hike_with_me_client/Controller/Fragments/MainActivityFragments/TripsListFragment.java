@@ -84,7 +84,9 @@ public class TripsListFragment extends Fragment {
         progressBarTripsList.setVisibility(View.VISIBLE);
         addTripFab.setOnClickListener(v -> {
             // TODO - move to create trip fragment
-            Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+            CreateTripFragment createTripFragment = new CreateTripFragment();
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, createTripFragment).commit();
         });
         addTripFab.setVisibility(View.GONE);
 

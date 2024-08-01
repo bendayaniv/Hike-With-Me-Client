@@ -43,6 +43,6 @@
         android:layout_margin="16dp"
         android:contentDescription="@string/fab_description"
         android:src="@drawable/add"
-        app:backgroundTint="@color/white"/>
+        app:backgroundTint="@color/white" />
 
 </FrameLayout>
