@@ -170,6 +170,7 @@ public class LocationService extends Service {
                     .setDate(null);
 
             CurrentUser.getInstance().getUser().setLocation(myLoc);
+            CurrentUser.getInstance().setInitiateLocation(myLoc);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
             // TODO - also need to handle to save the list of the locations for the user trip to show his path on the map
