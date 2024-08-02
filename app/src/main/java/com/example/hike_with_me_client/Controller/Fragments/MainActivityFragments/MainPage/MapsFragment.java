@@ -31,6 +31,7 @@ import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.MainPageFragment.MapViewModel;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
+import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -144,8 +145,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+        Log.d("MapsFragment", "End RefreshMap");
         Location location = getLocation();
-        zoom(location.getLatitude(), location.getLongitude());
+
+        if (location.getLatitude() != 0.0 && location.getLongitude() != 0.0)
+            zoom(location.getLatitude(), location.getLongitude());
         ListOfRoutes.getInstance().setFirstTime(false);
 
     }
@@ -197,7 +201,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 ArrayList<Hazard> loadedHazards = ListOfHazards.getInstance().getHazards();
 
                 if (loadedRoutes != null && !loadedRoutes.isEmpty() &&
-                        loadedHazards != null) {
+                        loadedHazards != null ||
+                        (CurrentUser.getInstance().getUser().getLocation().getLatitude() == 0.0 &&
+                                CurrentUser.getInstance().getUser().getLocation().getLongitude() == 0.0) ||
+                        CurrentUser.getInstance().isInitiateLocationEqualToUserLocation()) {
                     routes.clear();
                     routes.addAll(loadedRoutes);
                     hazardsList.clear();
@@ -205,6 +212,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     progressBarMap.setVisibility(View.GONE);
                     refreshMap();
                 } else {
+                    UserLocation.getInstance().getCurrentLocation();
                     handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
                 }
             }

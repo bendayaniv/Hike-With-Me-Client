@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -103,41 +104,37 @@ public class UserLocation {
         return 1;
     }
 
-    @SuppressLint("ObsoleteSdkInt")
+    @SuppressLint("MissingPermission")
     public int getCurrentLocation() {
-        // Check for the user permission to get the location
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Check if the user gave permission to his location
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                // Check if the GPS is enabled
                 if (isGPSEnabled()) {
-                    // Get the current location
+                    Log.d("UserLocation", "GPS is enabled");
                     LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(locationRequest, new LocationCallback() {
                         @Override
                         public void onLocationResult(@NonNull LocationResult locationResult) {
                             super.onLocationResult(locationResult);
-                            // Only need the last location
                             LocationServices.getFusedLocationProviderClient(context).removeLocationUpdates(this);
                             if (!locationResult.getLocations().isEmpty()) {
                                 int index = locationResult.getLocations().size() - 1;
                                 double currentLatitude = locationResult.getLocations().get(index).getLatitude();
                                 double currentLongitude = locationResult.getLocations().get(index).getLongitude();
-                                CurrentUser.getInstance().getUser().setLocation(new Location(currentLatitude, currentLongitude, null));
-                                UserMethods.updateUser(CurrentUser.getInstance().getUser());
+                                if (CurrentUser.getInstance().getUser() != null) {
+                                    Log.d("UserLocation", "User is not null");
+                                    CurrentUser.getInstance().getUser().setLocation(new Location(currentLatitude, currentLongitude, null));
+                                    UserMethods.updateUser(CurrentUser.getInstance().getUser());
+                                }
+                                CurrentUser.getInstance().setInitiateLocation(new Location(currentLatitude, currentLongitude, null));
                             }
                         }
                     }, Looper.getMainLooper());
-                }
-                // If the GPS is not enabled
-                else {
+                } else {
                     turnOnGPS();
                 }
-            }
-            // If the user didn't give permission to his location
-            else {
-                return 0;
+            } else {
+                return 0;  // Permission not granted
             }
         }
-        return 1;
+        return 1;  // Everything is okay
     }
 }
