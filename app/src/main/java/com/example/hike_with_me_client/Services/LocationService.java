@@ -30,6 +30,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Date;
+
 /**
  * LocationService is a foreground service that handles location tracking and notifications.
  * It provides continuous location updates, manages various types of notifications,
@@ -164,10 +166,15 @@ public class LocationService extends Service {
 
             logMessage("Location update received: " + lat + ", " + lon);
 
+            // get me the current time with Date object
+            Date currentDate = new Date();
+
+            Log.d("LocationService", "Location update received: " + lat + ", " + lon + " at " + currentDate.toString());
+
             Location myLoc = new Location()
                     .setLatitude(lat)
                     .setLongitude(lon)
-                    .setDate(null);
+                    .setDate(currentDate);
 
             CurrentUser.getInstance().getUser().setLocation(myLoc);
             CurrentUser.getInstance().setInitiateLocation(myLoc);
