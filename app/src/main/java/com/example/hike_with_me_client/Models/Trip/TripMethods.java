@@ -103,138 +103,6 @@ public class TripMethods {
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
     }
 
-//    public static void uploadImages(List<Uri> /*images*/imageUris, String userName, String tripName, Context context) {
-//        // TODO - upload images
-//
-//        List<MultipartBody.Part> imageParts = new ArrayList<>();
-//
-//        for (Uri uri : imageUris) {
-//            File file = new File(getRealPathFromURI(context, uri));
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-//            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", file.getName(), requestFile);
-//            imageParts.add(imagePart);
-//        }
-//
-//        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
-//        RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
-//
-//
-//        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
-//            @Override
-//            public void success(String message) {
-//                Log.d("Trip", "Message: " + message);
-//            }
-//
-//            @Override
-//            public void error(String error) {
-//                Log.d("Trip", "Error: " + error);
-//            }
-//        };
-//        new UploadImages(callback_uploadImages).uploadImages(/*images*/imageUris, /*userName*/userNamePart, /*tripName*/tripNamePart);
-//    }
-
-//    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
-//        List<MultipartBody.Part> imageParts = new ArrayList<>();
-//
-//        for (Uri uri : imageUris) {
-//            File file = new File(getRealPathFromURI(context, uri));
-//            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-//            MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", file.getName(), requestFile);
-//            imageParts.add(imagePart);
-//        }
-//
-//        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
-//        RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
-//
-//        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
-//            @Override
-//            public void success(String message) {
-//                Log.d("Trip", "Message: " + message);
-//            }
-//
-//            @Override
-//            public void error(String error) {
-//                Log.d("Trip", "Error: " + error);
-//            }
-//        };
-//        new UploadImages(callback_uploadImages).uploadImages(imageParts, userNamePart, tripNamePart);
-//    }
-//
-//    private static String getRealPathFromURI(Context context, Uri contentUri) {
-//        String[] proj = {MediaStore.Images.Media.DATA};
-//        CursorLoader loader = new CursorLoader(context);
-//        Cursor cursor = loader.loadInBackground();
-//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//        cursor.moveToFirst();
-//        String result = cursor.getString(column_index);
-//        cursor.close();
-//        return result;
-//    }
-
-//    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
-//        List<MultipartBody.Part> imageParts = new ArrayList<>();
-//
-//        for (Uri uri : imageUris) {
-//            if (uri != null) {
-//                try {
-//                    Log.d("TripMethods", "Processing URI: " + uri);
-//                    File file = new File(getRealPathFromURI(context, uri));
-//                    RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-//                    MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", file.getName(), requestFile);
-//                    imageParts.add(imagePart);
-//                } catch (Exception e) {
-//                    Log.e("TripMethods", "Error processing URI: " + uri, e);
-//                }
-//            }
-//        }
-//
-//        if (imageParts.isEmpty()) {
-//            Log.e("TripMethods", "No valid images to upload");
-//            return;
-//        }
-//
-//        Log.d("TripMethods", "Images to upload: " + imageParts.size() + " images");
-//
-//        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
-//        RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
-//
-//        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
-//            @Override
-//            public void success(String message) {
-//                Log.d("Trip", "Message: " + message);
-//            }
-//
-//            @Override
-//            public void error(String error) {
-//                Log.d("Trip", "Error: " + error);
-//            }
-//        };
-//        new UploadImages(callback_uploadImages).uploadImages(imageParts, userNamePart, tripNamePart);
-//    }
-//
-//    private static String getRealPathFromURI(Context context, Uri uri) {
-//        String result = null;
-//        String[] projection = {MediaStore.Images.Media.DATA};
-//
-//        try {
-//            Cursor cursor = context.getContentResolver().query(uri, projection, null, null, null);
-//            if (cursor != null) {
-//                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//                cursor.moveToFirst();
-//                result = cursor.getString(column_index);
-//                cursor.close();
-//            }
-//        } catch (Exception e) {
-//            Log.e("TripMethods", "Error getting real path from URI", e);
-//        }
-//
-//        if (result == null) {
-//            result = uri.getPath(); // fallback to the URI path if we couldn't get the real path
-//        }
-//
-//        return result;
-//    }
-
     public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
         List<MultipartBody.Part> imageParts = new ArrayList<>();
 
@@ -271,48 +139,6 @@ public class TripMethods {
         }).uploadImages(imageParts, userNamePart, tripNamePart);
     }
 
-//    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
-//        List<MultipartBody.Part> imageParts = new ArrayList<>();
-//
-//        for (Uri uri : imageUris) {
-//            if (uri != null) {
-//                try {
-//                    InputStream inputStream = context.getContentResolver().openInputStream(uri);
-//                    if (inputStream != null) {
-//                        byte[] byteArray = getBytes(inputStream);
-//                        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), byteArray);
-//                        String fileName = getFileName(context, uri);
-//                        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", fileName, requestFile);
-//                        imageParts.add(imagePart);
-//                    }
-//                } catch (Exception e) {
-//                    Log.e("TripMethods", "Error processing URI: " + uri, e);
-//                }
-//            }
-//        }
-//
-//        if (imageParts.isEmpty()) {
-//            Log.e("TripMethods", "No valid images to upload");
-//            return;
-//        }
-//
-//        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
-//        RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
-//
-//        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
-//            @Override
-//            public void success(String message) {
-//                Log.d("Trip", "Upload success: " + message);
-//            }
-//
-//            @Override
-//            public void error(String error) {
-//                Log.d("Trip", "Upload error: " + error);
-//            }
-//        };
-//        new UploadImages(callback_uploadImages).uploadImages(imageParts, userNamePart, tripNamePart);
-//    }
-
     private static byte[] getBytes(InputStream inputStream) throws IOException {
         ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
         int bufferSize = 1024;
@@ -343,7 +169,6 @@ public class TripMethods {
         }
         return result;
     }
-
 
     public static void deleteImage(String userName, String tripName, String imageName) {
         // TODO - delete image

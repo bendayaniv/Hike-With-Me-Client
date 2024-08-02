@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,58 +92,13 @@ public class UploadImageFragment extends Fragment {
         }
     }
 
-//    private void uploadImage() {
-//        if (imageUri != null) {
-//            List<Uri> imageUris = new ArrayList<>();
-//            imageUris.add(imageUri);
-//
-//            String userName = "exampleUser"; // Replace with actual user name
-//            String tripName = "exampleTrip"; // Replace with actual trip name
-//
-//            Log.d(TAG, "Attempting to upload image: " + imageUri.toString());
-//
-//            try {
-//                // Call the upload method
-//                TripMethods.uploadImages(imageUris, userName, tripName, requireContext());
-//            } catch (Exception e) {
-//                Log.e(TAG, "Error during upload: ", e);
-//                Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        } else {
-//            Log.d(TAG, "No image selected for upload");
-//            Toast.makeText(getContext(), "Please select an image first", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
-//    private void uploadImage() {
-//        if (imageUri != null) {
-//            List<Uri> imageUris = new ArrayList<>();
-//            imageUris.add(imageUri);
-//
-//            String userName = "exampleUser"; // Replace with actual user name
-//            String tripName = "exampleTrip"; // Replace with actual trip name
-//
-//            Log.d(TAG, "Attempting to upload image: " + imageUri.toString());
-//
-//            try {
-//                TripMethods.uploadImages(imageUris, userName, tripName, requireContext());
-//            } catch (Exception e) {
-//                Log.e(TAG, "Error during upload: ", e);
-//                Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        } else {
-//            Log.d(TAG, "No image selected for upload");
-//            Toast.makeText(getContext(), "Please select an image first", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     private void uploadImage() {
         if (imageUri != null) {
             List<Uri> imageUris = new ArrayList<>();
             imageUris.add(imageUri);
 
-            String userName = "exampleUser"; // Replace with actual user name
-            String tripName = "exampleTrip"; // Replace with actual trip name
+            String userName = CurrentUser.getInstance().getUser().getName(); // Replace with actual user name
+            String tripName = "exampleTrip"; // TODO - Replace with actual trip name
 
             Log.d(TAG, "Attempting to upload image: " + imageUri.toString());
 

@@ -39,13 +39,6 @@ public interface TripApiInterface {
             @Path("trip_id") String trip_id
     );
 
-//    @POST("hike-with-me/trips/uploadImages")
-//    Call<String> uploadImages(
-//            @Part List<Uri> files,
-//            /*@Body*/@Part("userName") /*String*/RequestBody userName,
-//            /*@Body*/@Part("tripName") /*String*/RequestBody tripName
-//    );
-
     @Multipart
     @POST("hike-with-me/trips/uploadImages")
     Call<String> uploadImages(
