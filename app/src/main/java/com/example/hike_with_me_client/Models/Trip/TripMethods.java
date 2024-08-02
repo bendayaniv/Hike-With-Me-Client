@@ -1,7 +1,13 @@
 package com.example.hike_with_me_client.Models.Trip;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.OpenableColumns;
 import android.util.Log;
+
+import androidx.loader.content.CursorLoader;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_CreateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_DeleteImage;
@@ -18,10 +24,15 @@ import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 @SuppressLint("SetTextI18n")
 public class TripMethods {
@@ -30,7 +41,7 @@ public class TripMethods {
         Callback_GetTripsByUser callback_getTripsByUser = new Callback_GetTripsByUser() {
             @Override
             public void success(List<Trip> trips) {
-                if(trips.isEmpty()) {
+                if (trips.isEmpty()) {
                     Log.d("Trip", "No trips found");
                 } else {
                     Log.d("Trip", "Trips: " + trips);
@@ -92,20 +103,71 @@ public class TripMethods {
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
     }
 
-    public static void uploadImages(List<MultipartBody.Part> images, String userName, String tripName) {
-        // TODO - upload images
-        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
+    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
+        List<MultipartBody.Part> imageParts = new ArrayList<>();
+
+        for (Uri uri : imageUris) {
+            if (uri != null) {
+                try {
+                    InputStream inputStream = context.getContentResolver().openInputStream(uri);
+                    if (inputStream != null) {
+                        byte[] byteArray = getBytes(inputStream);
+                        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), byteArray);
+                        String fileName = getFileName(context, uri);
+                        MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", fileName, requestFile);
+                        imageParts.add(imagePart);
+                    }
+                } catch (Exception e) {
+                    Log.e("TripMethods", "Error processing URI: " + uri, e);
+                }
+            }
+        }
+
+        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
+        RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
+
+        new UploadImages(new Callback_UploadImages() {
             @Override
             public void success(String message) {
-                Log.d("Trip", "Message: " + message);
+                Log.d("TripMethods", "Upload success: " + message);
             }
 
             @Override
             public void error(String error) {
-                Log.d("Trip", "Error: " + error);
+                Log.e("TripMethods", "Upload error: " + error);
             }
-        };
-        new UploadImages(callback_uploadImages).uploadImages(images, userName, tripName);
+        }).uploadImages(imageParts, userNamePart, tripNamePart);
+    }
+
+    private static byte[] getBytes(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+        int bufferSize = 1024;
+        byte[] buffer = new byte[bufferSize];
+        int len;
+        while ((len = inputStream.read(buffer)) != -1) {
+            byteBuffer.write(buffer, 0, len);
+        }
+        return byteBuffer.toByteArray();
+    }
+
+    @SuppressLint("Range")
+    private static String getFileName(Context context, Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getPath();
+            int cut = result.lastIndexOf('/');
+            if (cut != -1) {
+                result = result.substring(cut + 1);
+            }
+        }
+        return result;
     }
 
     public static void deleteImage(String userName, String tripName, String imageName) {

@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -158,8 +159,10 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
-                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
-
+//                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.main_fragment_container, new UploadImageFragment())
+                            .commit();
                     // TODO - activate it when there is not trip that is active
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
