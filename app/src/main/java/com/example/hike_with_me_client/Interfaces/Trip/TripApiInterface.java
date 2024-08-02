@@ -5,10 +5,12 @@ import com.example.hike_with_me_client.Models.Trip.Trip;
 import java.util.List;
 
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Part;
@@ -37,11 +39,19 @@ public interface TripApiInterface {
             @Path("trip_id") String trip_id
     );
 
+//    @POST("hike-with-me/trips/uploadImages")
+//    Call<String> uploadImages(
+//            @Part List<Uri> files,
+//            /*@Body*/@Part("userName") /*String*/RequestBody userName,
+//            /*@Body*/@Part("tripName") /*String*/RequestBody tripName
+//    );
+
+    @Multipart
     @POST("hike-with-me/trips/uploadImages")
     Call<String> uploadImages(
-            @Part List<MultipartBody.Part> files,
-            @Body String userName,
-            @Body String tripName
+            @Part List<MultipartBody.Part> images,
+            @Part("userName") RequestBody userName,
+            @Part("tripName") RequestBody tripName
     );
 
     @DELETE("hike-with-me/trips/{userName}/{tripName}/{imageName}")
