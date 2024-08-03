@@ -3,13 +3,13 @@ package com.example.hike_with_me_client.Utils.Singleton;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 
 import java.util.ArrayList;
 
 public class ListOfTrips {
     private static ListOfTrips instance = null;
-    ArrayList<Trip> trips = new ArrayList<>();
+    ArrayList<trip> trips = new ArrayList<>();
 
     public ListOfTrips() {
         HazardMethods.getAllHazards();
@@ -25,11 +25,11 @@ public class ListOfTrips {
         return instance;
     }
 
-    public ArrayList<Trip> getTrips() {
+    public ArrayList<trip> getTrips() {
         return trips;
     }
 
-    public void setTrips(ArrayList<Trip> hazards) {
+    public void setTrips(ArrayList<trip> hazards) {
         this.trips = hazards;
     }
 

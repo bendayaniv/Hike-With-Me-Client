@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripsByUser;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 
 import java.io.IOException;
@@ -23,12 +23,12 @@ public class GetTripsByUser extends TripMasterClass {
     }
 
     public void getTripsByUser() {
-         Call<List<Trip>> call = tripApiInterface.getTrips(CurrentUser.getInstance().getUser().getId());
-         call.enqueue(new Callback<List<Trip>>() {
+         Call<List<trip>> call = tripApiInterface.getTrips(CurrentUser.getInstance().getUser().getId());
+         call.enqueue(new Callback<List<trip>>() {
              @Override
-             public void onResponse(@NonNull Call<List<Trip>> call, @NonNull Response<List<Trip>> response) {
+             public void onResponse(@NonNull Call<List<trip>> call, @NonNull Response<List<trip>> response) {
                  if(response.isSuccessful()) {
-                     List<Trip> trips = response.body();
+                     List<trip> trips = response.body();
                      callback_getTripsByUser.success(trips);
                  } else {
                      ResponseBody errorBody = response.errorBody();
@@ -43,7 +43,7 @@ public class GetTripsByUser extends TripMasterClass {
              }
 
              @Override
-             public void onFailure(@NonNull Call<List<Trip>> call, @NonNull Throwable t) {
+             public void onFailure(@NonNull Call<List<trip>> call, @NonNull Throwable t) {
                  callback_getTripsByUser.error(t.getMessage());
                  t.printStackTrace();
              }
