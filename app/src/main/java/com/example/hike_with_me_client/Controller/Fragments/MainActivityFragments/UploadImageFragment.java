@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,30 +29,36 @@ import java.util.List;
 
 public class UploadImageFragment extends Fragment {
 
-    private static final int PICK_IMAGE_REQUEST = 1;
-    private static final int PERMISSION_REQUEST_CODE = 2;
+    private static final int PICK_IMAGE_REQUEST_1 = 1;
+    private static final int PICK_IMAGE_REQUEST_2 = 2;
+    private static final int PERMISSION_REQUEST_CODE = 3;
     private static final String TAG = "UploadImageFragment";
 
-    private ImageView imageView;
-    private Button btnSelectImage;
-    private Button btnUploadImage;
-    private Uri imageUri;
+    private ImageView imageView1;
+    private ImageView imageView2;
+    private Button btnUploadImages;
+    private ProgressBar progressBar;
+    private Uri imageUri1;
+    private Uri imageUri2;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_upload_image, container, false);
 
-        imageView = view.findViewById(R.id.imageView);
-        btnSelectImage = view.findViewById(R.id.btnSelectImage);
-        btnUploadImage = view.findViewById(R.id.btnUploadImage);
+        imageView1 = view.findViewById(R.id.imageView1);
+        imageView2 = view.findViewById(R.id.imageView2);
+        btnUploadImages = view.findViewById(R.id.btnUploadImages);
+        progressBar = view.findViewById(R.id.progressBar);
 
-        btnSelectImage.setOnClickListener(v -> openImageChooser());
-        btnUploadImage.setOnClickListener(v -> uploadImage());
+        imageView1.setOnClickListener(v -> openImageChooser(PICK_IMAGE_REQUEST_1));
+        imageView2.setOnClickListener(v -> openImageChooser(PICK_IMAGE_REQUEST_2));
+        btnUploadImages.setOnClickListener(v -> uploadImages());
 
         return view;
     }
 
+    // ... Keep the existing onViewCreated and onRequestPermissionsResult methods ...
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -71,46 +78,91 @@ public class UploadImageFragment extends Fragment {
         }
     }
 
-    private void openImageChooser() {
+    private void openImageChooser(int requestCode) {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK
-                && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            imageView.setImageURI(imageUri);
-            Log.d(TAG, "Image selected: " + imageUri.toString());
+        if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            if (requestCode == PICK_IMAGE_REQUEST_1) {
+                imageUri1 = data.getData();
+                imageView1.setImageURI(imageUri1);
+                Log.d(TAG, "Image 1 selected: " + imageUri1.toString());
+            } else if (requestCode == PICK_IMAGE_REQUEST_2) {
+                imageUri2 = data.getData();
+                imageView2.setImageURI(imageUri2);
+                Log.d(TAG, "Image 2 selected: " + imageUri2.toString());
+            }
         } else {
             Log.d(TAG, "Image selection failed or was cancelled");
         }
     }
 
-    private void uploadImage() {
-        if (imageUri != null) {
-            List<Uri> imageUris = new ArrayList<>();
-            imageUris.add(imageUri);
+//    private void uploadImages() {
+//        List<Uri> imageUris = new ArrayList<>();
+//        if (imageUri1 != null) {
+//            imageUris.add(imageUri1);
+//        }
+//        if (imageUri2 != null) {
+//            imageUris.add(imageUri2);
+//        }
+//
+//        if (!imageUris.isEmpty()) {
+//            String userName = CurrentUser.getInstance().getUser().getName(); // Replace with actual user name
+//            String tripName = "tripName4"; // TODO - Replace with actual trip name
+//
+//            Log.d(TAG, "Attempting to upload images: " + imageUris.toString());
+//
+//            try {
+//                TripMethods.uploadImages(imageUris, userName, tripName, requireContext());
+//            } catch (Exception e) {
+//                Log.e(TAG, "Error during upload: ", e);
+//                Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+//            }
+//        } else {
+//            Log.d(TAG, "No images selected for upload");
+//            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-            String userName = CurrentUser.getInstance().getUser().getName(); // Replace with actual user name
-            String tripName = "exampleTrip"; // TODO - Replace with actual trip name
+    private void uploadImages() {
+        List<Uri> imageUris = new ArrayList<>();
+        if (imageUri1 != null) {
+            imageUris.add(imageUri1);
+        }
+        if (imageUri2 != null) {
+            imageUris.add(imageUri2);
+        }
 
-            Log.d(TAG, "Attempting to upload image: " + imageUri.toString());
+        if (!imageUris.isEmpty()) {
+            String userName = CurrentUser.getInstance().getUser().getName();
+            String tripName = "tripName4"; // TODO - Replace with actual trip name
+
+            Log.d(TAG, "Attempting to upload images: " + imageUris.toString());
+
+            // Show ProgressBar
+            progressBar.setVisibility(View.VISIBLE);
 
             try {
-                TripMethods.uploadImages(imageUris, userName, tripName, requireContext());
+                // Assuming TripMethods.uploadImages is an asynchronous operation
+                // You might need to modify this part based on how TripMethods.uploadImages is implemented
+                TripMethods.uploadImages(imageUris, userName, tripName, requireContext(), progressBar);
             } catch (Exception e) {
+                // Hide ProgressBar
+                progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Error during upload: ", e);
                 Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else {
-            Log.d(TAG, "No image selected for upload");
-            Toast.makeText(getContext(), "Please select an image first", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "No images selected for upload");
+            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
         }
     }
+
 }

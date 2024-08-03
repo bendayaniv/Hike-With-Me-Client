@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.loader.content.CursorLoader;
 
@@ -103,7 +105,8 @@ public class TripMethods {
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
     }
 
-    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
+    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context, ProgressBar progressBar) {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         List<MultipartBody.Part> imageParts = new ArrayList<>();
 
         for (Uri uri : imageUris) {
@@ -111,9 +114,9 @@ public class TripMethods {
                 try {
                     InputStream inputStream = context.getContentResolver().openInputStream(uri);
                     if (inputStream != null) {
-                        byte[] byteArray = getBytes(inputStream);
+                        byte[] byteArray = TripMethodsUtils.getBytes(inputStream);
                         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), byteArray);
-                        String fileName = getFileName(context, uri);
+                        String fileName = TripMethodsUtils.getFileName(context, uri);
                         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", fileName, requestFile);
                         imageParts.add(imagePart);
                     }
@@ -126,49 +129,53 @@ public class TripMethods {
         RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
         RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
 
-        new UploadImages(new Callback_UploadImages() {
+        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
             @Override
             public void success(String message) {
+                progressBar.setVisibility(ProgressBar.GONE);
                 Log.d("TripMethods", "Upload success: " + message);
+                Toast.makeText(context, "Images uploaded successfully", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void error(String error) {
+                progressBar.setVisibility(ProgressBar.GONE);
                 Log.e("TripMethods", "Upload error: " + error);
             }
-        }).uploadImages(imageParts, userNamePart, tripNamePart);
+        };
+        new UploadImages(callback_uploadImages).uploadImages(imageParts, userNamePart, tripNamePart);
     }
 
-    private static byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
-
-    @SuppressLint("Range")
-    private static String getFileName(Context context, Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
-    }
+//    private static byte[] getBytes(InputStream inputStream) throws IOException {
+//        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+//        int bufferSize = 1024;
+//        byte[] buffer = new byte[bufferSize];
+//        int len;
+//        while ((len = inputStream.read(buffer)) != -1) {
+//            byteBuffer.write(buffer, 0, len);
+//        }
+//        return byteBuffer.toByteArray();
+//    }
+//
+//    @SuppressLint("Range")
+//    private static String getFileName(Context context, Uri uri) {
+//        String result = null;
+//        if (uri.getScheme().equals("content")) {
+//            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+//                if (cursor != null && cursor.moveToFirst()) {
+//                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+//                }
+//            }
+//        }
+//        if (result == null) {
+//            result = uri.getPath();
+//            int cut = result.lastIndexOf('/');
+//            if (cut != -1) {
+//                result = result.substring(cut + 1);
+//            }
+//        }
+//        return result;
+//    }
 
     public static void deleteImage(String userName, String tripName, String imageName) {
         // TODO - delete image
