@@ -12,7 +12,7 @@ public class Hazard extends point {
     private Constants.HazardType _hazardType;
     private String _description;
     private Constants.Level _severity;
-    private String _reporterName;
+    private String _reporterId;
     private String _routeName;
 
     public Hazard() {}
@@ -23,7 +23,7 @@ public class Hazard extends point {
         this._hazardType = hazardType;
         this._description = description;
         this._severity = severity;
-        this._reporterName = reporterName;
+        this._reporterId = reporterName;
         this._routeName = routeName;
     }
 
@@ -63,12 +63,12 @@ public class Hazard extends point {
         return this;
     }
 
-    public String getReporterName() {
-        return _reporterName;
+    public String getReporterId() {
+        return _reporterId;
     }
 
-    public Hazard setReporterName(String reporterName) {
-        this._reporterName = reporterName;
+    public Hazard setReporterId(String reporterName) {
+        this._reporterId = reporterName;
         return this;
     }
 
@@ -89,7 +89,7 @@ public class Hazard extends point {
                 ", _hazardType=" + _hazardType +
                 ", _description='" + _description + '\'' +
                 ", _severity=" + _severity +
-                ", _reporterName='" + _reporterName + '\'' +
+                ", _reporterId='" + _reporterId + '\'' +
                 ", _routeName='" + _routeName + '\'' +
                 ", location=" + getLocation() +
                 ", pointType='" + getType() + '\'' +

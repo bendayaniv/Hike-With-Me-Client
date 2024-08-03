@@ -19,6 +19,7 @@ import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -104,7 +105,8 @@ public class RegisterFragment extends Fragment {
 
                         // Create new user at the Realtime Database
                         User user = new User(Objects.requireNonNull(mAuth.getCurrentUser()).getUid(),
-                                textName, email, password, phoneNumber, hometown, true, null);
+                                textName, email, password, phoneNumber, hometown, true,
+                                CurrentUser.getInstance().getInitiateLocation() != null ? CurrentUser.getInstance().getInitiateLocation() : null);
                         UserMethods.addUser(user);
 
                         // Move to the main activity

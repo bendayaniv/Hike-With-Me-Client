@@ -192,7 +192,7 @@ public class NotificationManager {
             for (Hazard hazard : didNotNoticed) {
                 // TODO - handle in both sides that Hazard object will have userId instead of the name of the user
                 //  so the user will not get notification of hazard he created
-                if (!hazard.getReporterName().equals(CurrentUser.getInstance().getUser().getName())) {
+                if (!hazard.getReporterId().equals(CurrentUser.getInstance().getUser().getId())) {
 //                Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher); // To set the icon app
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)

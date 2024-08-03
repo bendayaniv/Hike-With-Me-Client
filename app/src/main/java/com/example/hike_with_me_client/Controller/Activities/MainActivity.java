@@ -22,6 +22,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
@@ -96,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d("MyMainActivity", "User is logged in: " + currentUser);
             UserMethods.getSpecificUser(currentUser.getUid());
+            UserLocation.getInstance().getCurrentLocation();
         }
-
     }
 
     private void createFragments() {
@@ -142,6 +143,12 @@ public class MainActivity extends AppCompatActivity {
                 case Constants.MENU_HOME:
                     Log.d("MyMainActivity", "onCreate1 MENU_HOME: " + item.getItemId());
                     mainPageFragment();
+
+                    // TODO - activate it when creating trip and it is active himself
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+//                    startLocationService();
+
                     break;
                 case Constants.MENU_TRIPS:
                     Log.d("MyMainActivity", "onCreate2 MENU_TRIPS: " + item.getItemId());
@@ -152,8 +159,13 @@ public class MainActivity extends AppCompatActivity {
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, communityListFragment).commit();
                     break;
                 case Constants.MENU_PROFILE:
-                    Log.d("MyMainActivity", "onCreate3: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
+                    // TODO - activate it when there is not trip that is active
+                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
+                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
+//                    stopLocationService();
+
                     break;
             }
             return true;
@@ -163,13 +175,12 @@ public class MainActivity extends AppCompatActivity {
     private void initializeUserLocation() {
         LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(500);
-        locationRequest.setFastestInterval(200);
+        locationRequest.setInterval(10000); // 10 seconds
+        locationRequest.setFastestInterval(5000); // 5 seconds
 
         UserLocation.getInstance().setContext(MainActivity.this);
         UserLocation.getInstance().setLocationRequest(locationRequest);
         UserLocation.getInstance().setGetSystemService((LocationManager) getSystemService(Context.LOCATION_SERVICE));
-
     }
 
     @Override
@@ -182,8 +193,7 @@ public class MainActivity extends AppCompatActivity {
             case Constants.LOCATION_PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // Location permission granted
-                    Log.d("MainActivity", "Location permission granted");
-                    // Handle location permission granted
+                    UserLocation.getInstance().getCurrentLocation();
                 } else {
                     // Location permission denied
                     Log.d("MainActivity", "Location permission denied");
@@ -272,6 +282,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             // Location permission is already granted
             Log.d("MainActivity", "Location permission already granted");
+            // Permission is already granted
         }
     }
     @Override
