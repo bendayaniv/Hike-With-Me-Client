@@ -15,6 +15,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
@@ -24,6 +25,8 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
+import com.example.hike_with_me_client.Services.LocationService;
+import com.example.hike_with_me_client.Utils.NotificationManager;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
@@ -137,15 +140,15 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MyMainActivity", "onCreate: " + item.getItemId());
             switch (item.getItemId()) {
                 case Constants.MENU_HOME:
-                    Log.d("MyMainActivity", "onCreate1: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate1 MENU_HOME: " + item.getItemId());
                     mainPageFragment();
                     break;
                 case Constants.MENU_TRIPS:
-                    Log.d("MyMainActivity", "onCreate2: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate2 MENU_TRIPS: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
                     break;
                 case Constants.MENU_COMMUNITY:
-                    Log.d("MyMainActivity", "onCreate3 community: " + item.getItemId());
+                    Log.d("MyMainActivity", "onCreate3 MENU_COMMUNITY: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, communityListFragment).commit();
                     break;
                 case Constants.MENU_PROFILE:
@@ -209,6 +212,45 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
     }
 
+    private void startLocationService() {
+        Intent intent = new Intent(this, LocationService.class);
+        intent.setAction(LocationService.START_FOREGROUND_SERVICE);
+        startForegroundServiceCompat(intent);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleNotificationClick(intent);
+    }
+
+    private void handleNotificationClick(Intent intent) {
+        if (intent != null && NotificationManager.OPEN_APP_DISMISS_NOTIFICATIONS.equals(intent.getAction())) {
+            // Dismiss all notifications
+            NotificationManagerCompat.from(this).cancelAll();
+        }
+
+        // Optionally, can add logic here to navigate to a specific part of the app
+        // For example, might want to show the MainPageFragment
+        mainPageFragment();
+
+        // TODO - maybe in here we could do zoom in in the map to the location of the notification
+    }
+
+    private void stopLocationService() {
+        Intent intent = new Intent(this, LocationService.class);
+        intent.setAction(LocationService.STOP_FOREGROUND_SERVICE);
+        startForegroundServiceCompat(intent);
+    }
+
+    private void startForegroundServiceCompat(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundService(intent);
+        } else {
+            startService(intent);
+        }
+    }
+
     // Service Methods //
 
     private void checkAndRequestNotificationPermission() {
@@ -245,6 +287,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 
     @Override
