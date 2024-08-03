@@ -2,12 +2,12 @@ package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragmen
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -32,6 +32,7 @@ public class CreateTripFragment extends Fragment {
     private EditText tripDescriptionEditText;
     //private EditText tripImagesUrlsEditText;
     private Button saveTripButton;
+    private ProgressBar progressBar;
 
     public CreateTripFragment() {
         // Required empty public constructor
@@ -51,6 +52,7 @@ public class CreateTripFragment extends Fragment {
         tripDescriptionEditText = view.findViewById(R.id.trip_description);
         //tripImagesUrlsEditText = view.findViewById(R.id.trip_images_urls);
         saveTripButton = view.findViewById(R.id.save_trip_button);
+        progressBar = view.findViewById(R.id.progressBar);
 
         // Set click listener for the save button
         saveTripButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +66,7 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void saveTrip() {
+        progressBar.setVisibility(View.VISIBLE);
         // Get data from UI elements
         String name = tripNameEditText.getText().toString().trim();
         String startDate = tripStartDateEditText.getText().toString().trim();
@@ -105,13 +108,11 @@ public class CreateTripFragment extends Fragment {
         newTrip.setRoutesNames(new String[]{});
         //newTrip.setImagesUrls(imagesUrls);
 
-        // Show a confirmation message
-        Toast.makeText(getActivity(), "trip saved successfully!", Toast.LENGTH_SHORT).show();
         saveTripToServer(newTrip);
     }
 
     private void saveTripToServer(trip trip) {
-        TripMethods.createTrip(trip);
+        TripMethods.createTrip(trip, this.getContext(), progressBar);
     }
 
     private void clearInputFields() {
