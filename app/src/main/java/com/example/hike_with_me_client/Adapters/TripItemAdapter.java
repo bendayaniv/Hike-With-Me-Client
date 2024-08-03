@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_TripItem;
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -21,11 +21,11 @@ import java.util.ArrayList;
 
 public class TripItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final ArrayList<Trip> trips;
+    private final ArrayList<trip> trips;
     private final Context context;
     private Callback_TripItem callback_tripItem;
 
-    public TripItemAdapter(ArrayList<Trip> trips, Context context) {
+    public TripItemAdapter(ArrayList<trip> trips, Context context) {
         this.trips = trips;
         this.context = context;
     }
@@ -60,7 +60,7 @@ public class TripItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder.getItemViewType() == 0) {
             ((TripItemWithoutImageViewHolder) holder).name_text_view.setText(trips.get(position).getName());
         } else {
-            Trip trip = trips.get(position);
+            trip trip = trips.get(position);
             if (trip.getImagesUrls() != null && !trip.getImagesUrls().isEmpty()) {
                 Glide.with(context).load(trip.getImagesUrls().get(0)).into(((TripItemWithImageViewHolder) holder).card_background_image);
             }
@@ -84,7 +84,7 @@ public class TripItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return trips == null ? 0 : trips.size();
     }
 
-    private Trip getItem(int position) {
+    private trip getItem(int position) {
         return trips.get(position);
     }
 

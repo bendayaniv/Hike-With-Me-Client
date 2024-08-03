@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.CommunityListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.R;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private MainPageFragment mainPageFragment;
     private CommunityListFragment communityListFragment;
     private TripsListFragment tripsListFragment;
+    private ProfileFragment profileFragment;
     FusedLocationProviderClient fusedLocationProviderClient;
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
@@ -102,10 +104,9 @@ public class MainActivity extends AppCompatActivity {
     private void createFragments() {
         mainPageFragment = new MainPageFragment();
         mainPageFragment.setFragmentManager(fragmentManager);
-
-
         communityListFragment = new CommunityListFragment();
-
+        profileFragment = new ProfileFragment();
+        profileFragment.setFragmentManager(fragmentManager);
         tripsListFragment = new TripsListFragment();
         tripsListFragment.setFragmentManager(fragmentManager);
     }
@@ -159,10 +160,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
-//                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripsListFragment).commit();
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.main_fragment_container, new UploadImageFragment())
-                            .commit();
+                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
                     // TODO - activate it when there is not trip that is active
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
@@ -223,8 +221,6 @@ public class MainActivity extends AppCompatActivity {
         if (UserLocation.getInstance().checkingForCurrentLocationAvailability(requestCode, resultCode) == 0)
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
     }
-
-    // Service Methods //
 
     private void startLocationService() {
         Intent intent = new Intent(this, LocationService.class);
@@ -290,7 +286,6 @@ public class MainActivity extends AppCompatActivity {
             // Permission is already granted
         }
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

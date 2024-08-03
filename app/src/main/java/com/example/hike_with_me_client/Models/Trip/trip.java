@@ -7,7 +7,7 @@ import com.example.hike_with_me_client.Models.Objects.Location;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Trip {
+public class trip {
 
     private String id;
     private String name;
@@ -19,9 +19,9 @@ public class Trip {
     private String userId;
     private ArrayList<String> imagesUrls;
 
-    public Trip() {}
+    public trip() {}
 
-    public Trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId, ArrayList<String> imagesUrls) {
+    public trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId, ArrayList<String> imagesUrls) {
         this.id = id;
         this.name = name;
         this.startDate = startDate;
@@ -37,7 +37,7 @@ public class Trip {
         return id;
     }
 
-    public Trip setId(String id) {
+    public trip setId(String id) {
         this.id = id;
         return this;
     }
@@ -46,7 +46,7 @@ public class Trip {
         return name;
     }
 
-    public Trip setName(String name) {
+    public trip setName(String name) {
         this.name = name;
         return this;
     }
@@ -55,7 +55,7 @@ public class Trip {
         return startDate;
     }
 
-    public Trip setStartDate(String startDate) {
+    public trip setStartDate(String startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -64,7 +64,7 @@ public class Trip {
         return endDate;
     }
 
-    public Trip setEndDate(String endDate) {
+    public trip setEndDate(String endDate) {
         this.endDate = endDate;
         return this;
     }
@@ -73,7 +73,7 @@ public class Trip {
         return locations;
     }
 
-    public Trip setLocations(Location[] locations) {
+    public trip setLocations(Location[] locations) {
         this.locations = locations;
         return this;
     }
@@ -94,7 +94,7 @@ public class Trip {
         return description;
     }
 
-    public Trip setDescription(String description) {
+    public trip setDescription(String description) {
         this.description = description;
         return this;
     }
@@ -103,7 +103,7 @@ public class Trip {
         return routesNames;
     }
 
-    public Trip setRoutesNames(String[] routesNames) {
+    public trip setRoutesNames(String[] routesNames) {
         this.routesNames = routesNames;
         return this;
     }
@@ -112,7 +112,7 @@ public class Trip {
         return userId;
     }
 
-    public Trip setUserId(String userName) {
+    public trip setUserId(String userName) {
         this.userId = userName;
         return this;
     }
@@ -128,7 +128,7 @@ public class Trip {
     @NonNull
     @Override
     public String toString() {
-        return "Trip{" +
+        return "trip{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", startDate='" + startDate + '\'' +

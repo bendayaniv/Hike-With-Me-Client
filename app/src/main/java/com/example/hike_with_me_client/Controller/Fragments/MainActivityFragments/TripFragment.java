@@ -12,12 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.hike_with_me_client.Models.Trip.Trip;
 import com.example.hike_with_me_client.R;
 
 public class TripFragment extends Fragment {
 
-    private Trip trip;
+    private com.example.hike_with_me_client.Models.Trip.trip trip;
     private TextView tripNameText;
 
     @Override
@@ -55,7 +54,7 @@ public class TripFragment extends Fragment {
         });
     }
 
-    public void setTrip(Trip trip) {
+    public void setTrip(com.example.hike_with_me_client.Models.Trip.trip trip) {
         this.trip = trip;
     }
 }
