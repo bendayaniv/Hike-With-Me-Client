@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Notification permission not required for this Android version");
         }
     }
+
     private void checkAndRequestLocationPermission() {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, Constants.LOCATION_PERMISSION_REQUEST_CODE);
