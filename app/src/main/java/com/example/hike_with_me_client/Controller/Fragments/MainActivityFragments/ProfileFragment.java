@@ -95,7 +95,6 @@ public class ProfileFragment extends Fragment {
         profileEmail.setText(mEmail);
         profileHometown.setText(mHometown);
 
-        //handler = new Handler(Looper.getMainLooper());
         loadUserProfileFromServer();
         // Set edit button click listener
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -133,8 +132,7 @@ public class ProfileFragment extends Fragment {
                     profileHometown.setText(R.string.hometown);
                     phoneNum.setText(R.string.phone_number);
                     editButton.setVisibility(View.GONE);
-                    //emptyProfileListTV.setVisibility(View.VISIBLE);
-                    //emptyProfileListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
+
                 } else {
                     // Retry fetching user profile if no data and no error message
                     handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);

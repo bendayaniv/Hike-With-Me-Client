@@ -31,7 +31,6 @@ public class CreateTripFragment extends Fragment {
     private EditText tripEndDateEditText;
     private EditText tripDescriptionEditText;
     //private EditText tripImagesUrlsEditText;
-    //private EditText tripUserIdEditText;
     private Button saveTripButton;
 
     public CreateTripFragment() {
@@ -50,7 +49,6 @@ public class CreateTripFragment extends Fragment {
         tripStartDateEditText = view.findViewById(R.id.trip_start_date);
         tripEndDateEditText = view.findViewById(R.id.trip_end_date);
         tripDescriptionEditText = view.findViewById(R.id.trip_description);
-        //tripUserIdEditText = view.findViewById(R.id.trip_user_id);
         //tripImagesUrlsEditText = view.findViewById(R.id.trip_images_urls);
         saveTripButton = view.findViewById(R.id.save_trip_button);
 
@@ -72,7 +70,6 @@ public class CreateTripFragment extends Fragment {
         String endDate = tripEndDateEditText.getText().toString().trim();
         String description = tripDescriptionEditText.getText().toString().trim();
         String uniqueID = UUID.randomUUID().toString();
-        //String userId = tripUserIdEditText.getText().toString().trim();
         //String imagesUrlsString = tripImagesUrlsEditText.getText().toString().trim();
 
         // Get the current user ID
@@ -107,7 +104,7 @@ public class CreateTripFragment extends Fragment {
         newTrip.setLocations(new Location[]{});
         newTrip.setRoutesNames(new String[]{});
         //newTrip.setImagesUrls(imagesUrls);
-        Log.d("trip is valid", "trip" + newTrip);
+
         // Show a confirmation message
         Toast.makeText(getActivity(), "trip saved successfully!", Toast.LENGTH_SHORT).show();
         saveTripToServer(newTrip);
@@ -122,7 +119,6 @@ public class CreateTripFragment extends Fragment {
         tripStartDateEditText.setText("");
         tripEndDateEditText.setText("");
         tripDescriptionEditText.setText("");
-        //tripUserIdEditText.setText("");
         //tripImagesUrlsEditText.setText("");
     }
 }
