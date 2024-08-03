@@ -153,34 +153,30 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        //loadUserProfileFromServer();
+        loadUserProfileFromServer();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        CurrentUser.getInstance().setUser(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        CurrentUser.getInstance().setUser(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        CurrentUser.getInstance().setUser(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        CurrentUser.getInstance().setUser(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 }

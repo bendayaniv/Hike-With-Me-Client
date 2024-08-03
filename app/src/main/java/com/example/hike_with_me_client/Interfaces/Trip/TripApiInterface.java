@@ -1,6 +1,6 @@
 package com.example.hike_with_me_client.Interfaces.Trip;
 
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 
 import java.util.List;
 
@@ -17,18 +17,18 @@ import retrofit2.http.Path;
 public interface TripApiInterface {
 
     @GET("hike-with-me/trips/{user_id}")
-    Call<List<Trip>> getTrips(
+    Call<List<trip>> getTrips(
             @Path("user_id") String user_id
     );
 
     @POST("hike-with-me/trips/createTrip")
-    Call<Trip> createTrip(
-            @Body Trip trip
+    Call<trip> createTrip(
+            @Body trip trip
     );
 
     @PUT("hike-with-me/trips")
-    Call<Trip> updateTrip(
-            @Body Trip trip
+    Call<trip> updateTrip(
+            @Body trip trip
     );
 
     @DELETE("hike-with-me/trips/{user_id}/{trip_id}")

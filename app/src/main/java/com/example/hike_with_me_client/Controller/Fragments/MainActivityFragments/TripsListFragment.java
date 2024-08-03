@@ -16,11 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.example.hike_with_me_client.Adapters.TripItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_TripItem;
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
@@ -33,7 +32,7 @@ import java.util.ArrayList;
 
 public class TripsListFragment extends Fragment {
 
-    ArrayList<Trip> trips;
+    ArrayList<trip> trips;
     private RecyclerView fragmentTripsRV;
     private MaterialTextView emptyTripsListTV;
     private TripItemAdapter tripItemAdapter;
@@ -98,7 +97,7 @@ public class TripsListFragment extends Fragment {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void run() {
-                ArrayList<Trip> loadedTrips = ListOfTrips.getInstance().getTrips();
+                ArrayList<trip> loadedTrips = ListOfTrips.getInstance().getTrips();
 
                 if (loadedTrips != null && !loadedTrips.isEmpty()) {
                     trips.clear();

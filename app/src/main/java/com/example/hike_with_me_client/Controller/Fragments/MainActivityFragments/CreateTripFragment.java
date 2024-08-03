@@ -2,6 +2,7 @@ package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragmen
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +14,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_CreateTrip;
-import com.example.hike_with_me_client.Models.Trip.Actions.CreateTrip;
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.UUID;
 
 public class CreateTripFragment extends Fragment {
 
@@ -72,6 +71,7 @@ public class CreateTripFragment extends Fragment {
         String startDate = tripStartDateEditText.getText().toString().trim();
         String endDate = tripEndDateEditText.getText().toString().trim();
         String description = tripDescriptionEditText.getText().toString().trim();
+        String uniqueID = UUID.randomUUID().toString();
         //String userId = tripUserIdEditText.getText().toString().trim();
         //String imagesUrlsString = tripImagesUrlsEditText.getText().toString().trim();
 
@@ -96,21 +96,24 @@ public class CreateTripFragment extends Fragment {
         //    Collections.addAll(imagesUrls, urlsArray);
         //}
 
-        // Create a Trip object
-        Trip newTrip = new Trip();
+        // Create a trip object
+        trip newTrip = new trip();
         newTrip.setName(name);
         newTrip.setStartDate(startDate);
         newTrip.setEndDate(endDate);
         newTrip.setDescription(description);
         newTrip.setUserId(userId);
+        newTrip.setId(uniqueID);
+        newTrip.setLocations(new Location[]{});
+        newTrip.setRoutesNames(new String[]{});
         //newTrip.setImagesUrls(imagesUrls);
-
+        Log.d("trip is valid", "trip" + newTrip);
         // Show a confirmation message
-        Toast.makeText(getActivity(), "Trip saved successfully!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "trip saved successfully!", Toast.LENGTH_SHORT).show();
         saveTripToServer(newTrip);
     }
 
-    private void saveTripToServer(Trip trip) {
+    private void saveTripToServer(trip trip) {
         TripMethods.createTrip(trip);
     }
 

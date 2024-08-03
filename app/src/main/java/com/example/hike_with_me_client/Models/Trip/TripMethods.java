@@ -29,49 +29,50 @@ public class TripMethods {
     public static void getTripsByUser() {
         Callback_GetTripsByUser callback_getTripsByUser = new Callback_GetTripsByUser() {
             @Override
-            public void success(List<Trip> trips) {
+            public void success(List<trip> trips) {
                 if(trips.isEmpty()) {
-                    Log.d("Trip", "No trips found");
+                    Log.d("trip", "No trips found");
                 } else {
-                    Log.d("Trip", "Trips: " + trips);
+                    Log.d("trip", "Trips: " + trips);
                 }
-                ListOfTrips.getInstance().setTrips((ArrayList<Trip>) trips);
+                ListOfTrips.getInstance().setTrips((ArrayList<trip>) trips);
             }
 
             @Override
             public void error(String message) {
-                Log.d("Trip", "Error: " + message);
+                Log.d("trip", "Error: " + message);
                 ErrorMessageFromServer.getInstance().setErrorMessageFromServer(message);
             }
         };
         new GetTripsByUser(callback_getTripsByUser).getTripsByUser();
     }
 
-    public static void createTrip(Trip trip) {
+    public static void createTrip(trip trip) {
         Callback_CreateTrip callback_createTrip = new Callback_CreateTrip() {
             @Override
-            public void success(Trip trip) {
-                Log.d("Trip", "Trip created: " + trip);
+            public void success(com.example.hike_with_me_client.Models.Trip.trip trip) {
+                Log.d("trip", "trip created: " + trip);
             }
 
             @Override
             public void error(String message) {
-                Log.d("Trip", "Error: " + message);
+                Log.d("trip", "Error: " + message);
             }
         };
+        Log.d("trip is valid", "Trip2" + trip);
         new CreateTrip(callback_createTrip).createTrip(trip);
     }
 
-    public static void updateTrip(Trip trip) {
+    public static void updateTrip(trip trip) {
         Callback_UpdateTrip callback_updateTrip = new Callback_UpdateTrip() {
             @Override
-            public void success(Trip trip) {
-                Log.d("Trip", "Trip updated: " + trip);
+            public void success(com.example.hike_with_me_client.Models.Trip.trip trip) {
+                Log.d("trip", "trip updated: " + trip);
             }
 
             @Override
             public void error(String message) {
-                Log.d("Trip", "Error: " + message);
+                Log.d("trip", "Error: " + message);
             }
         };
         new UpdateTrip(callback_updateTrip).updateTrip(trip);
@@ -81,12 +82,12 @@ public class TripMethods {
         Callback_DeleteTrip callback_deleteTrip = new Callback_DeleteTrip() {
             @Override
             public void success(String message) {
-                Log.d("Trip", "Message: " + message);
+                Log.d("trip", "Message: " + message);
             }
 
             @Override
             public void error(String message) {
-                Log.d("Trip", "Error: " + message);
+                Log.d("trip", "Error: " + message);
             }
         };
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
@@ -97,12 +98,12 @@ public class TripMethods {
         Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
             @Override
             public void success(String message) {
-                Log.d("Trip", "Message: " + message);
+                Log.d("trip", "Message: " + message);
             }
 
             @Override
             public void error(String error) {
-                Log.d("Trip", "Error: " + error);
+                Log.d("trip", "Error: " + error);
             }
         };
         new UploadImages(callback_uploadImages).uploadImages(images, userName, tripName);
@@ -113,12 +114,12 @@ public class TripMethods {
         Callback_DeleteImage callback_deleteImage = new Callback_DeleteImage() {
             @Override
             public void success(String message) {
-                Log.d("Trip", "Message: " + message);
+                Log.d("trip", "Message: " + message);
             }
 
             @Override
             public void error(String error) {
-                Log.d("Trip", "Error: " + error);
+                Log.d("trip", "Error: " + error);
             }
         };
         new DeleteImage(callback_deleteImage).deleteImage(userName, tripName, imageName);

@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Headline for Add Trip -->
+        <!-- Headline for Add trip -->
         <TextView
             android:id="@+id/add_trip_headline"
             android:layout_width="match_parent"

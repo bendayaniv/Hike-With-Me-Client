@@ -2,7 +2,7 @@ package com.example.hike_with_me_client.Models.Trip.Actions;
 
 import androidx.annotation.NonNull;
 
-import com.example.hike_with_me_client.Models.Trip.Trip;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 
@@ -17,14 +17,14 @@ public class UpdateTrip extends TripMasterClass {
         this.callback_updateTrip = callback_updateTrip;
     }
 
-    public void updateTrip(Trip trip) {
-        Call<Trip> call = tripApiInterface.updateTrip(trip);
+    public void updateTrip(trip trip) {
+        Call<com.example.hike_with_me_client.Models.Trip.trip> call = tripApiInterface.updateTrip(trip);
 
-        call.enqueue(new Callback<Trip>() {
+        call.enqueue(new Callback<com.example.hike_with_me_client.Models.Trip.trip>() {
             @Override
-            public void onResponse(@NonNull Call<Trip> call, @NonNull Response<Trip> response) {
+            public void onResponse(@NonNull Call<com.example.hike_with_me_client.Models.Trip.trip> call, @NonNull Response<com.example.hike_with_me_client.Models.Trip.trip> response) {
                 if(response.isSuccessful()) {
-                    Trip trip = response.body();
+                    com.example.hike_with_me_client.Models.Trip.trip trip = response.body();
                     callback_updateTrip.success(trip);
                 } else {
                     callback_updateTrip.error(String.valueOf(response.errorBody()));
@@ -32,7 +32,7 @@ public class UpdateTrip extends TripMasterClass {
             }
 
             @Override
-            public void onFailure(@NonNull Call<Trip> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<com.example.hike_with_me_client.Models.Trip.trip> call, @NonNull Throwable t) {
                 callback_updateTrip.error(t.getMessage());
                 t.printStackTrace();
             }
