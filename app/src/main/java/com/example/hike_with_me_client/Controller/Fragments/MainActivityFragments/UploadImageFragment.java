@@ -25,7 +25,7 @@ import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 public class UploadImageFragment extends Fragment {
 
@@ -38,8 +38,9 @@ public class UploadImageFragment extends Fragment {
     private ImageView imageView2;
     private Button btnUploadImages;
     private ProgressBar progressBar;
-    private Uri imageUri1;
-    private Uri imageUri2;
+
+    // To maintain order
+    private LinkedHashMap<Integer, Uri> selectedImages = new LinkedHashMap<>();
 
     @Nullable
     @Override
@@ -58,7 +59,6 @@ public class UploadImageFragment extends Fragment {
         return view;
     }
 
-    // ... Keep the existing onViewCreated and onRequestPermissionsResult methods ...
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -90,72 +90,31 @@ public class UploadImageFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
             if (requestCode == PICK_IMAGE_REQUEST_1) {
-                imageUri1 = data.getData();
-                imageView1.setImageURI(imageUri1);
-                Log.d(TAG, "Image 1 selected: " + imageUri1.toString());
+                imageView1.setImageURI(imageUri);
+                selectedImages.put(PICK_IMAGE_REQUEST_1, imageUri);
+                Log.d(TAG, "Image 1 selected: " + imageUri.toString());
             } else if (requestCode == PICK_IMAGE_REQUEST_2) {
-                imageUri2 = data.getData();
-                imageView2.setImageURI(imageUri2);
-                Log.d(TAG, "Image 2 selected: " + imageUri2.toString());
+                imageView2.setImageURI(imageUri);
+                selectedImages.put(PICK_IMAGE_REQUEST_2, imageUri);
+                Log.d(TAG, "Image 2 selected: " + imageUri.toString());
             }
         } else {
             Log.d(TAG, "Image selection failed or was cancelled");
         }
     }
 
-//    private void uploadImages() {
-//        List<Uri> imageUris = new ArrayList<>();
-//        if (imageUri1 != null) {
-//            imageUris.add(imageUri1);
-//        }
-//        if (imageUri2 != null) {
-//            imageUris.add(imageUri2);
-//        }
-//
-//        if (!imageUris.isEmpty()) {
-//            String userName = CurrentUser.getInstance().getUser().getName(); // Replace with actual user name
-//            String tripName = "tripName4"; // TODO - Replace with actual trip name
-//
-//            Log.d(TAG, "Attempting to upload images: " + imageUris.toString());
-//
-//            try {
-//                TripMethods.uploadImages(imageUris, userName, tripName, requireContext());
-//            } catch (Exception e) {
-//                Log.e(TAG, "Error during upload: ", e);
-//                Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-//            }
-//        } else {
-//            Log.d(TAG, "No images selected for upload");
-//            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     private void uploadImages() {
-        List<Uri> imageUris = new ArrayList<>();
-        if (imageUri1 != null) {
-            imageUris.add(imageUri1);
-        }
-        if (imageUri2 != null) {
-            imageUris.add(imageUri2);
-        }
-
-        if (!imageUris.isEmpty()) {
+        if (!selectedImages.isEmpty()) {
             String userName = CurrentUser.getInstance().getUser().getName();
             String tripName = "tripName4"; // TODO - Replace with actual trip name
 
-            Log.d(TAG, "Attempting to upload images: " + imageUris.toString());
-
-            // Show ProgressBar
-            progressBar.setVisibility(View.VISIBLE);
+            Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
 
             try {
-                // Assuming TripMethods.uploadImages is an asynchronous operation
-                // You might need to modify this part based on how TripMethods.uploadImages is implemented
-                TripMethods.uploadImages(imageUris, userName, tripName, requireContext(), progressBar);
+                TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userName, tripName, requireContext(), progressBar, null);
             } catch (Exception e) {
-                // Hide ProgressBar
-                progressBar.setVisibility(View.GONE);
                 Log.e(TAG, "Error during upload: ", e);
                 Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }

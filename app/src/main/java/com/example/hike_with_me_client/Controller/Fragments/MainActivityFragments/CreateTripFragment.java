@@ -1,12 +1,20 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -22,6 +30,7 @@ import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.UUID;
 
 public class CreateTripFragment extends Fragment {
@@ -32,7 +41,15 @@ public class CreateTripFragment extends Fragment {
     private EditText tripDescriptionEditText;
     //private EditText tripImagesUrlsEditText;
     private Button saveTripButton;
+    private ImageView tripImageView;
     private ProgressBar progressBar;
+    private static final int PICK_IMAGE_REQUEST = 1;
+
+    private static final int PERMISSION_REQUEST_CODE = 3;
+    private static final String TAG = "UploadImageFragment";
+
+    private LinkedHashMap<Integer, Uri> selectedImages = new LinkedHashMap<>();
+
 
     public CreateTripFragment() {
         // Required empty public constructor
@@ -53,6 +70,15 @@ public class CreateTripFragment extends Fragment {
         //tripImagesUrlsEditText = view.findViewById(R.id.trip_images_urls);
         saveTripButton = view.findViewById(R.id.save_trip_button);
         progressBar = view.findViewById(R.id.progressBar);
+        tripImageView = view.findViewById(R.id.tripImageView);
+
+        tripImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open the image chooser
+                openImageChooser(PICK_IMAGE_REQUEST);
+            }
+        });
 
         // Set click listener for the save button
         saveTripButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +89,25 @@ public class CreateTripFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, you can proceed with image selection
+            } else {
+                Toast.makeText(getContext(), "Permission denied. Cannot select images.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void saveTrip() {
@@ -112,7 +157,49 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void saveTripToServer(trip trip) {
-        TripMethods.createTrip(trip, this.getContext(), progressBar);
+        uploadImages(trip);
+    }
+
+    private void openImageChooser(int requestCode) {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), requestCode);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            Uri imageUri = data.getData();
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                tripImageView.setImageURI(imageUri);
+                selectedImages.put(PICK_IMAGE_REQUEST, imageUri);
+                Log.d(TAG, "Image 1 selected: " + imageUri.toString());
+            }
+        } else {
+            Log.d(TAG, "Image selection failed or was cancelled");
+        }
+    }
+
+    private void uploadImages(trip trip) {
+        if (!selectedImages.isEmpty()) {
+            String userName = CurrentUser.getInstance().getUser().getName();
+            String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
+
+            Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
+
+            try {
+                TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userName, tripName, requireContext(), progressBar, trip);
+            } catch (Exception e) {
+                Log.e(TAG, "Error during upload: ", e);
+                Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.d(TAG, "No images selected for upload");
+            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void clearInputFields() {
