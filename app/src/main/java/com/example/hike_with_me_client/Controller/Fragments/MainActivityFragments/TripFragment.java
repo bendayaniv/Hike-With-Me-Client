@@ -4,6 +4,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
@@ -28,6 +30,7 @@ import java.util.List;
 
 public class TripFragment extends Fragment {
 
+    private TripFragment tripFragment;
     private static final String ARG_TRIP_ID = "trip_id";
     private trip trip;
     private TextView tripNameText;
@@ -39,6 +42,10 @@ public class TripFragment extends Fragment {
     private Handler handler = new Handler();
     private Runnable retryRunnable;
 
+    private FragmentManager fragmentManager;
+    private void TripFragment() {
+        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
+    }
     public static TripFragment newInstance(String tripId) {
         TripFragment fragment = new TripFragment();
         Bundle args = new Bundle();
@@ -91,6 +98,16 @@ public class TripFragment extends Fragment {
                     ArrayList<Route> routes = getRoutesByNames(trip.getRoutesNames());
                     // Set up routes RecyclerView
                     RouteItemAdapter routeAdapter = new RouteItemAdapter(getContext(), routes);
+                    routeAdapter.setCallbackRouteItem(new Callback_RouteItem() {
+                        @Override
+                        public void itemClicked(Route route, int position) {
+                            Fragment routeDetailsFragment = RouteDetailsFragment.newInstance(route.getId());
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.trip_fragment_container, routeDetailsFragment) // Replace with your actual container ID
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    });
                     recyclerViewRoutes.setLayoutManager(new LinearLayoutManager(getContext()));
                     recyclerViewRoutes.setAdapter(routeAdapter);
 

@@ -36,4 +36,10 @@
     <string name="trip_user_id">User ID</string>
     <string name="trip_images_urls">Image</string>
     <string name="add_trip">Add Trip</string>
+    <string-array name="difficulty_levels">
+        <item>Unknown</item>
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
 </resources>
