@@ -161,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
+//                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadImageFragment())
+//                            .commit();
                     // TODO - activate it when there is not trip that is active
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
@@ -286,6 +288,7 @@ public class MainActivity extends AppCompatActivity {
             // Permission is already granted
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
