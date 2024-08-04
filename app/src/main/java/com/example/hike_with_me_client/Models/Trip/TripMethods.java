@@ -2,12 +2,10 @@ package com.example.hike_with_me_client.Models.Trip;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
-import android.provider.OpenableColumns;
 import android.util.Log;
-
-import androidx.loader.content.CursorLoader;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_CreateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_DeleteImage;
@@ -24,8 +22,6 @@ import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,16 +54,22 @@ public class TripMethods {
         new GetTripsByUser(callback_getTripsByUser).getTripsByUser();
     }
 
-    public static void createTrip(trip trip) {
+    public static void createTrip(trip trip, Context context, ProgressBar progressBar) {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+
         Callback_CreateTrip callback_createTrip = new Callback_CreateTrip() {
             @Override
             public void success(com.example.hike_with_me_client.Models.Trip.trip trip) {
                 Log.d("trip", "trip created: " + trip);
+                Toast.makeText(context, "trip saved successfully!", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(ProgressBar.GONE);
             }
 
             @Override
             public void error(String message) {
                 Log.d("trip", "Error: " + message);
+                Toast.makeText(context, "Error: " + message, Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(ProgressBar.GONE);
             }
         };
         Log.d("trip is valid", "Trip2" + trip);
@@ -104,17 +106,21 @@ public class TripMethods {
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
     }
 
-    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context) {
+    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context, ProgressBar progressBar, trip trip) {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
         List<MultipartBody.Part> imageParts = new ArrayList<>();
 
-        for (Uri uri : imageUris) {
+        Log.d("TripMethods", "ImageUris: " + imageUris.toString());
+
+        for (int i = 0; i < imageUris.size(); i++) {
+            Uri uri = imageUris.get(i);
             if (uri != null) {
                 try {
                     InputStream inputStream = context.getContentResolver().openInputStream(uri);
                     if (inputStream != null) {
-                        byte[] byteArray = getBytes(inputStream);
+                        byte[] byteArray = TripMethodsUtils.getBytes(inputStream);
                         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), byteArray);
-                        String fileName = getFileName(context, uri);
+                        String fileName = TripMethodsUtils.getFileName(context, uri);
                         MultipartBody.Part imagePart = MultipartBody.Part.createFormData("images", fileName, requestFile);
                         imageParts.add(imagePart);
                     }
@@ -127,48 +133,24 @@ public class TripMethods {
         RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
         RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
 
-        new UploadImages(new Callback_UploadImages() {
+        Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
             @Override
             public void success(String message) {
+//                progressBar.setVisibility(ProgressBar.GONE);
                 Log.d("TripMethods", "Upload success: " + message);
+                Toast.makeText(context, "All images uploaded successfully", Toast.LENGTH_SHORT).show();
+                TripMethods.createTrip(trip, context, progressBar);
             }
 
             @Override
             public void error(String error) {
+                progressBar.setVisibility(ProgressBar.GONE);
                 Log.e("TripMethods", "Upload error: " + error);
+                Toast.makeText(context, "Upload failed: " + error, Toast.LENGTH_LONG).show();
             }
-        }).uploadImages(imageParts, userNamePart, tripNamePart);
-    }
+        };
 
-    private static byte[] getBytes(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
-        int bufferSize = 1024;
-        byte[] buffer = new byte[bufferSize];
-        int len;
-        while ((len = inputStream.read(buffer)) != -1) {
-            byteBuffer.write(buffer, 0, len);
-        }
-        return byteBuffer.toByteArray();
-    }
-
-    @SuppressLint("Range")
-    private static String getFileName(Context context, Uri uri) {
-        String result = null;
-        if (uri.getScheme().equals("content")) {
-            try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
-                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                }
-            }
-        }
-        if (result == null) {
-            result = uri.getPath();
-            int cut = result.lastIndexOf('/');
-            if (cut != -1) {
-                result = result.substring(cut + 1);
-            }
-        }
-        return result;
+        new UploadImages(callback_uploadImages).uploadImages(imageParts, userNamePart, tripNamePart);
     }
 
     public static void deleteImage(String userName, String tripName, String imageName) {

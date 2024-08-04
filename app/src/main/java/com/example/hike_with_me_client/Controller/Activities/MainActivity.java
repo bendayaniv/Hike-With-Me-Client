@@ -24,6 +24,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.LogoutListener;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Services.LocationService;
@@ -39,7 +40,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LogoutListener {
 
     Button logoutButton;
     FirebaseAuth mAuth;
@@ -78,16 +79,20 @@ public class MainActivity extends AppCompatActivity {
         mainPageFragment();
     }
 
+    @Override
+    public void onLogoutRequested() {
+        logoutButtonFunctionality();
+    }
+
     private void logoutButtonFunctionality() {
-        logoutButton.setOnClickListener(v -> {
+//        logoutButton.setOnClickListener(v -> {
             mAuth.signOut();
             CurrentUser.getInstance().getUser().setActive(false);
             CurrentUser.getInstance().getUser().setLocation(null);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
             CurrentUser.getInstance().removeUser();
             goToLoginActivityCallback.goToLoginActivityCallback();
-        });
-
+//        });
     }
 
     @SuppressLint("SetTextI18n")
@@ -161,6 +166,8 @@ public class MainActivity extends AppCompatActivity {
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
+//                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadImageFragment())
+//                            .commit();
                     // TODO - activate it when there is not trip that is active
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
@@ -286,6 +293,7 @@ public class MainActivity extends AppCompatActivity {
             // Permission is already granted
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
