@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.LogoutListener;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
@@ -46,6 +48,10 @@ public class ProfileFragment extends Fragment {
     ImageView profileImage;
     TextView phoneNum;
     Button editButton;
+    Button logoutButton;
+
+    private LogoutListener logoutListener;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -76,6 +82,16 @@ public class ProfileFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof LogoutListener) {
+            logoutListener = (LogoutListener) context;
+        } else {
+            throw new RuntimeException(context.toString() + " must implement LogoutListener");
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -88,6 +104,7 @@ public class ProfileFragment extends Fragment {
         profileEmail = view.findViewById(R.id.profile_email);
         profileHometown = view.findViewById(R.id.profile_hometown);
         editButton = view.findViewById(R.id.edit_button);
+        logoutButton = view.findViewById(R.id.logout_button);
 
         // Set data to UI elements
         profileName.setText(mParam1);
@@ -103,6 +120,15 @@ public class ProfileFragment extends Fragment {
                 // Implement the logic to edit the profile
                 // TODO - move to create trip fragment
                 Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (logoutListener != null) {
+                    logoutListener.onLogoutRequested();
+                }
             }
         });
 

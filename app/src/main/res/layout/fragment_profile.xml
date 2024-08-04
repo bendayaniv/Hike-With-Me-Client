@@ -16,7 +16,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:orientation="vertical"
         android:paddingLeft="32dp"
         android:paddingTop="20dp">
@@ -58,4 +58,12 @@
         android:layout_gravity="center"
         android:text="Edit"
         android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Log Out" />
+
 </LinearLayout>

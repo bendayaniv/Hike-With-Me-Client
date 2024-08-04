@@ -24,6 +24,7 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
+import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.LogoutListener;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Services.LocationService;
@@ -39,7 +40,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LogoutListener {
 
     Button logoutButton;
     FirebaseAuth mAuth;
@@ -78,16 +79,20 @@ public class MainActivity extends AppCompatActivity {
         mainPageFragment();
     }
 
+    @Override
+    public void onLogoutRequested() {
+        logoutButtonFunctionality();
+    }
+
     private void logoutButtonFunctionality() {
-        logoutButton.setOnClickListener(v -> {
+//        logoutButton.setOnClickListener(v -> {
             mAuth.signOut();
             CurrentUser.getInstance().getUser().setActive(false);
             CurrentUser.getInstance().getUser().setLocation(null);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
             CurrentUser.getInstance().removeUser();
             goToLoginActivityCallback.goToLoginActivityCallback();
-        });
-
+//        });
     }
 
     @SuppressLint("SetTextI18n")
