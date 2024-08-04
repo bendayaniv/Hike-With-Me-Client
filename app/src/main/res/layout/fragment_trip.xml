@@ -1,15 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Controller.Fragments.MainActivityFragments.TripFragment">
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/text_name_trip"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/trip_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-</FrameLayout>
+        <TextView
+            android:id="@+id/text_name_trip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_name"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/text_description_trip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_description"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/text_start_date_trip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_start_date"
+            android:paddingBottom="16dp"/>
+
+        <TextView
+            android:id="@+id/text_end_date_trip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/trip_end_date"
+            android:paddingBottom="16dp"/>
+
+        <!-- RecyclerView for Routes -->
+        <TextView
+            android:id="@+id/text_routes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Routes"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_routes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"/>
+
+        <!-- RecyclerView for Images -->
+        <TextView
+            android:id="@+id/text_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Images"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_images"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"/>
+    </LinearLayout>
+</ScrollView>
