@@ -47,6 +47,7 @@ public class TripFragment extends Fragment {
     private Handler handler = new Handler();
     private Runnable retryRunnable;
 
+    private RouteDetailsFragment routeDetailsFragment;
     private FragmentManager fragmentManager;
 
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,7 +121,8 @@ public class TripFragment extends Fragment {
                         routeAdapter.setCallbackRouteItem(new Callback_RouteItem() {
                             @Override
                             public void itemClicked(Route route, int position) {
-                                Fragment routeDetailsFragment = RouteDetailsFragment.newInstance(route.getId());
+                                routeDetailsFragment = new RouteDetailsFragment();
+                                routeDetailsFragment.setRoute(route);
                                 getFragmentManager().beginTransaction()
                                         .replace(R.id.main_fragment_container, routeDetailsFragment) // Replace with your actual container ID
                                         .addToBackStack(null)

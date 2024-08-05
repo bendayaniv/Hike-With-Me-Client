@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 public class Constants {
 
-    public static final int MENU_HOME = 2131231024;
+    public static final int MENU_HOME = 2131231026;
     public static final int MENU_TRIPS = 2131231028;
     public static final int MENU_COMMUNITY = 2131231025;
     public static final int MENU_PROFILE = 2131231027;

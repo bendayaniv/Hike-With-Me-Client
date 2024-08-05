@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,9 +29,6 @@ public class RouteDetailsFragment extends Fragment {
 
     public static RouteDetailsFragment newInstance(String routeId) {
         RouteDetailsFragment fragment = new RouteDetailsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_ROUTE_ID, routeId);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -57,16 +55,12 @@ public class RouteDetailsFragment extends Fragment {
     }
 
     private void loadRouteDetails() {
-        if (getArguments() != null) {
-            String routeId = getArguments().getString(ARG_ROUTE_ID);
-            // TODO: Fetch from API
-
-            if (route != null) {
+        Log.d("route details", route.toString());
+        if (route != null) {
                 routeNameTextView.setText(route.getName());
                 routeDescriptionTextView.setText(route.getDescription());
                 routeLengthTextView.setText(String.valueOf(route.getLength()));
                 routeDifficultyTextView.setText(route.getDifficultyLevel());
-            }
         }
     }
 
@@ -80,5 +74,8 @@ public class RouteDetailsFragment extends Fragment {
         if (fragmentManager != null) {
             fragmentManager.popBackStack(); // Navigate back to the previous fragment
         }
+    }
+    public void setRoute(Route route) {
+        this.route = route;
     }
 }

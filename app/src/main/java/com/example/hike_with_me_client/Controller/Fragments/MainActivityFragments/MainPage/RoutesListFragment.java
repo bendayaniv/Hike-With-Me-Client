@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteFragment;
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.RouteDetailsFragment;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RoutesListFragment;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
@@ -45,7 +45,7 @@ public class RoutesListFragment extends Fragment {
     private ProgressBar progressBarRoutesList;
     private Callback_RoutesListFragment callback_routesListFragment;
     private SharedViewModel sharedViewModel;
-    private RouteFragment routeFragment;
+    private RouteDetailsFragment routeFragment;
     private FragmentManager fragmentManager;
 
     private Handler handler;
@@ -75,7 +75,7 @@ public class RoutesListFragment extends Fragment {
     private void initializing() {
         handler = new Handler(Looper.getMainLooper());
 
-        routeFragment = new RouteFragment();
+        routeFragment = new RouteDetailsFragment();
 
         fragmentRoutesRV.setVisibility(View.GONE);
         emptyRoutesListTV.setVisibility(View.GONE);
@@ -126,6 +126,8 @@ public class RoutesListFragment extends Fragment {
                 }
             } else {
                 Log.d("RoutesListFragment", "itemClicked: same position");
+                //routeFragment = RouteDetailsFragment.newInstance(route.getId());
+                routeFragment = new RouteDetailsFragment();
                 routeFragment.setRoute(route);
                 fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
             }
