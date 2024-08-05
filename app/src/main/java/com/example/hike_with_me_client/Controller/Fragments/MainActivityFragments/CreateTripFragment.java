@@ -184,21 +184,21 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void uploadImages(trip trip) {
+        String userId = CurrentUser.getInstance().getUser().getId();
+        String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
         if (!selectedImages.isEmpty()) {
-            String userName = CurrentUser.getInstance().getUser().getName();
-            String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
 
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
 
             try {
-                TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userName, tripName, requireContext(), progressBar, trip);
+                TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userId, tripName, requireContext(), progressBar, trip);
             } catch (Exception e) {
                 Log.e(TAG, "Error during upload: ", e);
                 Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         } else {
             Log.d(TAG, "No images selected for upload");
-            Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+            TripMethods.uploadImages(new ArrayList<>(), userId, tripName, requireContext(), progressBar, trip);
         }
     }
 
