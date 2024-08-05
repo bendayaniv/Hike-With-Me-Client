@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
@@ -30,6 +31,7 @@ import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class TripFragment extends Fragment {
 
@@ -98,6 +100,15 @@ public class TripFragment extends Fragment {
                     tripDescriptionText.setText(trip.getDescription());
                     tripStartDateText.setText(trip.getStartDate());
                     tripEndDateText.setText(trip.getEndDate());
+                    if (trip.getImagesUrls() != null && !trip.getImagesUrls().isEmpty()) {
+                        // Load the first image into the ImageView
+                        Glide.with(getContext()).load(trip.getImagesUrls().get(0)).into(tripImageView);
+                        tripImageView.setVisibility(View.VISIBLE);
+                    } else {
+                        // Hide the ImageView if there are no images
+                        tripImageView.setVisibility(View.GONE);
+                    }
+
                     // Fetch routes by names
                     ArrayList<Route> routes = getRoutesByNames(trip.getRoutesNames());
                     if (routes.isEmpty()) {
