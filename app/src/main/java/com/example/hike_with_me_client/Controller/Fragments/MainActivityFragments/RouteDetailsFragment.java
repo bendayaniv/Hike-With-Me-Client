@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 
@@ -26,6 +28,7 @@ public class RouteDetailsFragment extends Fragment {
     private TextView routeLengthTextView;
     private Button backRouteButton;
     FragmentManager fragmentManager;
+    private MainPageFragment mainPageFragment;
 
     public static RouteDetailsFragment newInstance(String routeId) {
         RouteDetailsFragment fragment = new RouteDetailsFragment();
@@ -37,6 +40,7 @@ public class RouteDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
     }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_route_details, container, false);
@@ -57,10 +61,10 @@ public class RouteDetailsFragment extends Fragment {
     private void loadRouteDetails() {
         Log.d("route details", route.toString());
         if (route != null) {
-                routeNameTextView.setText(route.getName());
-                routeDescriptionTextView.setText(route.getDescription());
-                routeLengthTextView.setText(String.valueOf(route.getLength()));
-                routeDifficultyTextView.setText(route.getDifficultyLevel());
+            routeNameTextView.setText(route.getName());
+            routeDescriptionTextView.setText(route.getDescription());
+            routeLengthTextView.setText(String.valueOf(route.getLength()));
+            routeDifficultyTextView.setText(route.getDifficultyLevel());
         }
     }
 
@@ -70,12 +74,21 @@ public class RouteDetailsFragment extends Fragment {
 
 
     private void navigateBack() {
-        FragmentManager fragmentManager = getParentFragmentManager();
-        if (fragmentManager != null) {
-            fragmentManager.popBackStack(); // Navigate back to the previous fragment
+        if (mainPageFragment == null) {
+            FragmentManager fragmentManager = getParentFragmentManager();
+            if (fragmentManager != null) {
+                fragmentManager.popBackStack(); // Navigate back to the previous fragment
+            }
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
         }
     }
+
     public void setRoute(Route route) {
         this.route = route;
+    }
+
+    public void setMainPageFragment(MainPageFragment fragment) {
+        this.mainPageFragment = fragment;
     }
 }

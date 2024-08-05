@@ -53,9 +53,9 @@ public class LocationService extends Service {
     private static final String LOG_TAG = "LocationService";
 
     // Time intervals
-    private static final int LOCATION_UPDATE_INTERVAL_MS = 30000;
-    private static final float LOCATION_UPDATE_DISTANCE_METERS = 0.0f;
-    private static final int PERIODIC_TASK_INTERVAL_MS = /*60000*/5000; // Every 60 seconds
+    private static final int LOCATION_UPDATE_INTERVAL_MS = 120000; // Every 120 seconds
+    private static final float LOCATION_UPDATE_DISTANCE_METERS = 200.0f;
+    private static final int PERIODIC_TASK_INTERVAL_MS = 60000; // Every 60 seconds
 
     // 2. Member variables
     private boolean isServiceRunningRightNow = false;

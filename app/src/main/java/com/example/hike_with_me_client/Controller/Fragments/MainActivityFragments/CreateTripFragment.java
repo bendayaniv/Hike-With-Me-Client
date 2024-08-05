@@ -166,6 +166,7 @@ public class CreateTripFragment extends Fragment {
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
             Toast.makeText(getActivity(), "User not logged in", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
             return;
         }
         String userId = currentUser.getId();
@@ -173,6 +174,7 @@ public class CreateTripFragment extends Fragment {
         // Validate input data (optional but recommended)
         if (name.isEmpty() || startDate.isEmpty() || endDate.isEmpty() || userId.isEmpty()) {
             Toast.makeText(getActivity(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
             return;
         }
 
@@ -180,6 +182,7 @@ public class CreateTripFragment extends Fragment {
         String selectedRoutesText = routesTextView.getText().toString().trim();
         if (selectedRoutesText.isEmpty()) {
             Toast.makeText(getActivity(), "Please add at least one route", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
             return;
         }
         selectedRoutesText = selectedRoutesText.replaceAll("[\\[\\]]", "");
@@ -246,7 +249,7 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void uploadImages(trip trip) {
-        String userName = CurrentUser.getInstance().getUser().getName();
+        String userId = CurrentUser.getInstance().getUser().getId();
         String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
         if (!selectedImages.isEmpty()) {
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
@@ -255,6 +258,7 @@ public class CreateTripFragment extends Fragment {
             } catch (Exception e) {
                 Log.e(TAG, "Error during upload: ", e);
                 Toast.makeText(getContext(), "Upload failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
             }
         } else {
             Log.d(TAG, "No images selected for upload");
