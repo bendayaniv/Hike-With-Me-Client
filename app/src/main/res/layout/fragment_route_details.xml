@@ -18,37 +18,29 @@
             android:textStyle="bold"
             android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/route_description_edit_text"
+        <TextView
+            android:id="@+id/route_description_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
+            android:text="Description"
             android:padding="16dp"
             android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/route_length_edit_text"
+        <TextView
+            android:id="@+id/route_length_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Length"
+            android:text="Length"
             android:padding="16dp"
             android:layout_marginBottom="16dp"/>
 
-        <Spinner
-            android:id="@+id/route_difficulty_spinner"
+        <TextView
+            android:id="@+id/route_difficulty_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Difficulty"
+            android:padding="16dp"
             android:layout_marginBottom="16dp"/>
-
-        <Button
-            android:id="@+id/save_route_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Save"
-            android:layout_marginTop="8dp"
-            android:minHeight="48dp"
-            android:minWidth="48dp"
-            android:padding="16dp" />
 
         <Button
             android:id="@+id/back_route_button"

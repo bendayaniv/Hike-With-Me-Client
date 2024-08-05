@@ -29,10 +29,9 @@ public class RouteDetailsFragment extends Fragment {
     private static final String ARG_ROUTE_ID = "route_id";
     private Route route;
     private TextView routeNameTextView;
-    private EditText routeDescriptionEditText;
-    private Spinner routeDifficultySpinner;
-    private EditText routeLengthEditText;
-    private Button saveRouteButton;
+    private TextView routeDescriptionTextView;
+    private TextView routeDifficultyTextView;
+    private TextView routeLengthTextView;
     private Button backRouteButton;
     FragmentManager fragmentManager;
 
@@ -53,7 +52,6 @@ public class RouteDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_route_details, container, false);
         findViews(view);
-        setupSpinner();
         loadRouteDetails();
         setupButtons();
         return view;
@@ -61,83 +59,30 @@ public class RouteDetailsFragment extends Fragment {
 
     private void findViews(View view) {
         routeNameTextView = view.findViewById(R.id.route_name_text_view);
-        routeDescriptionEditText = view.findViewById(R.id.route_description_edit_text);
-        routeDifficultySpinner = view.findViewById(R.id.route_difficulty_spinner);
-        routeLengthEditText = view.findViewById(R.id.route_length_edit_text);
-        saveRouteButton = view.findViewById(R.id.save_route_button);
+        routeDescriptionTextView = view.findViewById(R.id.route_description_text_view);
+        routeDifficultyTextView = view.findViewById(R.id.route_difficulty_text_view);
+        routeLengthTextView = view.findViewById(R.id.route_length_text_view);
         backRouteButton = view.findViewById(R.id.back_route_button);
-    }
-
-    private void setupSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.difficulty_levels, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        routeDifficultySpinner.setAdapter(adapter);
     }
 
     private void loadRouteDetails() {
         if (getArguments() != null) {
             String routeId = getArguments().getString(ARG_ROUTE_ID);
-            // Fetch route details using routeId
+            // TODO: Fetch from API
 
             if (route != null) {
                 routeNameTextView.setText(route.getName());
-                routeDescriptionEditText.setText(route.getDescription());
-
-                // Set the default value of the spinner
-                String difficulty = route.getDifficultyLevel();
-                ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) routeDifficultySpinner.getAdapter();
-                int position = adapter.getPosition(difficulty != null ? difficulty : "Unknown");
-                routeDifficultySpinner.setSelection(position);
-
-                routeLengthEditText.setText(String.valueOf(route.getLength()));
+                routeDescriptionTextView.setText(route.getDescription());
+                routeLengthTextView.setText(String.valueOf(route.getLength()));
+                routeDifficultyTextView.setText(route.getDifficultyLevel());
             }
         }
     }
 
     private void setupButtons() {
-        saveRouteButton.setOnClickListener(v -> saveRoute());
         backRouteButton.setOnClickListener(v -> navigateBack());
     }
 
-    private void saveRoute() {
-        // Collect data from UI elements
-        String name = routeNameTextView.getText().toString().trim();
-        String description = routeDescriptionEditText.getText().toString().trim();
-        String lengthString = routeLengthEditText.getText().toString().trim();
-        String difficulty = routeDifficultySpinner.getSelectedItem().toString();
-        String uniqueID = UUID.randomUUID().toString();
-
-        // Validate input data
-        if (name.isEmpty() || description.isEmpty() || lengthString.isEmpty()) {
-            Toast.makeText(getActivity(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        double length;
-        String lengthAsString;
-        try {
-            length = Double.parseDouble(lengthString);
-            lengthAsString = String.valueOf(length);
-        } catch (NumberFormatException e) {
-            Toast.makeText(getActivity(), "Invalid length format", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Create a route object
-        Route newRoute = new Route();
-        newRoute.setName(name);
-        newRoute.setDescription(description);
-        newRoute.setLength(lengthAsString);
-        newRoute.setDifficultyLevel(difficulty);
-        newRoute.setId(uniqueID);
-        // Send route object to the server
-        saveRouteToServer(newRoute);
-    }
-
-    private void saveRouteToServer(Route newRoute) {
-        RouteMethods.saveRoute(newRoute, this.getContext());
-    }
 
     private void navigateBack() {
         FragmentManager fragmentManager = getParentFragmentManager();
