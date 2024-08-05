@@ -17,4 +17,7 @@ public interface RouteApiInterface {
 
     @GET("hike-with-me/routes/allNames")
     Call<List<String>> getRoutesNames();
+
+    @POST("routes")
+    Call<Route> createRoute(@Body Route route);
 }
