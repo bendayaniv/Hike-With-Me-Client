@@ -55,23 +55,15 @@
             android:id="@+id/recycler_view_routes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="16dp"/>
+            android:paddingBottom="26dp"/>
 
-        <!-- RecyclerView for Images -->
-        <TextView
-            android:id="@+id/text_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Images"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:paddingTop="16dp"
-            android:paddingBottom="8dp"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view_images"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"/>
+        <ImageView
+            android:id="@+id/tripImageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/temporary_img" />
     </LinearLayout>
 </ScrollView>

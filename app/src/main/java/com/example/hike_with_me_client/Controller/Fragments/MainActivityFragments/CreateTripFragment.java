@@ -182,7 +182,7 @@ public class CreateTripFragment extends Fragment {
             Toast.makeText(getActivity(), "Please add at least one route", Toast.LENGTH_SHORT).show();
             return;
         }
-        selectedRoutesText = selectedRoutesText.replaceAll("\\[|\\]|\\s", "");
+        selectedRoutesText = selectedRoutesText.replaceAll("[\\[\\]]", "");
 
         // Initialize a list to hold the route names
         List<String> routeNamesList = new ArrayList<>();

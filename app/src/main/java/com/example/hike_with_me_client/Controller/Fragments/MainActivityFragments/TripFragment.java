@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
@@ -39,7 +40,7 @@ public class TripFragment extends Fragment {
     private TextView tripStartDateText;
     private TextView tripEndDateText;
     private RecyclerView recyclerViewRoutes;
-    private RecyclerView recyclerViewImages;
+    private ImageView tripImageView;
     private Handler handler = new Handler();
     private Runnable retryRunnable;
 
@@ -71,7 +72,7 @@ public class TripFragment extends Fragment {
         tripStartDateText = view.findViewById(R.id.text_start_date_trip);
         tripEndDateText = view.findViewById(R.id.text_end_date_trip);
         recyclerViewRoutes = view.findViewById(R.id.recycler_view_routes);
-        recyclerViewImages = view.findViewById(R.id.recycler_view_images);
+        tripImageView = view.findViewById(R.id.tripImageView);
     }
 
     private void loadTripFromServer() {
@@ -96,7 +97,6 @@ public class TripFragment extends Fragment {
                     tripDescriptionText.setText(trip.getDescription());
                     tripStartDateText.setText(trip.getStartDate());
                     tripEndDateText.setText(trip.getEndDate());
-                    trip.toString();
                     // Fetch routes by names
                     ArrayList<Route> routes = getRoutesByNames(trip.getRoutesNames());
                     if (routes.isEmpty()) {
@@ -138,13 +138,11 @@ public class TripFragment extends Fragment {
 
     private ArrayList<Route> getRoutesByNames(String[] routeNames) {
         ArrayList<Route> routes = new ArrayList<>();
-        List<Route> allRoutes = ListOfRoutes.getInstance().getRoutes();
-        for (String routeName : routeNames) {
-            Log.d("Route found", routeName);
+        for(int i=0; i<trip.getRoutesNames().length; i++) {
+            Log.d("Route found", trip.getRoutesNames()[i]);
                     Route r = new Route();
-                    r.setName(routeName);
+                    r.setName( trip.getRoutesNames()[i]);
                     routes.add(r);
-                    break;
         }
         return routes;
     }
