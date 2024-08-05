@@ -77,43 +77,49 @@ public class TripMethodsUtils {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
                         // Day, Month, Year variations
                         "[d.M.yyyy][dd.MM.yyyy][dd.M.yyyy][d.MM.yyyy]" +
-                        "[d/M/yyyy][dd/MM/yyyy][dd/M/yyyy][d/MM/yyyy]" +
-                        "[d-M-yyyy][dd-MM-yyyy][dd-M-yyyy][d-MM-yyyy]" +
-                        "[d M yyyy][dd MM yyyy][dd M yyyy][d MM yyyy]" +
+                                "[d/M/yyyy][dd/MM/yyyy][dd/M/yyyy][d/MM/yyyy]" +
+                                "[d-M-yyyy][dd-MM-yyyy][dd-M-yyyy][d-MM-yyyy]" +
+                                "[d M yyyy][dd MM yyyy][dd M yyyy][d MM yyyy]" +
 
-                        // Month, Day, Year variations
-                        "[M.d.yyyy][MM.dd.yyyy][M.dd.yyyy][MM.d.yyyy]" +
-                        "[M/d/yyyy][MM/dd/yyyy][M/dd/yyyy][MM/d/yyyy]" +
-                        "[M-d-yyyy][MM-dd-yyyy][M-dd-yyyy][MM-d-yyyy]" +
-                        "[M d yyyy][MM dd yyyy][M dd yyyy][MM d yyyy]" +
+                                // Month, Day, Year variations
+                                "[M.d.yyyy][MM.dd.yyyy][M.dd.yyyy][MM.d.yyyy]" +
+                                "[M/d/yyyy][MM/dd/yyyy][M/dd/yyyy][MM/d/yyyy]" +
+                                "[M-d-yyyy][MM-dd-yyyy][M-dd-yyyy][MM-d-yyyy]" +
+                                "[M d yyyy][MM dd yyyy][M dd yyyy][MM d yyyy]" +
 
-                        // Year, Month, Day variations
-                        "[yyyy.M.d][yyyy.MM.dd][yyyy.M.dd][yyyy.MM.d]" +
-                        "[yyyy/M/d][yyyy/MM/dd][yyyy/M/dd][yyyy/MM/d]" +
-                        "[yyyy-M-d][yyyy-MM-dd][yyyy-M-dd][yyyy-MM-d]" +
-                        "[yyyy M d][yyyy MM dd][yyyy M dd][yyyy MM d]" +
+                                // Year, Month, Day variations
+                                "[yyyy.M.d][yyyy.MM.dd][yyyy.M.dd][yyyy.MM.d]" +
+                                "[yyyy/M/d][yyyy/MM/dd][yyyy/M/dd][yyyy/MM/d]" +
+                                "[yyyy-M-d][yyyy-MM-dd][yyyy-M-dd][yyyy-MM-d]" +
+                                "[yyyy M d][yyyy MM dd][yyyy M dd][yyyy MM d]" +
 
-                        // Including month names
-                        "[d MMM yyyy][dd MMM yyyy][d MMMM yyyy][dd MMMM yyyy]" +
-                        "[MMM d yyyy][MMM dd yyyy][MMMM d yyyy][MMMM dd yyyy]" +
+                                // Year, Day, Month variations
+                                "[yyyy.d.M][yyyy.dd.MM][yyyy.dd.M][yyyy.d.MM]" +
+                                "[yyyy.d/M][yyyy.dd/MM][yyyy.dd/M][yyyy.d/MM]" +
+                                "[yyyy.d-M][yyyy.dd-MM][yyyy.dd-M][yyyy.d-MM]" +
+                                "[yyyy.d M][yyyy.dd MM][yyyy.dd M][yyyy.d MM]" +
 
-                        // Two-digit year formats
-                        "[d.M.yy][dd.MM.yy][d/M/yy][dd/MM/yy][d-M-yy][dd-MM-yy]" +
-                        "[M.d.yy][MM.dd.yy][M/d/yy][MM/dd/yy][M-d-yy][MM-dd-yy]" +
-                        "[yy.M.d][yy.MM.dd][yy/M/d][yy/MM/dd][yy-M-d][yy-MM-dd]" +
+                                // Including month names
+                                "[d MMM yyyy][dd MMM yyyy][d MMMM yyyy][dd MMMM yyyy]" +
+                                "[MMM d yyyy][MMM dd yyyy][MMMM d yyyy][MMMM dd yyyy]" +
 
-                        // Time included
-                        "[d.M.yyyy HH:mm][dd.MM.yyyy HH:mm:ss][yyyy-MM-dd'T'HH:mm:ss]"+
-                        "[M/d/yyyy h:mm a][MM/dd/yyyy hh:mm:ss a][yyyy-MM-dd'T'HH:mm:ssXXX]" +
+                                // Two-digit year formats
+                                "[d.M.yy][dd.MM.yy][d/M/yy][dd/MM/yy][d-M-yy][dd-MM-yy]" +
+                                "[M.d.yy][MM.dd.yy][M/d/yy][MM/dd/yy][M-d-yy][MM-dd-yy]" +
+                                "[yy.M.d][yy.MM.dd][yy/M/d][yy/MM/dd][yy-M-d][yy-MM-dd]" +
 
-                        // Ordinal day formats
-                        "[d'st' MMMM yyyy][d'nd' MMMM yyyy][d'rd' MMMM yyyy][d'th' MMMM yyyy]" +
+                                // Time included
+                                "[d.M.yyyy HH:mm][dd.MM.yyyy HH:mm:ss][yyyy-MM-dd'T'HH:mm:ss]" +
+                                "[M/d/yyyy h:mm a][MM/dd/yyyy hh:mm:ss a][yyyy-MM-dd'T'HH:mm:ssXXX]" +
 
-                        // Week-based formats
-                        "[xxxx-'W'ww-e][xxxx-'W'ww]" +
+                                // Ordinal day formats
+                                "[d'st' MMMM yyyy][d'nd' MMMM yyyy][d'rd' MMMM yyyy][d'th' MMMM yyyy]" +
 
-                        // Fiscal year formats
-                        "[yyyy/yyyy][yyyy-yyyy]"
+                                // Week-based formats
+                                "[xxxx-'W'ww-e][xxxx-'W'ww]" +
+
+                                // Fiscal year formats
+                                "[yyyy/yyyy][yyyy-yyyy]"
                 )
                 .withLocale(Locale.getDefault());
         try {
