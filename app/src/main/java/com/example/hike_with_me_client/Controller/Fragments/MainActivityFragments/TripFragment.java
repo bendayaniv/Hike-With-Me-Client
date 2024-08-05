@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
@@ -138,11 +139,16 @@ public class TripFragment extends Fragment {
 
     private ArrayList<Route> getRoutesByNames(String[] routeNames) {
         ArrayList<Route> routes = new ArrayList<>();
-        for(int i=0; i<trip.getRoutesNames().length; i++) {
-            Log.d("Route found", trip.getRoutesNames()[i]);
-                    Route r = new Route();
-                    r.setName( trip.getRoutesNames()[i]);
+        List<Route> listRoute = ListOfRoutes.getInstance().getRoutes();
+        for(int i=0; i<routeNames.length; i++) {
+            Log.d("Route found", routeNames[i]);
+            for(Route route : listRoute) {
+                Log.d("Route found1", route.getName());
+                if (routeNames[i].equals(route.getName())){
+                    Route r = new Route(route.getLocation(), route.getType(), route.getId(), route.getName(), route.getDescription(), route.getDifficultyLevel(), route.getLength(), route.getImageUrl());
                     routes.add(r);
+                }
+            }
         }
         return routes;
     }

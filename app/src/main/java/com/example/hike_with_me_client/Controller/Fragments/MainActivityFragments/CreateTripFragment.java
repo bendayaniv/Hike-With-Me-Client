@@ -190,8 +190,9 @@ public class CreateTripFragment extends Fragment {
         String[] parts = selectedRoutesText.split(",");
         // Add each part to the list
         for (String part : parts) {
-            Log.d("SelectedRoute1", part);
-            routeNamesList.add(part);
+            String trimmedPart = part.trim();
+            Log.d("SelectedRoute1", trimmedPart);
+            routeNamesList.add(trimmedPart);
         }
 
         // Convert the list to an array if needed
