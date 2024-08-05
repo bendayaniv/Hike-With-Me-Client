@@ -55,6 +55,7 @@ public class MainPageFragment extends Fragment {
     private void initFragments() {
         mapsFragment = new MapsFragment();
         routesListFragment = new RoutesListFragment();
+        routesListFragment.setMainPageFragment(this);
 
         mapsFragment.setContext(getContext());
         routesListFragment.setCallbackRoutesListFragment(callback_routesListFragment);
