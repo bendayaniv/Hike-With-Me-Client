@@ -2,9 +2,11 @@ package com.example.hike_with_me_client.Utils.Singleton;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
+import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.User.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CurrentUser {
@@ -13,6 +15,7 @@ public class CurrentUser {
     private User user;
     private ArrayList<UserWithDistance> usersWithDistance;
     private Location initiateLocation;
+    private List<trip> activeTrips;
 
     private CurrentUser() {
     }
@@ -67,5 +70,13 @@ public class CurrentUser {
         }
 
         return Objects.equals(this.initiateLocation, userLocation);
+    }
+
+    public List<trip> getActiveTrips() {
+        return activeTrips;
+    }
+
+    public void setActiveTrips(List<trip> activeTrips) {
+        this.activeTrips = activeTrips;
     }
 }

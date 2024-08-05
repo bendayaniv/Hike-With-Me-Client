@@ -3,6 +3,7 @@ package com.example.hike_with_me_client.Models.User;
 import android.util.Log;
 
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
+import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.Models.User.Actions.AddUser;
 import com.example.hike_with_me_client.Models.User.Actions.DeleteUser;
 import com.example.hike_with_me_client.Interfaces.User.Callbacks.Callback_AddUser;
@@ -51,6 +52,8 @@ public class UserMethods {
                 // Set CurrentUser
                 CurrentUser.getInstance().setUser(user);
                 CurrentUser.getInstance().getUser().setActive(true);
+                CurrentUser.getInstance().setActiveTrips(new ArrayList<>());
+                TripMethods.getTripsByUser();
             }
 
             @Override

@@ -43,7 +43,7 @@ public interface TripApiInterface {
     @POST("hike-with-me/trips/uploadImages")
     Call<String> uploadImages(
             @Part List<MultipartBody.Part> images,
-            @Part("userName") RequestBody userName,
+            @Part("userId") RequestBody userId,
             @Part("tripName") RequestBody tripName
     );
 

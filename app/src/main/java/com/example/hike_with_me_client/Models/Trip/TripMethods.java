@@ -19,6 +19,7 @@ import com.example.hike_with_me_client.Models.Trip.Actions.GetTripsByUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.UpdateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
+import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 
@@ -42,6 +43,11 @@ public class TripMethods {
                 } else {
                     Log.d("trip", "Trips: " + trips);
                 }
+
+                if(ListOfTrips.getInstance().getTrips() != null && ListOfTrips.getInstance().getTrips().isEmpty()) {
+                    TripMethodsUtils.initiateActiveTrips(trips);
+                }
+
                 ListOfTrips.getInstance().setTrips((ArrayList<trip>) trips);
             }
 
@@ -62,6 +68,7 @@ public class TripMethods {
             public void success(com.example.hike_with_me_client.Models.Trip.trip trip) {
                 Log.d("trip", "trip created: " + trip);
                 Toast.makeText(context, "trip saved successfully!", Toast.LENGTH_SHORT).show();
+                CurrentUser.getInstance().getActiveTrips().add(trip);
                 progressBar.setVisibility(ProgressBar.GONE);
             }
 
@@ -106,7 +113,7 @@ public class TripMethods {
         new DeleteTrip(callback_deleteTrip).deleteTrip(userId, tripId);
     }
 
-    public static void uploadImages(List<Uri> imageUris, String userName, String tripName, Context context, ProgressBar progressBar, trip trip) {
+    public static void uploadImages(List<Uri> imageUris, String userId, String tripName, Context context, ProgressBar progressBar, trip trip) {
         progressBar.setVisibility(ProgressBar.VISIBLE);
         List<MultipartBody.Part> imageParts = new ArrayList<>();
 
@@ -130,7 +137,7 @@ public class TripMethods {
             }
         }
 
-        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userName);
+        RequestBody userNamePart = RequestBody.create(MediaType.parse("text/plain"), userId);
         RequestBody tripNamePart = RequestBody.create(MediaType.parse("text/plain"), tripName);
 
         Callback_UploadImages callback_uploadImages = new Callback_UploadImages() {
@@ -139,7 +146,7 @@ public class TripMethods {
 //                progressBar.setVisibility(ProgressBar.GONE);
                 Log.d("TripMethods", "Upload success: " + message);
                 Toast.makeText(context, "All images uploaded successfully", Toast.LENGTH_SHORT).show();
-                TripMethods.createTrip(trip, context, progressBar);
+                createTrip(trip, context, progressBar);
             }
 
             @Override

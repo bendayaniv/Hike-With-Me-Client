@@ -119,10 +119,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
 
         for (Hazard hazard : hazardsList) {
-            if (routes.stream().noneMatch(route -> route.getName().equals(hazard.getRouteName()))) {
-                continue;
-            }
-
             LatLng hazardLocation = new LatLng(hazard.getLocation().getLatitude(), hazard.getLocation().getLongitude());
             MarkerOptions marker = new MarkerOptions()
                     .position(hazardLocation)
@@ -133,7 +129,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnCameraMoveListener(() -> {
             for (Marker m : list) {
                 if (m.getTitle() == null) {
-                    m.setVisible(mMap.getCameraPosition().zoom > 14);
+                    m.setVisible(mMap.getCameraPosition().zoom > 10);
                 }
             }
         });
