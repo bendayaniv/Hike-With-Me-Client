@@ -3,6 +3,7 @@ package com.example.hike_with_me_client.Models.Trip;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Models.Route.Route;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,4 +141,5 @@ public class trip {
                 ", urlsImages='" + imagesUrls + '\'' +
                 '}';
     }
+
 }

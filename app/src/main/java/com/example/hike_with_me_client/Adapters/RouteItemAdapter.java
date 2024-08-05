@@ -43,7 +43,7 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
     public void onBindViewHolder(@NonNull RouteItemAdapter.RouteItemViewHolder holder, int position) {
         Route route = getItem(position);
         holder.route_LBL_name.setText(route.getName());
-
+        String imageUrl = route.getImageUrl();
         if(route.getImageUrl() != null) {
             Glide.with(context).load(route.getImageUrl()).into(holder.route_IMG_image);
         }

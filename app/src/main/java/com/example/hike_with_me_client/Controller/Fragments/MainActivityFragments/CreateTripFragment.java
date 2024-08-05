@@ -3,6 +3,7 @@ package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragmen
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -12,10 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,14 +28,17 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.hike_with_me_client.Models.Objects.Location;
+import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
+import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class CreateTripFragment extends Fragment {
@@ -39,10 +47,14 @@ public class CreateTripFragment extends Fragment {
     private EditText tripStartDateEditText;
     private EditText tripEndDateEditText;
     private EditText tripDescriptionEditText;
-    //private EditText tripImagesUrlsEditText;
+    private Spinner routesSpinner;
     private Button saveTripButton;
+    private Button addRouteButton;
     private ImageView tripImageView;
     private ProgressBar progressBar;
+    private ArrayList<String> selectedRoutes;
+    private boolean isRouteSelected = false;
+    private TextView routesTextView;
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final int PERMISSION_REQUEST_CODE = 3;
@@ -67,11 +79,13 @@ public class CreateTripFragment extends Fragment {
         tripStartDateEditText = view.findViewById(R.id.trip_start_date);
         tripEndDateEditText = view.findViewById(R.id.trip_end_date);
         tripDescriptionEditText = view.findViewById(R.id.trip_description);
-        //tripImagesUrlsEditText = view.findViewById(R.id.trip_images_urls);
+        routesTextView = view.findViewById(R.id.routes_text_view);
+        addRouteButton = view.findViewById(R.id.add_route_button);
         saveTripButton = view.findViewById(R.id.save_trip_button);
         progressBar = view.findViewById(R.id.progressBar);
         tripImageView = view.findViewById(R.id.tripImageView);
-
+        selectedRoutes = new ArrayList<>();
+        addRouteButton.setOnClickListener(v -> showRoutesDialog());
         tripImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,6 +124,35 @@ public class CreateTripFragment extends Fragment {
         }
     }
 
+    private void showRoutesDialog() {
+        List<Route> allRoutes = ListOfRoutes.getInstance().getRoutes();
+        String[] routeNames = new String[allRoutes.size()];
+        boolean[] checkedItems = new boolean[allRoutes.size()];
+
+        for (int i = 0; i < allRoutes.size(); i++) {
+            routeNames[i] = allRoutes.get(i).getName();
+            checkedItems[i] = selectedRoutes.contains(routeNames[i]);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Select Routes")
+                .setMultiChoiceItems(routeNames, checkedItems, (dialog, indexSelected, isChecked) -> {
+                    if (isChecked) {
+                        if (!selectedRoutes.contains(routeNames[indexSelected])) {
+                            selectedRoutes.add(routeNames[indexSelected]);
+                        }
+                    } else {
+                        selectedRoutes.remove(routeNames[indexSelected]);
+                    }
+                })
+                .setPositiveButton("OK", (dialog, id) -> {
+                    routesTextView.setText(selectedRoutes.toString());
+                })
+                .setNegativeButton("Cancel", (dialog, id) -> dialog.dismiss());
+
+        builder.create().show();
+    }
+
     private void saveTrip() {
         progressBar.setVisibility(View.VISIBLE);
         // Get data from UI elements
@@ -118,7 +161,6 @@ public class CreateTripFragment extends Fragment {
         String endDate = tripEndDateEditText.getText().toString().trim();
         String description = tripDescriptionEditText.getText().toString().trim();
         String uniqueID = UUID.randomUUID().toString();
-        //String imagesUrlsString = tripImagesUrlsEditText.getText().toString().trim();
 
         // Get the current user ID
         User currentUser = CurrentUser.getInstance().getUser();
@@ -134,12 +176,33 @@ public class CreateTripFragment extends Fragment {
             return;
         }
 
-        // Convert the images URLs from a comma-separated string to an ArrayList
-        ArrayList<String> imagesUrls = new ArrayList<>();
-        //if (!imagesUrlsString.isEmpty()) {
-        //    String[] urlsArray = imagesUrlsString.split(",");
-        //    Collections.addAll(imagesUrls, urlsArray);
-        //}
+        // Get the selected routes from the TextView
+        String selectedRoutesText = routesTextView.getText().toString().trim();
+        if (selectedRoutesText.isEmpty()) {
+            Toast.makeText(getActivity(), "Please add at least one route", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        selectedRoutesText = selectedRoutesText.replaceAll("[\\[\\]]", "");
+
+        // Initialize a list to hold the route names
+        List<String> routeNamesList = new ArrayList<>();
+        // Split the text into parts based on the comma
+        String[] parts = selectedRoutesText.split(",");
+        // Add each part to the list
+        for (String part : parts) {
+            String trimmedPart = part.trim();
+            Log.d("SelectedRoute1", trimmedPart);
+            routeNamesList.add(trimmedPart);
+        }
+
+        // Convert the list to an array if needed
+        String[] selectedRoutesArray = routeNamesList.toArray(new String[0]);
+
+        //String[] selectedRoutesArray = selectedRoutesText.split(", ");
+        // Debug: Print each route to verify
+        for (String route : selectedRoutesArray) {
+            Log.d("SelectedRoute", route);
+        }
 
         // Create a trip object
         trip newTrip = new trip();
@@ -150,8 +213,7 @@ public class CreateTripFragment extends Fragment {
         newTrip.setUserId(userId);
         newTrip.setId(uniqueID);
         newTrip.setLocations(new Location[]{});
-        newTrip.setRoutesNames(new String[]{});
-        //newTrip.setImagesUrls(imagesUrls);
+        newTrip.setRoutesNames(selectedRoutesArray);
 
         saveTripToServer(newTrip);
     }
@@ -184,12 +246,10 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void uploadImages(trip trip) {
-        String userId = CurrentUser.getInstance().getUser().getId();
+        String userName = CurrentUser.getInstance().getUser().getName();
         String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
         if (!selectedImages.isEmpty()) {
-
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
-
             try {
                 TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userId, tripName, requireContext(), progressBar, trip);
             } catch (Exception e) {
@@ -207,6 +267,5 @@ public class CreateTripFragment extends Fragment {
         tripStartDateEditText.setText("");
         tripEndDateEditText.setText("");
         tripDescriptionEditText.setText("");
-        //tripImagesUrlsEditText.setText("");
     }
 }

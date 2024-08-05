@@ -31,6 +31,7 @@ public class RouteMethods {
         new GetAllRoutes(callback_getAllRoutes).getAllRoutes();
     }
 
+
     @SuppressLint("SetTextI18n")
     public static void getRoutesNames(List<String> _routesNames) {
         Callback_GetRoutesNames callback_getRoute = new Callback_GetRoutesNames() {
