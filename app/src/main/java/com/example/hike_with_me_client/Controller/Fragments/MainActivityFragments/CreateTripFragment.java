@@ -182,7 +182,26 @@ public class CreateTripFragment extends Fragment {
             Toast.makeText(getActivity(), "Please add at least one route", Toast.LENGTH_SHORT).show();
             return;
         }
-        String[] selectedRoutesArray = selectedRoutesText.split(", ");
+        selectedRoutesText = selectedRoutesText.replaceAll("\\[|\\]|\\s", "");
+
+        // Initialize a list to hold the route names
+        List<String> routeNamesList = new ArrayList<>();
+        // Split the text into parts based on the comma
+        String[] parts = selectedRoutesText.split(",");
+        // Add each part to the list
+        for (String part : parts) {
+            Log.d("SelectedRoute1", part);
+            routeNamesList.add(part);
+        }
+
+        // Convert the list to an array if needed
+        String[] selectedRoutesArray = routeNamesList.toArray(new String[0]);
+
+        //String[] selectedRoutesArray = selectedRoutesText.split(", ");
+        // Debug: Print each route to verify
+        for (String route : selectedRoutesArray) {
+            Log.d("SelectedRoute", route);
+        }
 
         // Create a trip object
         trip newTrip = new trip();
@@ -226,12 +245,10 @@ public class CreateTripFragment extends Fragment {
     }
 
     private void uploadImages(trip trip) {
+        String userName = CurrentUser.getInstance().getUser().getName();
+        String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
         if (!selectedImages.isEmpty()) {
-            String userName = CurrentUser.getInstance().getUser().getName();
-            String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
-
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
-
             try {
                 TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userName, tripName, requireContext(), progressBar, trip);
             } catch (Exception e) {
@@ -241,6 +258,7 @@ public class CreateTripFragment extends Fragment {
         } else {
             Log.d(TAG, "No images selected for upload");
             Toast.makeText(getContext(), "Please select at least one image", Toast.LENGTH_SHORT).show();
+            TripMethods.uploadImages(new ArrayList<>(), userName, tripName, requireContext(), progressBar, trip);
         }
     }
 

@@ -45,10 +45,19 @@ public class TripsListFragment extends Fragment {
     private Runnable retryRunnable;
 
     Callback_TripItem callback_tripItem = (trip, position) -> {
-        tripFragment.setTrip(trip);
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
+        Fragment tripFragment = TripFragment.newInstance(trip.getId());
+        fragmentManager.beginTransaction()
+                .replace(R.id.main_fragment_container, tripFragment)
+                .addToBackStack(null)
+                .commit();
     };
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentManager = getParentFragmentManager();
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,7 +77,6 @@ public class TripsListFragment extends Fragment {
     }
 
     private void initializing() {
-        tripFragment = new TripFragment();
 
         TripMethods.getTripsByUser();
 
@@ -153,28 +161,28 @@ public class TripsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        ListOfTrips.getInstance().setTrips(null);
+        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ListOfTrips.getInstance().setTrips(null);
+        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ListOfTrips.getInstance().setTrips(null);
+        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        ListOfTrips.getInstance().setTrips(null);
+        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 }

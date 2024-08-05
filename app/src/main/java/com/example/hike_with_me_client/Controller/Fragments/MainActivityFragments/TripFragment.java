@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +44,10 @@ public class TripFragment extends Fragment {
     private Runnable retryRunnable;
 
     private FragmentManager fragmentManager;
-    private void TripFragment() {
-        fragmentManager.beginTransaction().replace(R.id.main_fragment_container, tripFragment).commit();
+
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        fragmentManager = getParentFragmentManager();
     }
     public static TripFragment newInstance(String tripId) {
         TripFragment fragment = new TripFragment();
@@ -93,23 +96,28 @@ public class TripFragment extends Fragment {
                     tripDescriptionText.setText(trip.getDescription());
                     tripStartDateText.setText(trip.getStartDate());
                     tripEndDateText.setText(trip.getEndDate());
-
+                    trip.toString();
                     // Fetch routes by names
                     ArrayList<Route> routes = getRoutesByNames(trip.getRoutesNames());
-                    // Set up routes RecyclerView
-                    RouteItemAdapter routeAdapter = new RouteItemAdapter(getContext(), routes);
-                    routeAdapter.setCallbackRouteItem(new Callback_RouteItem() {
-                        @Override
-                        public void itemClicked(Route route, int position) {
-                            Fragment routeDetailsFragment = RouteDetailsFragment.newInstance(route.getId());
-                            getFragmentManager().beginTransaction()
-                                    .replace(R.id.trip_fragment_container, routeDetailsFragment) // Replace with your actual container ID
-                                    .addToBackStack(null)
-                                    .commit();
-                        }
-                    });
-                    recyclerViewRoutes.setLayoutManager(new LinearLayoutManager(getContext()));
-                    recyclerViewRoutes.setAdapter(routeAdapter);
+                    if (routes.isEmpty()) {
+                        // Handle the case where no routes are found
+                        Log.d("TripFragment", "No routes found for trip.");
+                    } else {
+                        // Set up routes RecyclerView
+                        RouteItemAdapter routeAdapter = new RouteItemAdapter(getContext(), routes);
+                        routeAdapter.setCallbackRouteItem(new Callback_RouteItem() {
+                            @Override
+                            public void itemClicked(Route route, int position) {
+                                Fragment routeDetailsFragment = RouteDetailsFragment.newInstance(route.getId());
+                                getFragmentManager().beginTransaction()
+                                        .replace(R.id.main_fragment_container, routeDetailsFragment) // Replace with your actual container ID
+                                        .addToBackStack(null)
+                                        .commit();
+                            }
+                        });
+                        recyclerViewRoutes.setLayoutManager(new LinearLayoutManager(getContext()));
+                        recyclerViewRoutes.setAdapter(routeAdapter);
+                    }
 
                 } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
                         !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
@@ -132,12 +140,11 @@ public class TripFragment extends Fragment {
         ArrayList<Route> routes = new ArrayList<>();
         List<Route> allRoutes = ListOfRoutes.getInstance().getRoutes();
         for (String routeName : routeNames) {
-            for (Route route : allRoutes) {
-                if (route.getName().equals(routeName)) {
-                    routes.add(route);
+            Log.d("Route found", routeName);
+                    Route r = new Route();
+                    r.setName(routeName);
+                    routes.add(r);
                     break;
-                }
-            }
         }
         return routes;
     }
