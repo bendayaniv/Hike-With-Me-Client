@@ -85,20 +85,22 @@ public class RouteDetailsFragment extends Fragment {
         optionRecommendation.setOnClickListener(v -> {
             // Handle recommendation option
             Toast.makeText(getContext(), "Recommendation", Toast.LENGTH_SHORT).show();
-            //bottomSheetDialog.dismiss();
+            bottomSheetDialog.dismiss();
+
         });
 
         optionHazard.setOnClickListener(v -> {
             // Handle hazard option
             Toast.makeText(getContext(), "Hazard", Toast.LENGTH_SHORT).show();
-            //bottomSheetDialog.dismiss();
+            bottomSheetDialog.dismiss();
+            HazardFragment hazardFragment = HazardFragment.newInstance(route.getName());
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, hazardFragment).commit();
         });
 
         bottomSheetDialog.show();
     }
 
     private void navigateBack() {
-        FragmentManager fragmentManager = getParentFragmentManager();
         if (fragmentManager != null) {
             fragmentManager.popBackStack(); // Navigate back to the previous fragment
         }
