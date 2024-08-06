@@ -17,13 +17,13 @@ public class Hazard extends point {
 
     public Hazard() {}
 
-    public Hazard(Location location, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterName, String routeName) {
+    public Hazard(Location location, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterId, String routeName) {
         super(location, pointType);
         this._id = id;
         this._hazardType = hazardType;
         this._description = description;
         this._severity = severity;
-        this._reporterId = reporterName;
+        this._reporterId = reporterId;
         this._routeName = routeName;
     }
 
@@ -53,6 +53,7 @@ public class Hazard extends point {
         this._description = description;
         return this;
     }
+
 
     public Constants.Level getSeverity() {
         return _severity;

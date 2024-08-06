@@ -1,8 +1,10 @@
 package com.example.hike_with_me_client.Models.Recommendation;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hike_with_me_client.Models.Recommendation.Actions.AddRecommendation;
 import com.example.hike_with_me_client.Models.Recommendation.Actions.GetRecommendationsByRoute;
@@ -33,11 +35,12 @@ public class RecommendationMethods {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void addRecommendation(Recommendation recommendation){
+    public static void addRecommendation(Recommendation recommendation, Context context){
         Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
             @Override
             public void success(Recommendation recommendation) {
                 Log.d("Recommendation added: ", recommendation.toString());
+                Toast.makeText(context, "Recommendation saved successfully", Toast.LENGTH_SHORT).show();
                 //textView.setText("Recommendation added: " + recommendation);
             }
 

@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +19,13 @@ import android.widget.Toast;
 import com.example.hike_with_me_client.Adapters.EnumAdapter;
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class HazardFragment extends Fragment {
@@ -95,7 +99,11 @@ public class HazardFragment extends Fragment {
             return;
         }
         String userId = currentUser.getId();
-
+        Location location = currentUser.getLocation();
+        Date date = new Date(2016, 11, 18);
+        Log.d("Date",date.toString());
+        location.setDate(date);
+        String pointType = "Hazard";
         // Validate input data (optional but recommended)
         if (description.isEmpty() || userId.isEmpty() || routeName == null || hazardType == null || severity == null) {
             Toast.makeText(getActivity(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
@@ -103,20 +111,12 @@ public class HazardFragment extends Fragment {
         }
 
         // Create a hazard object
-        Hazard newHazard = new Hazard();
-        newHazard.setId(uniqueID);
-        newHazard.setDescription(description);
-        newHazard.setSeverity(severity);
-        newHazard.setHazardType(hazardType);
-        newHazard.setReporterId(userId);
-        newHazard.setRouteName(routeName);
-
+        Hazard newHazard = new Hazard(location, pointType,uniqueID,hazardType,description,severity,userId,routeName);
         saveHazardToServer(newHazard);
     }
 
     private void saveHazardToServer(Hazard hazard) {
-        HazardMethods.addHazard(hazard);
-        Toast.makeText(getActivity(), "Hazard saved successfully", Toast.LENGTH_SHORT).show();
+        HazardMethods.addHazard(hazard, getContext());
         // Navigate back or reset the form as needed
         navigateBack();
     }

@@ -106,8 +106,7 @@ public class RecommendationFragment extends Fragment {
     }
 
     private void saveRecommendationToServer(Recommendation recommendation) {
-        RecommendationMethods.addRecommendation(recommendation);
-        Toast.makeText(getActivity(), "Recommendation saved successfully", Toast.LENGTH_SHORT).show();
+        RecommendationMethods.addRecommendation(recommendation, getContext());
         // Navigate back or reset the form as needed
         navigateBack();
     }
