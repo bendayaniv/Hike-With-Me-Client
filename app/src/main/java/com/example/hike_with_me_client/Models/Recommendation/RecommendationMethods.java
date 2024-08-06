@@ -33,17 +33,18 @@ public class RecommendationMethods {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void addRecommendation(Recommendation recommendation, TextView textView){
+    public static void addRecommendation(Recommendation recommendation){
         Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
             @Override
             public void success(Recommendation recommendation) {
-                textView.setText("Recommendation added: " + recommendation);
+                Log.d("Recommendation added: ", recommendation.toString());
+                //textView.setText("Recommendation added: " + recommendation);
             }
 
             @Override
             public void error(String message) {
                 Log.d("Recommendation", "Error: " + message);
-                textView.setText("Error: " + message);
+                //textView.setText("Error: " + message);
             }
         };
         new AddRecommendation(callback_addRecommendation).addRecommendation(recommendation);

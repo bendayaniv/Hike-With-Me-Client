@@ -84,14 +84,13 @@ public class RouteDetailsFragment extends Fragment {
 
         optionRecommendation.setOnClickListener(v -> {
             // Handle recommendation option
-            Toast.makeText(getContext(), "Recommendation", Toast.LENGTH_SHORT).show();
             bottomSheetDialog.dismiss();
-
+            RecommendationFragment recommendationFragment = RecommendationFragment.newInstance(route.getName());
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, recommendationFragment).commit();
         });
 
         optionHazard.setOnClickListener(v -> {
             // Handle hazard option
-            Toast.makeText(getContext(), "Hazard", Toast.LENGTH_SHORT).show();
             bottomSheetDialog.dismiss();
             HazardFragment hazardFragment = HazardFragment.newInstance(route.getName());
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, hazardFragment).commit();
