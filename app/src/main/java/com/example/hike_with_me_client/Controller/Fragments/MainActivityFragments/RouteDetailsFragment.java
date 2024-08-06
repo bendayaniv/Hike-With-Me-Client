@@ -88,6 +88,7 @@ public class RouteDetailsFragment extends Fragment {
             // Handle recommendation option
             bottomSheetDialog.dismiss();
             RecommendationFragment recommendationFragment = RecommendationFragment.newInstance(route.getName());
+            recommendationFragment.setRouteDetailsFragment(this);
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, recommendationFragment).commit();
         });
 
@@ -95,6 +96,7 @@ public class RouteDetailsFragment extends Fragment {
             // Handle hazard option
             bottomSheetDialog.dismiss();
             HazardFragment hazardFragment = HazardFragment.newInstance(route.getName());
+            hazardFragment.setRouteDetailsFragment(this);
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, hazardFragment).commit();
         });
 
@@ -103,7 +105,6 @@ public class RouteDetailsFragment extends Fragment {
 
     private void navigateBack() {
         if (mainPageFragment == null) {
-            FragmentManager fragmentManager = getParentFragmentManager();
             if (fragmentManager != null) {
                 fragmentManager.popBackStack(); // Navigate back to the previous fragment
             }

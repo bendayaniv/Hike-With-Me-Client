@@ -14,6 +14,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Models.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Models.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Models.User.User;
@@ -33,6 +34,7 @@ public class RecommendationFragment extends Fragment {
     private Button saveButton;
     private Button backButton;
     FragmentManager fragmentManager;
+    RouteDetailsFragment routeDetailsFragment;
 
     public static RecommendationFragment newInstance(String routeName) {
         RecommendationFragment fragment = new RecommendationFragment();
@@ -112,8 +114,16 @@ public class RecommendationFragment extends Fragment {
     }
 
     private void navigateBack() {
-        if (fragmentManager != null) {
-            fragmentManager.popBackStack(); // Navigate back to the previous fragment
+        if (routeDetailsFragment == null) {
+            if (fragmentManager != null) {
+                fragmentManager.popBackStack(); // Navigate back to the previous fragment
+            }
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
     }
+    public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
+        this.routeDetailsFragment = fragment;
+    }
 }
+

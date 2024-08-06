@@ -40,6 +40,7 @@ public class HazardFragment extends Fragment {
     private Button saveButton;
     private Button backButton;
     FragmentManager fragmentManager;
+    RouteDetailsFragment routeDetailsFragment;
 
     public static HazardFragment newInstance(String routeName) {
         HazardFragment fragment = new HazardFragment();
@@ -48,6 +49,7 @@ public class HazardFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,7 +103,7 @@ public class HazardFragment extends Fragment {
         String userId = currentUser.getId();
         Location location = currentUser.getLocation();
         Date date = new Date(2016, 11, 18);
-        Log.d("Date",date.toString());
+        Log.d("Date", date.toString());
         location.setDate(date);
         String pointType = "Hazard";
         // Validate input data (optional but recommended)
@@ -111,7 +113,7 @@ public class HazardFragment extends Fragment {
         }
 
         // Create a hazard object
-        Hazard newHazard = new Hazard(location, pointType,uniqueID,hazardType,description,severity,userId,routeName);
+        Hazard newHazard = new Hazard(location, pointType, uniqueID, hazardType, description, severity, userId, routeName);
         saveHazardToServer(newHazard);
     }
 
@@ -123,8 +125,15 @@ public class HazardFragment extends Fragment {
 
 
     private void navigateBack() {
-        if (fragmentManager != null) {
-            fragmentManager.popBackStack(); // Navigate back to the previous fragment
+        if (routeDetailsFragment == null) {
+            if (fragmentManager != null) {
+                fragmentManager.popBackStack(); // Navigate back to the previous fragment
+            }
+        } else {
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
+    }
+    public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
+        this.routeDetailsFragment = fragment;
     }
 }
