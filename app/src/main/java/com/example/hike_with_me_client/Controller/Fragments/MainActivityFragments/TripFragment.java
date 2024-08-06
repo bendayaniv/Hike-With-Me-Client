@@ -1,5 +1,6 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -35,6 +36,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.StrokeStyle;
+import com.google.android.gms.maps.model.StyleSpan;
 
 import android.os.Handler;
 
@@ -205,12 +209,19 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         if (trip == null || googleMap == null) return;
         googleMap.clear(); // Clear existing markers
         final LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
-
+        LatLng previousLatLng = null;
         for (Location location : trip.getLocations()) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            googleMap.addMarker(new MarkerOptions().position(latLng).title(trip.getName()));
-            boundsBuilder.include(latLng);
+            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(currentLatLng).title(trip.getName()));
+            boundsBuilder.include(currentLatLng);
+
+            // Draw a line from the previous location to the current one
+            if (previousLatLng != null) {
+                drawLine(previousLatLng, currentLatLng);
+            }
+            previousLatLng = currentLatLng;
         }
+
 
         // Use ViewTreeObserver to wait until the map view layout is complete
         mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -223,6 +234,11 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         });
     }
 
+    public void drawLine(LatLng start, LatLng end) {
+        googleMap.addPolyline(new PolylineOptions()
+                .add(start, end)
+                .addSpan(new StyleSpan(StrokeStyle.colorBuilder(Color.BLACK).build())));
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -239,5 +255,6 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         super.onDestroy();
         mapView.onDestroy();
     }
+
 
 }
