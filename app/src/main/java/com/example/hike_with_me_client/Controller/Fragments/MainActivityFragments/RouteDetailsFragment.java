@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RouteDetailsFragment extends Fragment {
 
@@ -26,6 +29,7 @@ public class RouteDetailsFragment extends Fragment {
     private TextView routeLengthTextView;
     private Button backRouteButton;
     FragmentManager fragmentManager;
+    FloatingActionButton fab;
 
     public static RouteDetailsFragment newInstance(String routeId) {
         RouteDetailsFragment fragment = new RouteDetailsFragment();
@@ -52,6 +56,7 @@ public class RouteDetailsFragment extends Fragment {
         routeDifficultyTextView = view.findViewById(R.id.route_difficulty_text_view);
         routeLengthTextView = view.findViewById(R.id.route_length_text_view);
         backRouteButton = view.findViewById(R.id.back_route_button);
+        fab = view.findViewById(R.id.fab);
     }
 
     private void loadRouteDetails() {
@@ -66,8 +71,31 @@ public class RouteDetailsFragment extends Fragment {
 
     private void setupButtons() {
         backRouteButton.setOnClickListener(v -> navigateBack());
+        fab.setOnClickListener(v -> showBottomSheetDialog());
     }
 
+    private void showBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        TextView optionRecommendation = bottomSheetView.findViewById(R.id.option_recommendation);
+        TextView optionHazard = bottomSheetView.findViewById(R.id.option_hazard);
+
+        optionRecommendation.setOnClickListener(v -> {
+            // Handle recommendation option
+            Toast.makeText(getContext(), "Recommendation", Toast.LENGTH_SHORT).show();
+            //bottomSheetDialog.dismiss();
+        });
+
+        optionHazard.setOnClickListener(v -> {
+            // Handle hazard option
+            Toast.makeText(getContext(), "Hazard", Toast.LENGTH_SHORT).show();
+            //bottomSheetDialog.dismiss();
+        });
+
+        bottomSheetDialog.show();
+    }
 
     private void navigateBack() {
         FragmentManager fragmentManager = getParentFragmentManager();
