@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
+import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
@@ -25,13 +27,21 @@ import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.MapView;
 
 import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripFragment extends Fragment {
+public class TripFragment extends Fragment implements OnMapReadyCallback{
 
     private TripFragment tripFragment;
     private static final String ARG_TRIP_ID = "trip_id";
@@ -47,7 +57,8 @@ public class TripFragment extends Fragment {
 
     private RouteDetailsFragment routeDetailsFragment;
     private FragmentManager fragmentManager;
-
+    private MapView mapView;
+    private GoogleMap googleMap;
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
@@ -66,6 +77,9 @@ public class TripFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_trip, container, false);
         findViews(view);
         loadTripFromServer();
+        // Initialize the MapView
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
         return view;
     }
 
@@ -76,6 +90,7 @@ public class TripFragment extends Fragment {
         tripEndDateText = view.findViewById(R.id.text_end_date_trip);
         recyclerViewRoutes = view.findViewById(R.id.recycler_view_routes);
         tripImageView = view.findViewById(R.id.tripImageView);
+        mapView = view.findViewById(R.id.mapView);
     }
 
     private void loadTripFromServer() {
@@ -132,6 +147,11 @@ public class TripFragment extends Fragment {
                         recyclerViewRoutes.setAdapter(routeAdapter);
                     }
 
+                    // Load locations on the map
+                    if (googleMap != null) {
+                        loadLocationsOnMap();
+                    }
+
                 } else if (ErrorMessageFromServer.getInstance().getErrorMessageFromServer() != null &&
                         !ErrorMessageFromServer.getInstance().getErrorMessageFromServer().isEmpty()) {
                     // Display error message if available
@@ -168,4 +188,56 @@ public class TripFragment extends Fragment {
     public void setTrip(com.example.hike_with_me_client.Models.Trip.trip trip) {
         this.trip = trip;
     }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        googleMap.getUiSettings().setZoomControlsEnabled(true);
+        googleMap.getUiSettings().setCompassEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        googleMap.getUiSettings().setAllGesturesEnabled(true);
+
+        // Load locations on the map
+        loadLocationsOnMap();
+    }
+
+    private void loadLocationsOnMap() {
+        if (trip == null || googleMap == null) return;
+        googleMap.clear(); // Clear existing markers
+        final LatLngBounds.Builder boundsBuilder = new LatLngBounds.Builder();
+
+        for (Location location : trip.getLocations()) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            googleMap.addMarker(new MarkerOptions().position(latLng).title(trip.getName()));
+            boundsBuilder.include(latLng);
+        }
+
+        // Use ViewTreeObserver to wait until the map view layout is complete
+        mapView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                LatLngBounds bounds = boundsBuilder.build();
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
 }
