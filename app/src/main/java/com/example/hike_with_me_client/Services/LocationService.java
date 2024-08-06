@@ -1,8 +1,11 @@
 package com.example.hike_with_me_client.Services;
 
 import android.Manifest;
+import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ServiceInfo;
@@ -13,6 +16,7 @@ import android.os.Looper;
 import android.os.PowerManager;
 import android.util.Log;
 
+import com.example.hike_with_me_client.BroadcastReceivers.DailyTaskReceiver;
 import com.example.hike_with_me_client.Models.Hazard.HazardMethods;
 import com.example.hike_with_me_client.Models.Objects.Location;
 
@@ -21,6 +25,7 @@ import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -30,6 +35,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.Priority;
 import com.google.android.gms.tasks.Task;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -47,9 +53,9 @@ public class LocationService extends Service {
     private static final String LOG_TAG = "LocationService";
 
     // Time intervals
-    private static final int LOCATION_UPDATE_INTERVAL_MS = 1000;
-    private static final float LOCATION_UPDATE_DISTANCE_METERS = 0.0f;
-    private static final int PERIODIC_TASK_INTERVAL_MS = /*60000*/5000; // Every 60 seconds
+    private static final int LOCATION_UPDATE_INTERVAL_MS = 120000; // Every 120 seconds
+    private static final float LOCATION_UPDATE_DISTANCE_METERS = 200.0f;
+    private static final int PERIODIC_TASK_INTERVAL_MS = 60000; // Every 60 seconds
 
     // 2. Member variables
     private boolean isServiceRunningRightNow = false;
@@ -106,6 +112,7 @@ public class LocationService extends Service {
         startServiceWithoutNotification();
         startGPSUpdates();
         startRecording();
+        setupDailyAlarm();
     }
 
     /**
@@ -181,6 +188,16 @@ public class LocationService extends Service {
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
             // TODO - also need to handle to save the list of the locations for the user trip to show his path on the map
+            if(CurrentUser.getInstance().getActiveTrips() != null && !CurrentUser.getInstance().getActiveTrips().isEmpty()) {
+                // For every active trip add the location to the list of the locations
+                // and save the list of the locations to the trip
+                Log.d("LocationService", "Active trips");
+                for(com.example.hike_with_me_client.Models.Trip.trip trip : CurrentUser.getInstance().getActiveTrips()) {
+                    trip.addLocation(myLoc);
+
+                    TripMethods.updateTrip(trip);
+                }
+            }
         } catch (Exception e) {
             logError("Error processing location update", e);
         }
@@ -236,6 +253,30 @@ public class LocationService extends Service {
         notificationManager.showPopUpNotification();
     }
 
+    private void setupDailyAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, DailyTaskReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Set the alarm to start at midnight
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        // If it's already past midnight, set it for the next day
+        if (calendar.getTimeInMillis() <= System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+        }
+
+        // Schedule the alarm to repeat every day
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        Log.d(LOG_TAG, "Daily alarm set for midnight");
+    }
+
     /**
      * Schedules the next run of periodic tasks
      */
@@ -261,6 +302,7 @@ public class LocationService extends Service {
             releaseWakeLock();
             stopGPSUpdates();
             stopForegroundService();
+            cancelDailyAlarm();
             logMessage("Recording stopped successfully");
         } catch (Exception e) {
             logError("Error stopping recording", e);
@@ -299,6 +341,14 @@ public class LocationService extends Service {
             stopForeground(true);
         }
         isServiceRunningRightNow = false;
+    }
+
+    private void cancelDailyAlarm() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, DailyTaskReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+        alarmManager.cancel(pendingIntent);
+        Log.d(LOG_TAG, "Daily alarm cancelled");
     }
 
     // 7. Utility Methods

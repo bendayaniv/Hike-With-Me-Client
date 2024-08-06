@@ -79,6 +79,8 @@
             android:foregroundServiceType="location"
             android:stopWithTask="false" />
 
+        <receiver android:name=".BroadcastReceivers.DailyTaskReceiver" />
+
     </application>
 
 </manifest>

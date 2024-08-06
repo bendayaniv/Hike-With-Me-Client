@@ -22,8 +22,8 @@ public class UploadImages extends TripMasterClass {
         this.callback_uploadImages = callback_uploadImages;
     }
 
-    public void uploadImages(List<MultipartBody.Part> images, RequestBody userName, RequestBody tripName) {
-        Call<String> call = tripApiInterface.uploadImages(images, userName, tripName);
+    public void uploadImages(List<MultipartBody.Part> images, RequestBody userId, RequestBody tripName) {
+        Call<String> call = tripApiInterface.uploadImages(images, userId, tripName);
 
         call.enqueue(new Callback<String>() {
             @Override

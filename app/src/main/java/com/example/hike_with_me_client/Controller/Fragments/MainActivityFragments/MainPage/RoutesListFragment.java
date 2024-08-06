@@ -47,6 +47,7 @@ public class RoutesListFragment extends Fragment {
     private SharedViewModel sharedViewModel;
     private RouteDetailsFragment routeFragment;
     private FragmentManager fragmentManager;
+    private MainPageFragment mainPageFragment;
 
     private Handler handler;
     private Runnable retryRunnable;
@@ -126,8 +127,7 @@ public class RoutesListFragment extends Fragment {
                 }
             } else {
                 Log.d("RoutesListFragment", "itemClicked: same position");
-                //routeFragment = RouteDetailsFragment.newInstance(route.getId());
-                routeFragment = new RouteDetailsFragment();
+                routeFragment.setMainPageFragment(mainPageFragment);
                 routeFragment.setRoute(route);
                 fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeFragment).commit();
             }
@@ -191,5 +191,9 @@ public class RoutesListFragment extends Fragment {
 
     public void setFragmentManager(FragmentManager fragmentManager) {
         this.fragmentManager = fragmentManager;
+    }
+
+    public void setMainPageFragment(MainPageFragment mainPageFragment) {
+        this.mainPageFragment = mainPageFragment;
     }
 }

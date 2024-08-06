@@ -1,7 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -17,21 +17,19 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_RouteItem;
-import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
+
 import android.os.Handler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TripFragment extends Fragment {
 
@@ -54,6 +52,7 @@ public class TripFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
     }
+
     public static TripFragment newInstance(String tripId) {
         TripFragment fragment = new TripFragment();
         Bundle args = new Bundle();
@@ -153,11 +152,11 @@ public class TripFragment extends Fragment {
     private ArrayList<Route> getRoutesByNames(String[] routeNames) {
         ArrayList<Route> routes = new ArrayList<>();
         List<Route> listRoute = ListOfRoutes.getInstance().getRoutes();
-        for(int i=0; i<routeNames.length; i++) {
+        for (int i = 0; i < routeNames.length; i++) {
             Log.d("Route found", routeNames[i]);
-            for(Route route : listRoute) {
+            for (Route route : listRoute) {
                 Log.d("Route found1", route.getName());
-                if (routeNames[i].equals(route.getName())){
+                if (routeNames[i].equals(route.getName())) {
                     Route r = new Route(route.getLocation(), route.getType(), route.getId(), route.getName(), route.getDescription(), route.getDifficultyLevel(), route.getLength(), route.getImageUrl());
                     routes.add(r);
                 }
@@ -165,6 +164,7 @@ public class TripFragment extends Fragment {
         }
         return routes;
     }
+
     public void setTrip(com.example.hike_with_me_client.Models.Trip.trip trip) {
         this.trip = trip;
     }

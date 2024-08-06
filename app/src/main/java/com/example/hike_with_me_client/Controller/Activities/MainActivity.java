@@ -22,7 +22,6 @@ import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.TripsListFragment;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.ProfileFragment;
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.UploadImageFragment;
 import com.example.hike_with_me_client.Interfaces.Activities.Callback_GoToLoginActivity;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.LogoutListener;
 import com.example.hike_with_me_client.R;
@@ -85,14 +84,13 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
     }
 
     private void logoutButtonFunctionality() {
-//        logoutButton.setOnClickListener(v -> {
-            mAuth.signOut();
-            CurrentUser.getInstance().getUser().setActive(false);
-            CurrentUser.getInstance().getUser().setLocation(null);
-            UserMethods.updateUser(CurrentUser.getInstance().getUser());
-            CurrentUser.getInstance().removeUser();
-            goToLoginActivityCallback.goToLoginActivityCallback();
-//        });
+        stopLocationService();
+        mAuth.signOut();
+        CurrentUser.getInstance().getUser().setActive(false);
+        CurrentUser.getInstance().getUser().setLocation(null);
+        UserMethods.updateUser(CurrentUser.getInstance().getUser());
+        CurrentUser.getInstance().removeUser();
+        goToLoginActivityCallback.goToLoginActivityCallback();
     }
 
     @SuppressLint("SetTextI18n")
@@ -100,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
         if (currentUser == null) {
             goToLoginActivityCallback.goToLoginActivityCallback();
         } else {
-            Log.d("MyMainActivity", "User is logged in: " + currentUser);
+            startLocationService();
             UserMethods.getSpecificUser(currentUser.getUid());
             UserLocation.getInstance().getCurrentLocation();
         }
