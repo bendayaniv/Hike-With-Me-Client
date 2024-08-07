@@ -1,7 +1,9 @@
 package com.example.hike_with_me_client.Models.Hazard;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetAllHazards;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetNearHazards;
@@ -69,11 +71,12 @@ public class HazardMethods {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void addHazard(Hazard hazard) {
+    public static void addHazard(Hazard hazard, Context context) {
         Callback_AddHazard callback_addHazard = new Callback_AddHazard() {
             @Override
             public void success(Hazard hazard) {
                 Log.d("Hazard", "Hazard added successfully");
+                Toast.makeText(context, "Hazard saved successfully", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -1,7 +1,6 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -17,6 +16,8 @@ import android.widget.TextView;
 import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RouteDetailsFragment extends Fragment {
 
@@ -29,6 +30,7 @@ public class RouteDetailsFragment extends Fragment {
     private Button backRouteButton;
     FragmentManager fragmentManager;
     private MainPageFragment mainPageFragment;
+    FloatingActionButton fab;
 
     public static RouteDetailsFragment newInstance(String routeId) {
         RouteDetailsFragment fragment = new RouteDetailsFragment();
@@ -56,6 +58,7 @@ public class RouteDetailsFragment extends Fragment {
         routeDifficultyTextView = view.findViewById(R.id.route_difficulty_text_view);
         routeLengthTextView = view.findViewById(R.id.route_length_text_view);
         backRouteButton = view.findViewById(R.id.back_route_button);
+        fab = view.findViewById(R.id.fab);
     }
 
     private void loadRouteDetails() {
@@ -70,12 +73,38 @@ public class RouteDetailsFragment extends Fragment {
 
     private void setupButtons() {
         backRouteButton.setOnClickListener(v -> navigateBack());
+        fab.setOnClickListener(v -> showBottomSheetDialog());
     }
 
+    private void showBottomSheetDialog() {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext());
+        View bottomSheetView = getLayoutInflater().inflate(R.layout.bottom_sheet, null);
+        bottomSheetDialog.setContentView(bottomSheetView);
+
+        TextView optionRecommendation = bottomSheetView.findViewById(R.id.option_recommendation);
+        TextView optionHazard = bottomSheetView.findViewById(R.id.option_hazard);
+
+        optionRecommendation.setOnClickListener(v -> {
+            // Handle recommendation option
+            bottomSheetDialog.dismiss();
+            RecommendationFragment recommendationFragment = RecommendationFragment.newInstance(route.getName());
+            recommendationFragment.setRouteDetailsFragment(this);
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, recommendationFragment).commit();
+        });
+
+        optionHazard.setOnClickListener(v -> {
+            // Handle hazard option
+            bottomSheetDialog.dismiss();
+            HazardFragment hazardFragment = HazardFragment.newInstance(route.getName());
+            hazardFragment.setRouteDetailsFragment(this);
+            fragmentManager.beginTransaction().replace(R.id.main_fragment_container, hazardFragment).commit();
+        });
+
+        bottomSheetDialog.show();
+    }
 
     private void navigateBack() {
         if (mainPageFragment == null) {
-            FragmentManager fragmentManager = getParentFragmentManager();
             if (fragmentManager != null) {
                 fragmentManager.popBackStack(); // Navigate back to the previous fragment
             }
@@ -83,7 +112,6 @@ public class RouteDetailsFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
         }
     }
-
     public void setRoute(Route route) {
         this.route = route;
     }

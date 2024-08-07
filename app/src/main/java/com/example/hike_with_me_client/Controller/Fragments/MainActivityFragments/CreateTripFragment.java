@@ -1,5 +1,8 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
+import static com.example.hike_with_me_client.Utils.DateVerification.isStartDateBeforeOrSameAsEndDate;
+import static com.example.hike_with_me_client.Utils.DateVerification.isValidDate;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -36,7 +39,10 @@ import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -201,24 +207,31 @@ public class CreateTripFragment extends Fragment {
         // Convert the list to an array if needed
         String[] selectedRoutesArray = routeNamesList.toArray(new String[0]);
 
-        //String[] selectedRoutesArray = selectedRoutesText.split(", ");
         // Debug: Print each route to verify
         for (String route : selectedRoutesArray) {
             Log.d("SelectedRoute", route);
         }
 
-        // Create a trip object
-        trip newTrip = new trip();
-        newTrip.setName(name);
-        newTrip.setStartDate(startDate);
-        newTrip.setEndDate(endDate);
-        newTrip.setDescription(description);
-        newTrip.setUserId(userId);
-        newTrip.setId(uniqueID);
-        newTrip.setLocations(new Location[]{});
-        newTrip.setRoutesNames(selectedRoutesArray);
+        if (isValidDate(startDate)&&isValidDate(endDate)) {
+            if(isStartDateBeforeOrSameAsEndDate(startDate,endDate)) {
+                // Create a trip object
+                trip newTrip = new trip();
+                newTrip.setName(name);
+                newTrip.setStartDate(startDate);
+                newTrip.setEndDate(endDate);
+                newTrip.setDescription(description);
+                newTrip.setUserId(userId);
+                newTrip.setId(uniqueID);
+                newTrip.setLocations(new Location[]{});
+                newTrip.setRoutesNames(selectedRoutesArray);
 
-        saveTripToServer(newTrip);
+                saveTripToServer(newTrip);
+            }else {
+                Toast.makeText(getContext(), "StartDate is after EndDate, Please fix" , Toast.LENGTH_LONG).show();
+            }
+        } else{
+            Toast.makeText(getContext(), "Please Enter a valid date (dd/mm/yy)" , Toast.LENGTH_LONG).show();
+        }
     }
 
     private void saveTripToServer(trip trip) {
