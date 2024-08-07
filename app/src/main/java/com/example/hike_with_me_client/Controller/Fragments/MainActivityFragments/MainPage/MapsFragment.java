@@ -207,7 +207,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     hazardsList.addAll(loadedHazards);
                     progressBarMap.setVisibility(View.GONE);
                     refreshMap();
-                    refreshMap();
                 } else {
                     UserLocation.getInstance().getCurrentLocation();
                     handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
