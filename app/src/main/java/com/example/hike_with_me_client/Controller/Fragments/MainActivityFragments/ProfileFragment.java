@@ -133,13 +133,11 @@ public class ProfileFragment extends Fragment {
         profileEmailLabel = view.findViewById(R.id.profile_email_label);
         phoneNumberLabel = view.findViewById(R.id.phone_number_label);
         profileHometownLabel = view.findViewById(R.id.profile_hometown_label);
-
         // Set data to UI elements
         profileName.setText(mParam1);
         phoneNum.setText(mPhone);
         profileEmail.setText(mEmail);
         profileHometown.setText(mHometown);
-
     }
 
     private void loadUserProfileFromServer() {
