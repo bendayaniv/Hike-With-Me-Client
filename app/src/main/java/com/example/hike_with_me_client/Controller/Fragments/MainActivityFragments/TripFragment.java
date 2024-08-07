@@ -54,6 +54,9 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
     private TextView tripDescriptionText;
     private TextView tripStartDateText;
     private TextView tripEndDateText;
+    private TextView tripDescriptionSubtitleText;
+    private TextView tripStartDateSubtitleText;
+    private TextView tripEndDateSubtitleText;
     private RecyclerView recyclerViewRoutes;
     private ImageView tripImageView;
     private Handler handler = new Handler();
@@ -93,6 +96,9 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         tripStartDateText = view.findViewById(R.id.text_start_date_trip);
         tripEndDateText = view.findViewById(R.id.text_end_date_trip);
         recyclerViewRoutes = view.findViewById(R.id.recycler_view_routes);
+        tripDescriptionSubtitleText = view.findViewById(R.id.text_description_trip_subtitle);
+        tripStartDateSubtitleText = view.findViewById(R.id.text_start_date_trip_subtitle);
+        tripEndDateSubtitleText = view.findViewById(R.id.text_end_date_trip_subtitle);
         tripImageView = view.findViewById(R.id.tripImageView);
         mapView = view.findViewById(R.id.mapView);
     }
@@ -200,7 +206,6 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
-
         // Load locations on the map
         loadLocationsOnMap();
     }

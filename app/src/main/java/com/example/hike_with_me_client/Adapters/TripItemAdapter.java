@@ -123,8 +123,5 @@ public class TripItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
         }
-
-
     }
-
 }

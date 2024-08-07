@@ -17,7 +17,6 @@ public class App extends Application {
 
         CurrentUser.initCurrentUser();
         UserLocation.initUserLocation();
-//        UserLocation.getInstance().setContext(this);
         ListOfRoutes.initListOfRoutes();
         ListOfHazards.initListOfHazards();
         ListOfTrips.initListOfTrips();

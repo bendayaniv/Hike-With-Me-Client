@@ -63,11 +63,7 @@ public class RegisterFragment extends Fragment {
             String password = String.valueOf(editTextPassword.getText());
             String textName = String.valueOf(editTextName.getText());
             String phoneNumber = String.valueOf(editTextPhoneNumber.getText());
-
             if (checkingRegisterInformation(email, password, textName, phoneNumber) == 1) return;
-
-
-
             registerInFirebaseAuth(email, password, textName, phoneNumber, "hometown");
         });
     }

@@ -25,7 +25,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginFragment loginFragment;
     private RegisterFragment registerFragment;
-//    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1001;
 
     Callback_GoToLoginFragment goToLoginFragmentCallback = new Callback_GoToLoginFragment() {
         @Override
@@ -54,10 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         //Set direction on all devices from LEFT to RIGHT
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
-
         createFragments();
         defaultFragment();
         checkLocationPermission();
@@ -66,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     private void createFragments() {
         loginFragment = new LoginFragment();
         loginFragment.setCallbacks(goToRegisterFragmentCallback, goToMainActivityCallback);
-
         registerFragment = new RegisterFragment();
         registerFragment.setCallbacks(goToLoginFragmentCallback, goToMainActivityCallback);
     }

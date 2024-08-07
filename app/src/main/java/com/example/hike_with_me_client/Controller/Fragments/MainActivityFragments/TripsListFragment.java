@@ -79,9 +79,7 @@ public class TripsListFragment extends Fragment {
     private void initializing() {
 
         TripMethods.getTripsByUser();
-
         handler = new Handler(Looper.getMainLooper());
-
         init();
     }
 
@@ -91,12 +89,10 @@ public class TripsListFragment extends Fragment {
         progressBarTripsList.setVisibility(View.VISIBLE);
         addTripFab.setOnClickListener(v -> {
             // TODO - move to create trip fragment
-            //Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
             CreateTripFragment createTripFragment = new CreateTripFragment();
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, createTripFragment).commit();
         });
         addTripFab.setVisibility(View.GONE);
-
         loadTripsFromServer();
     }
 
@@ -128,7 +124,6 @@ public class TripsListFragment extends Fragment {
                 }
             }
         };
-
         handler.post(retryRunnable);
     }
 
@@ -161,28 +156,24 @@ public class TripsListFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //ListOfTrips.getInstance().setTrips(null);
         ErrorMessageFromServer.getInstance().setErrorMessageFromServer(null);
     }
 }

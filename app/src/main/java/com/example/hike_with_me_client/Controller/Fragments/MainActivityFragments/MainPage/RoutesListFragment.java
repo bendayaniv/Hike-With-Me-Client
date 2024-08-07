@@ -75,13 +75,10 @@ public class RoutesListFragment extends Fragment {
 
     private void initializing() {
         handler = new Handler(Looper.getMainLooper());
-
         routeFragment = new RouteDetailsFragment();
-
         fragmentRoutesRV.setVisibility(View.GONE);
         emptyRoutesListTV.setVisibility(View.GONE);
         progressBarRoutesList.setVisibility(View.VISIBLE);
-
         loadDataFromServer();
     }
 
@@ -111,7 +108,6 @@ public class RoutesListFragment extends Fragment {
                 }
             }
         };
-
         handler.post(retryRunnable);
     }
 
@@ -141,18 +137,14 @@ public class RoutesListFragment extends Fragment {
 
     private void findViews(View view) {
         routes = new ArrayList<>();
-
         routeItemAdapter = new RouteItemAdapter(getContext(), routes);
         setCallbackRouteItemForAdapter();
-
         fragmentRoutesRV = view.findViewById(R.id.fragmentRoutesRV);
         fragmentRoutesRV.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentRoutesRV.setItemAnimator(new DefaultItemAnimator());
         fragmentRoutesRV.setAdapter(routeItemAdapter);
-
         emptyRoutesListTV = view.findViewById(R.id.emptyRoutesListTV);
         progressBarRoutesList = view.findViewById(R.id.progressBarRoutesList);
-
         sharedViewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
         sharedViewModel.getRecyclerViewState().observe(getViewLifecycleOwner(), this::onChanged);
     }

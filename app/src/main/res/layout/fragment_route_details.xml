@@ -20,31 +20,62 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Route Name"
-                android:textSize="24sp"
+                android:gravity="center"
+                android:textSize="34sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/route_description_subtitle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/route_description_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Description"
+                android:textSize="16sp"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/route_length_subtitle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Route Length"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/route_length_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Length"
+                android:textSize="16sp"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:id="@+id/route_difficulty_subtitle_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Difficulty"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp" />
 
             <TextView
                 android:id="@+id/route_difficulty_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Difficulty"
+                android:textSize="16sp"
                 android:padding="16dp"
                 android:layout_marginBottom="16dp"/>
 

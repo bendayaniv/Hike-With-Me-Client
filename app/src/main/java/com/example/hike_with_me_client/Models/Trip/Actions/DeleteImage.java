@@ -8,7 +8,6 @@ import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Path;
 
 public class DeleteImage extends TripMasterClass {
 

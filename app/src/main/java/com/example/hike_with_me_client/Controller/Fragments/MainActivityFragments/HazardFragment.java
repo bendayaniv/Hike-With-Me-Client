@@ -34,6 +34,10 @@ public class HazardFragment extends Fragment {
     private String routeName;
 
     private TextView routeNameTextView;
+    private TextView descriptionLabel;
+    private TextView severityLabel;
+    private TextView hazardTypeLabel;
+    private TextView routeNameLabel;
     private EditText hazardDescriptionEditText;
     private Spinner severitySpinner;
     private Spinner hazardTypeSpinner;
@@ -78,6 +82,10 @@ public class HazardFragment extends Fragment {
         hazardDescriptionEditText = view.findViewById(R.id.hazard_description_edit_text);
         severitySpinner = view.findViewById(R.id.severity_spinner);
         hazardTypeSpinner = view.findViewById(R.id.hazard_type_spinner);
+        routeNameLabel = view.findViewById(R.id.route_name_label);
+        descriptionLabel = view.findViewById(R.id.description_label);
+        hazardTypeLabel = view.findViewById(R.id.hazard_type_label);
+        severityLabel = view.findViewById(R.id.severity_label);
         saveButton = view.findViewById(R.id.save_button);
         backButton = view.findViewById(R.id.back_button);
         routeNameTextView.setText(routeName);

@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Models.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Models.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Models.User.User;
@@ -27,6 +25,10 @@ public class RecommendationFragment extends Fragment {
 
     private static final String ARG_ROUTE_NAME = "route_name";
     private String routeName;
+
+    private TextView routeNameLabel;
+    private TextView descriptionLabel;
+    private TextView rateLabel;
 
     private TextView routeNameTextView;
     private RatingBar ratingBar;
@@ -71,6 +73,9 @@ public class RecommendationFragment extends Fragment {
         routeNameTextView = view.findViewById(R.id.route_name_text_view);
         ratingBar = view.findViewById(R.id.rating_bar);
         recommendationDescriptionEditText = view.findViewById(R.id.recommendation_description_edit_text);
+        routeNameLabel = view.findViewById(R.id.route_name_label);
+        descriptionLabel = view.findViewById(R.id.description_label);
+        rateLabel = view.findViewById(R.id.rate_label);
         saveButton = view.findViewById(R.id.save_button);
         backButton = view.findViewById(R.id.back_button);
         routeNameTextView.setText(routeName);
