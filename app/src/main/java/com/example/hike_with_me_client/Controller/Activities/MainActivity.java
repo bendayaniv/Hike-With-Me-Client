@@ -41,7 +41,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements LogoutListener {
 
-    Button logoutButton;
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
     private MainPageFragment mainPageFragment;
@@ -120,23 +119,12 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
 
     private void initialization() {
         fragmentManager = getSupportFragmentManager();
-
         initializeUserLocation();
-
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
         mAuth = FirebaseAuth.getInstance();
-
         currentUser = mAuth.getCurrentUser();
-
         bottomNavigationView = findViewById(R.id.mainBottomNavigation);
-
         initialiseBottomNavigation();
-
-//        logoutButton = findViewById(R.id.btn_logout);
-
-//        logoutButtonFunctionality();
-
     }
 
     private void initialiseBottomNavigation() {
