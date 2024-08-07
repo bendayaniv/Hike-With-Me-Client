@@ -206,7 +206,6 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         googleMap.getUiSettings().setCompassEnabled(true);
         googleMap.getUiSettings().setMyLocationButtonEnabled(true);
         googleMap.getUiSettings().setAllGesturesEnabled(true);
-
         // Load locations on the map
         loadLocationsOnMap();
     }
