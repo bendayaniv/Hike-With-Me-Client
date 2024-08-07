@@ -12,7 +12,8 @@ public class Route extends point {
     private String _length;
     private String _imageUrl;
 
-    public Route() {}
+    public Route() {
+    }
 
     public Route(Location location, String type, String id, String name, String description, String difficultyLevel, String length, String imageUrl) {
         super(location, type);

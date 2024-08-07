@@ -29,7 +29,7 @@ public class GetNearHazards extends HazardMasterClass {
             @Override
             public void onResponse(@NonNull Call<List<Hazard>> call, @NonNull Response<List<Hazard>> response) {
                 Log.d("Hazard", "response.body: " + response.body());
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Hazard> hazards = response.body();
                     callback_getNearHazards.success(hazards);
                 } else {

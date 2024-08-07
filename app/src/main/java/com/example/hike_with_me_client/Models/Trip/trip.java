@@ -19,7 +19,8 @@ public class trip {
     private String userId;
     private ArrayList<String> imagesUrls;
 
-    public trip() {}
+    public trip() {
+    }
 
     public trip(String id, String name, String startDate, String endDate, Location[] locations, String description, String[] routesNames, String userId, ArrayList<String> imagesUrls) {
         this.id = id;

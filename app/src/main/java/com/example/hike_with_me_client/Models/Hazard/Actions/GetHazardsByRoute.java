@@ -25,7 +25,7 @@ public class GetHazardsByRoute extends HazardMasterClass {
         call.enqueue(new Callback<List<Hazard>>() {
             @Override
             public void onResponse(@NonNull Call<List<Hazard>> call, @NonNull Response<List<Hazard>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Hazard> hazards = response.body();
                     callback_getHazardsByRoute.success(hazards);
                 } else {

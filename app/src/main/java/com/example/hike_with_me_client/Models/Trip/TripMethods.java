@@ -44,7 +44,7 @@ public class TripMethods {
                     Log.d("trip", "Trips: " + trips);
                 }
 
-                if(ListOfTrips.getInstance().getTrips() != null && ListOfTrips.getInstance().getTrips().isEmpty()) {
+                if (ListOfTrips.getInstance().getTrips() != null && ListOfTrips.getInstance().getTrips().isEmpty()) {
                     TripMethodsUtils.initiateActiveTrips(trips);
                 }
 
@@ -161,7 +161,6 @@ public class TripMethods {
     }
 
     public static void deleteImage(String userName, String tripName, String imageName) {
-        // TODO - delete image
         Callback_DeleteImage callback_deleteImage = new Callback_DeleteImage() {
             @Override
             public void success(String message) {

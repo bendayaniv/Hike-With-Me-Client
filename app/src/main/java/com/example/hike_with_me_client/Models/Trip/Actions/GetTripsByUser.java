@@ -23,30 +23,30 @@ public class GetTripsByUser extends TripMasterClass {
     }
 
     public void getTripsByUser() {
-         Call<List<trip>> call = tripApiInterface.getTrips(CurrentUser.getInstance().getUser().getId());
-         call.enqueue(new Callback<List<trip>>() {
-             @Override
-             public void onResponse(@NonNull Call<List<trip>> call, @NonNull Response<List<trip>> response) {
-                 if(response.isSuccessful()) {
-                     List<trip> trips = response.body();
-                     callback_getTripsByUser.success(trips);
-                 } else {
-                     ResponseBody errorBody = response.errorBody();
-                     try {
-                         assert errorBody != null;
-                         String errorMessage = errorBody.string();
-                         callback_getTripsByUser.error(errorMessage);
-                     } catch (IOException e) {
-                         e.printStackTrace();
-                     }
-                 }
-             }
+        Call<List<trip>> call = tripApiInterface.getTrips(CurrentUser.getInstance().getUser().getId());
+        call.enqueue(new Callback<List<trip>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<trip>> call, @NonNull Response<List<trip>> response) {
+                if (response.isSuccessful()) {
+                    List<trip> trips = response.body();
+                    callback_getTripsByUser.success(trips);
+                } else {
+                    ResponseBody errorBody = response.errorBody();
+                    try {
+                        assert errorBody != null;
+                        String errorMessage = errorBody.string();
+                        callback_getTripsByUser.error(errorMessage);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
 
-             @Override
-             public void onFailure(@NonNull Call<List<trip>> call, @NonNull Throwable t) {
-                 callback_getTripsByUser.error(t.getMessage());
-                 t.printStackTrace();
-             }
-         });
+            @Override
+            public void onFailure(@NonNull Call<List<trip>> call, @NonNull Throwable t) {
+                callback_getTripsByUser.error(t.getMessage());
+                t.printStackTrace();
+            }
+        });
     }
 }

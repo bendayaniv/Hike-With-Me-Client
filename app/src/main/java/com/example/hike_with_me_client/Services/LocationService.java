@@ -187,11 +187,11 @@ public class LocationService extends Service {
             CurrentUser.getInstance().setInitiateLocation(myLoc);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
-            if(CurrentUser.getInstance().getActiveTrips() != null && !CurrentUser.getInstance().getActiveTrips().isEmpty()) {
+            if (CurrentUser.getInstance().getActiveTrips() != null && !CurrentUser.getInstance().getActiveTrips().isEmpty()) {
                 // For every active trip add the location to the list of the locations
                 // and save the list of the locations to the trip
                 Log.d("LocationService", "Active trips");
-                for(com.example.hike_with_me_client.Models.Trip.trip trip : CurrentUser.getInstance().getActiveTrips()) {
+                for (com.example.hike_with_me_client.Models.Trip.trip trip : CurrentUser.getInstance().getActiveTrips()) {
                     trip.addLocation(myLoc);
 
                     TripMethods.updateTrip(trip);

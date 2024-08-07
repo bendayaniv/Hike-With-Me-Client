@@ -7,10 +7,10 @@ import android.widget.Toast;
 
 public class Constants {
 
-    public static final int MENU_HOME = 2131231026;
-    public static final int MENU_TRIPS = 2131231028;
-    public static final int MENU_COMMUNITY = 2131231025;
-    public static final int MENU_PROFILE = 2131231027;
+    public static final int MENU_HOME = 2131231024;
+    public static final int MENU_TRIPS = 2131231026;
+    public static final int MENU_COMMUNITY = 2131231023;
+    public static final int MENU_PROFILE = 2131231025;
 
     public static final int REQUEST_CHECK_SETTINGS = 10001;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 10002;
@@ -42,7 +42,7 @@ public class Constants {
     public static final String INVALID_PHONE_NUMBER = "Phone number must contain only numbers...";
 
     public static void toastMessageToUserWithProgressBar(Context context, String message, ProgressBar progressBar) {
-        if(progressBar != null) progressBar.setVisibility(View.GONE);
+        if (progressBar != null) progressBar.setVisibility(View.GONE);
         Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

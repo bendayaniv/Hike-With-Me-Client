@@ -1,10 +1,12 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.hike_with_me_client.Models.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Models.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Models.User.User;
@@ -120,6 +123,7 @@ public class RecommendationFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
     }
+
     public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
         this.routeDetailsFragment = fragment;
     }

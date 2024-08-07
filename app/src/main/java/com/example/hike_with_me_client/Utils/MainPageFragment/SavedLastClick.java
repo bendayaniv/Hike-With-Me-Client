@@ -6,6 +6,7 @@ public class SavedLastClick {
     private static SavedLastClick instance = null;
     private int position = -1;
     private Route lastClickedRoute = null;
+
     private SavedLastClick() {
     }
 

@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
             startService(intent);
         }
     }
+
     // Service Methods //
     private void checkAndRequestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

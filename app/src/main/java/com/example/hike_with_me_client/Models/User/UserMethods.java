@@ -26,7 +26,7 @@ public class UserMethods {
         Callback_GetAllUsers callback_getAllUsers = new Callback_GetAllUsers() {
             @Override
             public void success(List<UserWithDistance> users) {
-                if(users.isEmpty()) {
+                if (users.isEmpty()) {
                     Log.d("UserMethods", "No users found");
                 } else {
                     Log.d("UserMethods", "Users found: " + users);

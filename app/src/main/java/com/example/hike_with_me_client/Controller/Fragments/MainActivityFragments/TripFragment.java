@@ -43,7 +43,7 @@ import android.os.Handler;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TripFragment extends Fragment implements OnMapReadyCallback{
+public class TripFragment extends Fragment implements OnMapReadyCallback {
 
     private TripFragment tripFragment;
     private static final String ARG_TRIP_ID = "trip_id";
@@ -235,11 +235,13 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
                 .add(start, end)
                 .addSpan(new StyleSpan(StrokeStyle.colorBuilder(Color.BLACK).build())));
     }
+
     @Override
     public void onResume() {
         super.onResume();
         mapView.onResume();
     }
+
     @Override
     public void onPause() {
         super.onPause();

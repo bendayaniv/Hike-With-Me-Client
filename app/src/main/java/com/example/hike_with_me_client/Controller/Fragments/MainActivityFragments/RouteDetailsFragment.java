@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -111,6 +112,7 @@ public class RouteDetailsFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
         }
     }
+
     public void setRoute(Route route) {
         this.route = route;
     }

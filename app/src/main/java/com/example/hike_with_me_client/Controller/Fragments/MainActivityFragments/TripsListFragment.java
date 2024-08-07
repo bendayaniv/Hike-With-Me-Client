@@ -57,6 +57,7 @@ public class TripsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -2,6 +2,7 @@ package com.example.hike_with_me_client.Utils.Rertofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;

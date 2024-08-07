@@ -19,7 +19,7 @@ public class RecommendationMethods {
         Callback_GetRecommendationsByRoute callback_getAllRecommendationsByRoute = new Callback_GetRecommendationsByRoute() {
             @Override
             public void success(List<Recommendation> recommendations) {
-                if(recommendations.size() == 0) {
+                if (recommendations.size() == 0) {
                     textView.setText("No recommendations found");
                 } else {
                     textView.setText("Recommendations found: " + recommendations);
@@ -35,7 +35,7 @@ public class RecommendationMethods {
     }
 
     @SuppressLint("SetTextI18n")
-    public static void addRecommendation(Recommendation recommendation, Context context){
+    public static void addRecommendation(Recommendation recommendation, Context context) {
         Callback_AddRecommendation callback_addRecommendation = new Callback_AddRecommendation() {
             @Override
             public void success(Recommendation recommendation) {

@@ -15,7 +15,8 @@ public class Hazard extends point {
     private String _reporterId;
     private String _routeName;
 
-    public Hazard() {}
+    public Hazard() {
+    }
 
     public Hazard(Location location, String pointType, String id, Constants.HazardType hazardType, String description, Constants.Level severity, String reporterId, String routeName) {
         super(location, pointType);

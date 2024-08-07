@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment {
             String email = String.valueOf(editTextEmail.getText());
             String password = String.valueOf(editTextPassword.getText());
 
-            if(checkingLogin(email, password) == 1) return;
+            if (checkingLogin(email, password) == 1) return;
 
             signInWithFirebaseAuth(email, password);
         });
@@ -89,7 +89,7 @@ public class LoginFragment extends Fragment {
             return 1;
         }
 
-        if(TextUtils.isEmpty(password)) {
+        if (TextUtils.isEmpty(password)) {
             Constants.toastMessageToUserWithProgressBar(getActivity(), "Please enter password...", progressBar);
             return 1;
         }

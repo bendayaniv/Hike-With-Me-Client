@@ -202,8 +202,8 @@ public class CreateTripFragment extends Fragment {
             Log.d("SelectedRoute", route);
         }
 
-        if (isValidDate(startDate)&&isValidDate(endDate)) {
-            if(isStartDateBeforeOrSameAsEndDate(startDate,endDate)) {
+        if (isValidDate(startDate) && isValidDate(endDate)) {
+            if (isStartDateBeforeOrSameAsEndDate(startDate, endDate)) {
                 // Create a trip object
                 trip newTrip = new trip();
                 newTrip.setName(name);
@@ -216,11 +216,11 @@ public class CreateTripFragment extends Fragment {
                 newTrip.setRoutesNames(selectedRoutesArray);
 
                 saveTripToServer(newTrip);
-            }else {
-                Toast.makeText(getContext(), "StartDate is after EndDate, Please fix" , Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "StartDate is after EndDate, Please fix", Toast.LENGTH_LONG).show();
             }
-        } else{
-            Toast.makeText(getContext(), "Please Enter a valid date (dd/mm/yy)" , Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Please Enter a valid date (dd/mm/yy)", Toast.LENGTH_LONG).show();
         }
     }
 

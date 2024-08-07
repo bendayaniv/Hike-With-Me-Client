@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface Callback_GetAllUsers {
     void success(List<UserWithDistance> tasks);
+
     void error(String error);
 }

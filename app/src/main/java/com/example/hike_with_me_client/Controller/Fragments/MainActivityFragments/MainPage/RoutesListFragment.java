@@ -102,8 +102,7 @@ public class RoutesListFragment extends Fragment {
                     emptyRoutesListTV.setVisibility(View.VISIBLE);
                     emptyRoutesListTV.setText(ErrorMessageFromServer.getInstance().getErrorMessageFromServer());
                     progressBarRoutesList.setVisibility(View.GONE);
-                }
-                else {
+                } else {
                     handler.postDelayed(retryRunnable, Constants.RETRY_INTERVAL);
                 }
             }

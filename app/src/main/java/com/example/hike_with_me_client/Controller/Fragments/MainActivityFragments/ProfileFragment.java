@@ -99,7 +99,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Implement the logic to edit the profile
-                // TODO - move to create trip fragment
                 Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
             }
         });

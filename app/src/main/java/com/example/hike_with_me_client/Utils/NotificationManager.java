@@ -190,12 +190,9 @@ public class NotificationManager {
 
             // get over all didNotNoticed and show the pop-up notification
             for (Hazard hazard : didNotNoticed) {
-                // TODO - handle in both sides that Hazard object will have userId instead of the name of the user
-                //  so the user will not get notification of hazard he created
                 if (!hazard.getReporterId().equals(CurrentUser.getInstance().getUser().getId())) {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(context, POPUP_CHANNEL_ID)
-                            // TODO - change this icon with the project icon
-                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.man_walking))  // This sets your app icon
+                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.hiking_man_icon))  // This sets your app icon
                             .setSmallIcon(R.drawable.hazard_sign)
                             .setContentTitle("Hazard In Your Area!")
                             .setContentText(hazard.getDescription())

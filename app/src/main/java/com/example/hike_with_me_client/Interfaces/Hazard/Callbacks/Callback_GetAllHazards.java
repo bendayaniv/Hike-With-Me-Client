@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface Callback_GetAllHazards {
     void success(List<Hazard> hazards);
+
     void error(String error);
 }

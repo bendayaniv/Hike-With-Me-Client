@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface Callback_GetTripsByUser {
     void success(List<trip> trips);
+
     void error(String error);
 }

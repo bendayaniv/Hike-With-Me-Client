@@ -25,7 +25,7 @@ public class GetRecommendationsByRoute extends RecommendationMasterClass {
         call.enqueue(new Callback<List<Recommendation>>() {
             @Override
             public void onResponse(@NonNull Call<List<Recommendation>> call, @NonNull Response<List<Recommendation>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Recommendation> recommendations = response.body();
                     callback_getRecommendationsByRoute.success(recommendations);
                 } else {

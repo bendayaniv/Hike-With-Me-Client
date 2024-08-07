@@ -187,8 +187,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 if (loadedRoutes != null && !loadedRoutes.isEmpty() &&
                         loadedHazards != null ||
                         CurrentUser.getInstance().getUser() != null &&
-                        (CurrentUser.getInstance().getUser().getLocation().getLatitude() == 0.0 &&
-                                CurrentUser.getInstance().getUser().getLocation().getLongitude() == 0.0) ||
+                                (CurrentUser.getInstance().getUser().getLocation().getLatitude() == 0.0 &&
+                                        CurrentUser.getInstance().getUser().getLocation().getLongitude() == 0.0) ||
                         CurrentUser.getInstance().isInitiateLocationEqualToUserLocation()) {
                     routes.clear();
                     routes.addAll(loadedRoutes);

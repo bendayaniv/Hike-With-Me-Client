@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -133,6 +134,7 @@ public class HazardFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
     }
+
     public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
         this.routeDetailsFragment = fragment;
     }
