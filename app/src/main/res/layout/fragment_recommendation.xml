@@ -13,25 +13,53 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Add Recommendation"
-            android:textSize="24sp"
+            android:textSize="34sp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/route_name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Route Name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:id="@+id/route_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Route Name"
-            android:textSize="20sp"
+            android:textSize="16sp"
             android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/description_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/recommendation_description_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
+            android:textSize="16sp"
             android:layout_marginBottom="16dp" />
+
+        <TextView
+            android:id="@+id/rate_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Route Rate"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp" />
 
         <RatingBar
             android:id="@+id/rating_bar"

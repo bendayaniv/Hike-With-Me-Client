@@ -9,41 +9,84 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add Hazard"
-        android:textSize="26sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         android:gravity="center"
         android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/route_name_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Route Name"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@id/title_text_view"
+        android:layout_marginBottom="8dp" />
 
     <TextView
         android:id="@+id/route_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Route Name"
-        android:textSize="18sp"
-        android:layout_below="@id/title_text_view"
+        android:textSize="16sp"
+        android:layout_below="@id/route_name_label"
         android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/description_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@id/route_name_text_view"
+        android:layout_marginBottom="8dp" />
 
     <EditText
         android:id="@+id/hazard_description_edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Description"
-        android:layout_below="@id/route_name_text_view"
+        android:textSize="16sp"
+        android:layout_below="@id/description_label"
         android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/severity_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Severity"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@id/hazard_description_edit_text"
+        android:layout_marginBottom="8dp" />
 
     <Spinner
         android:id="@+id/severity_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hazard_description_edit_text"
+        android:layout_below="@id/severity_label"
+        android:textSize="16sp"
         android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/hazard_type_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hazard Type"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@id/severity_spinner"
+        android:layout_marginBottom="8dp" />
 
     <Spinner
         android:id="@+id/hazard_type_spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/severity_spinner"
-        android:layout_marginBottom="16dp" />
+        android:layout_below="@id/hazard_type_label"
+        android:layout_marginBottom="16dp"
+        android:textSize="16sp"/>
 
     <Button
         android:id="@+id/save_button"

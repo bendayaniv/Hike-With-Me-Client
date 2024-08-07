@@ -49,6 +49,9 @@ public class ProfileFragment extends Fragment {
     TextView phoneNum;
     Button editButton;
     Button logoutButton;
+    private TextView profileEmailLabel;
+    private TextView phoneNumberLabel;
+    private TextView profileHometownLabel;
 
     private LogoutListener logoutListener;
 
@@ -105,6 +108,9 @@ public class ProfileFragment extends Fragment {
         profileHometown = view.findViewById(R.id.profile_hometown);
         editButton = view.findViewById(R.id.edit_button);
         logoutButton = view.findViewById(R.id.logout_button);
+        profileEmailLabel = view.findViewById(R.id.profile_email_label);
+        phoneNumberLabel = view.findViewById(R.id.phone_number_label);
+        profileHometownLabel = view.findViewById(R.id.profile_hometown_label);
 
         // Set data to UI elements
         profileName.setText(mParam1);
