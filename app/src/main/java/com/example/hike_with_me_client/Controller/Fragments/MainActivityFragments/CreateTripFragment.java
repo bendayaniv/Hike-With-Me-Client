@@ -207,7 +207,6 @@ public class CreateTripFragment extends Fragment {
         // Convert the list to an array if needed
         String[] selectedRoutesArray = routeNamesList.toArray(new String[0]);
 
-        //String[] selectedRoutesArray = selectedRoutesText.split(", ");
         // Debug: Print each route to verify
         for (String route : selectedRoutesArray) {
             Log.d("SelectedRoute", route);
