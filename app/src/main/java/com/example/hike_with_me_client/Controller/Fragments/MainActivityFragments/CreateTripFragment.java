@@ -16,8 +16,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,10 +37,7 @@ import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
@@ -53,13 +48,11 @@ public class CreateTripFragment extends Fragment {
     private EditText tripStartDateEditText;
     private EditText tripEndDateEditText;
     private EditText tripDescriptionEditText;
-    private Spinner routesSpinner;
     private Button saveTripButton;
     private Button addRouteButton;
     private ImageView tripImageView;
     private ProgressBar progressBar;
     private ArrayList<String> selectedRoutes;
-    private boolean isRouteSelected = false;
     private TextView routesTextView;
     private static final int PICK_IMAGE_REQUEST = 1;
 
@@ -167,7 +160,6 @@ public class CreateTripFragment extends Fragment {
         String endDate = tripEndDateEditText.getText().toString().trim();
         String description = tripDescriptionEditText.getText().toString().trim();
         String uniqueID = UUID.randomUUID().toString();
-
         // Get the current user ID
         User currentUser = CurrentUser.getInstance().getUser();
         if (currentUser == null) {
@@ -176,7 +168,6 @@ public class CreateTripFragment extends Fragment {
             return;
         }
         String userId = currentUser.getId();
-
         // Validate input data (optional but recommended)
         if (name.isEmpty() || startDate.isEmpty() || endDate.isEmpty() || userId.isEmpty()) {
             Toast.makeText(getActivity(), "Please fill in all required fields", Toast.LENGTH_SHORT).show();
@@ -207,7 +198,7 @@ public class CreateTripFragment extends Fragment {
         // Convert the list to an array if needed
         String[] selectedRoutesArray = routeNamesList.toArray(new String[0]);
 
-        // Debug: Print each route to verify
+        //Print each route to verify
         for (String route : selectedRoutesArray) {
             Log.d("SelectedRoute", route);
         }

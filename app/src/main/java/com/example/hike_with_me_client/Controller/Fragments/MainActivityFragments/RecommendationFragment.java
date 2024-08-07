@@ -13,8 +13,6 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments.MainPage.MainPageFragment;
 import com.example.hike_with_me_client.Models.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Models.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Models.User.User;

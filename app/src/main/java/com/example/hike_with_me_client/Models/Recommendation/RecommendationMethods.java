@@ -41,13 +41,11 @@ public class RecommendationMethods {
             public void success(Recommendation recommendation) {
                 Log.d("Recommendation added: ", recommendation.toString());
                 Toast.makeText(context, "Recommendation saved successfully", Toast.LENGTH_SHORT).show();
-                //textView.setText("Recommendation added: " + recommendation);
             }
 
             @Override
             public void error(String message) {
                 Log.d("Recommendation", "Error: " + message);
-                //textView.setText("Error: " + message);
             }
         };
         new AddRecommendation(callback_addRecommendation).addRecommendation(recommendation);

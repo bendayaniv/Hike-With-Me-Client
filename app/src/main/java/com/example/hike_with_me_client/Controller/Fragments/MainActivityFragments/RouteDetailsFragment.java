@@ -105,7 +105,6 @@ public class RouteDetailsFragment extends Fragment {
             hazardFragment.setRouteDetailsFragment(this);
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, hazardFragment).commit();
         });
-
         bottomSheetDialog.show();
     }
 

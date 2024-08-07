@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
                     // TODO - activate it when creating trip and it is active himself
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
-//                    startLocationService();
 
                     break;
                 case Constants.MENU_TRIPS:
@@ -164,13 +163,9 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
-//                    fragmentManager.beginTransaction().replace(R.id.main_fragment_container, new UploadImageFragment())
-//                            .commit();
                     // TODO - activate it when there is not trip that is active
                     //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
                     //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
-//                    stopLocationService();
-
                     break;
             }
             return true;
@@ -244,11 +239,7 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
             // Dismiss all notifications
             NotificationManagerCompat.from(this).cancelAll();
         }
-
-        // Optionally, can add logic here to navigate to a specific part of the app
-        // For example, might want to show the MainPageFragment
         mainPageFragment();
-
         // TODO - maybe in here we could do zoom in in the map to the location of the notification
     }
 
@@ -265,9 +256,7 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
             startService(intent);
         }
     }
-
     // Service Methods //
-
     private void checkAndRequestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
@@ -277,7 +266,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
                 Log.d("MainActivity", "Notification permission already granted");
             }
         } else {
-            // For Android versions below 13, notification permission is granted by default
             Log.d("MainActivity", "Notification permission not required for this Android version");
         }
     }
@@ -288,7 +276,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
         } else {
             // Location permission is already granted
             Log.d("MainActivity", "Location permission already granted");
-            // Permission is already granted
         }
     }
 

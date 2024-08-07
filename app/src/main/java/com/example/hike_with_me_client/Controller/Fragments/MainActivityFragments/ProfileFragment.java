@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,6 @@ import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
 import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
 
 public class ProfileFragment extends Fragment {
 
@@ -99,25 +97,7 @@ public class ProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        // Initialize UI elements
-        profileImage = view.findViewById(R.id.profile_image);
-        profileName = view.findViewById(R.id.profile_name);
-        phoneNum = view.findViewById(R.id.phone_number);
-        profileEmail = view.findViewById(R.id.profile_email);
-        profileHometown = view.findViewById(R.id.profile_hometown);
-        editButton = view.findViewById(R.id.edit_button);
-        logoutButton = view.findViewById(R.id.logout_button);
-        profileEmailLabel = view.findViewById(R.id.profile_email_label);
-        phoneNumberLabel = view.findViewById(R.id.phone_number_label);
-        profileHometownLabel = view.findViewById(R.id.profile_hometown_label);
-
-        // Set data to UI elements
-        profileName.setText(mParam1);
-        phoneNum.setText(mPhone);
-        profileEmail.setText(mEmail);
-        profileHometown.setText(mHometown);
-
+        findviews(view);
         loadUserProfileFromServer();
         // Set edit button click listener
         editButton.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +119,27 @@ public class ProfileFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void findviews(View view) {
+        // Initialize UI elements
+        profileImage = view.findViewById(R.id.profile_image);
+        profileName = view.findViewById(R.id.profile_name);
+        phoneNum = view.findViewById(R.id.phone_number);
+        profileEmail = view.findViewById(R.id.profile_email);
+        profileHometown = view.findViewById(R.id.profile_hometown);
+        editButton = view.findViewById(R.id.edit_button);
+        logoutButton = view.findViewById(R.id.logout_button);
+        profileEmailLabel = view.findViewById(R.id.profile_email_label);
+        phoneNumberLabel = view.findViewById(R.id.phone_number_label);
+        profileHometownLabel = view.findViewById(R.id.profile_hometown_label);
+
+        // Set data to UI elements
+        profileName.setText(mParam1);
+        phoneNum.setText(mPhone);
+        profileEmail.setText(mEmail);
+        profileHometown.setText(mHometown);
+
     }
 
     private void loadUserProfileFromServer() {

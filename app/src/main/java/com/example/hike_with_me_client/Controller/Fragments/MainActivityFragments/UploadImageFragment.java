@@ -109,9 +109,7 @@ public class UploadImageFragment extends Fragment {
         if (!selectedImages.isEmpty()) {
             String userName = CurrentUser.getInstance().getUser().getName();
             String tripName = "tripName4"; // TODO - Replace with actual trip name
-
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
-
             try {
                 TripMethods.uploadImages(new ArrayList<>(selectedImages.values()), userName, tripName, requireContext(), progressBar, null);
             } catch (Exception e) {

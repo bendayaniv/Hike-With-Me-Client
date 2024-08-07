@@ -47,11 +47,8 @@ public class CommunityListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_community_list, container, false);
-
         findViews(view);
-
         initializing();
-
         return view;
     }
 
@@ -62,9 +59,7 @@ public class CommunityListFragment extends Fragment {
 
     private void initializing() {
         UserMethods.getAllUsers();
-
         handler = new Handler(Looper.getMainLooper());
-
         init();
     }
 
@@ -73,7 +68,6 @@ public class CommunityListFragment extends Fragment {
         fragmentCommunityRV.setVisibility(View.GONE);
         emptyCommunityListTV.setVisibility(View.GONE);
         progressBarCommunityList.setVisibility(View.VISIBLE);
-
         loadDataFromServer();
     }
 
@@ -83,7 +77,6 @@ public class CommunityListFragment extends Fragment {
             @Override
             public void run() {
                 ArrayList<UserWithDistance> loadedUsers = CurrentUser.getInstance().getUsersWithDistance();
-
                 if (loadedUsers != null && !loadedUsers.isEmpty()) {
                     users.clear();
                     users.addAll(loadedUsers);
@@ -102,21 +95,17 @@ public class CommunityListFragment extends Fragment {
                 }
             }
         };
-
         handler.post(retryRunnable);
     }
 
 
     private void findViews(View view) {
         users = new ArrayList<>();
-
         userItemAdapter = new UserItemAdapter(users);
         userItemAdapter.setCallbackUserItem(callback_userItem);
-
         fragmentCommunityRV = view.findViewById(R.id.fragmentCommunityRV);
         fragmentCommunityRV.setLayoutManager(new LinearLayoutManager(getContext()));
         fragmentCommunityRV.setAdapter(userItemAdapter);
-
         emptyCommunityListTV = view.findViewById(R.id.emptyCommunityListTV);
         progressBarCommunityList = view.findViewById(R.id.progressBarCommunityList);
     }

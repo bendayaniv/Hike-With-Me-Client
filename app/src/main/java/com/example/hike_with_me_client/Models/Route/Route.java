@@ -3,8 +3,6 @@ package com.example.hike_with_me_client.Models.Route;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Objects.point;
 
-import java.util.Date;
-
 public class Route extends point {
 
     private String _id;
