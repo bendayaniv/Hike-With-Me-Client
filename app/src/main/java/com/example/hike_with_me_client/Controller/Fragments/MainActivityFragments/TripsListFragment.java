@@ -23,8 +23,8 @@ import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfTrips;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 
@@ -38,7 +38,6 @@ public class TripsListFragment extends Fragment {
     private TripItemAdapter tripItemAdapter;
     private ProgressBar progressBarTripsList;
     private FloatingActionButton addTripFab;
-    private TripFragment tripFragment;
     private FragmentManager fragmentManager;
 
     private Handler handler;
@@ -58,6 +57,7 @@ public class TripsListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         fragmentManager = getParentFragmentManager();
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -88,7 +88,6 @@ public class TripsListFragment extends Fragment {
         emptyTripsListTV.setVisibility(View.GONE);
         progressBarTripsList.setVisibility(View.VISIBLE);
         addTripFab.setOnClickListener(v -> {
-            // TODO - move to create trip fragment
             CreateTripFragment createTripFragment = new CreateTripFragment();
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, createTripFragment).commit();
         });
@@ -128,8 +127,6 @@ public class TripsListFragment extends Fragment {
     }
 
     private void findViews(View view) {
-        tripFragment = new TripFragment();
-
         trips = new ArrayList<>();
 
         tripItemAdapter = new TripItemAdapter(trips, getContext());

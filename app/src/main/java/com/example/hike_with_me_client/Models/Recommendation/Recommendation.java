@@ -10,7 +10,8 @@ public class Recommendation {
     private String reporterName;
     private String routeName;
 
-    public Recommendation() {}
+    public Recommendation() {
+    }
 
     public Recommendation(String id, int rate, String description, String reporterName, String routeName) {
         this.id = id;

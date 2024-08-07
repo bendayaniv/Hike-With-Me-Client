@@ -17,8 +17,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.LogoutListener;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.R;
 
@@ -31,7 +31,6 @@ public class ProfileFragment extends Fragment {
     private static final String ARG_HOMETOWN = "hometown";
 
     private String mParam1;
-    private String mParam2;
     private String mPhone;
     private String mEmail;
     private String mHometown;
@@ -47,9 +46,6 @@ public class ProfileFragment extends Fragment {
     TextView phoneNum;
     Button editButton;
     Button logoutButton;
-    private TextView profileEmailLabel;
-    private TextView phoneNumberLabel;
-    private TextView profileHometownLabel;
 
     private LogoutListener logoutListener;
 
@@ -74,7 +70,6 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
             mPhone = getArguments().getString(ARG_PHONE);
             mEmail = getArguments().getString(ARG_EMAIL);
             mHometown = getArguments().getString(ARG_HOMETOWN);
@@ -104,7 +99,6 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Implement the logic to edit the profile
-                // TODO - move to create trip fragment
                 Toast.makeText(getContext(), "Coming Soon", Toast.LENGTH_SHORT).show();
             }
         });
@@ -130,9 +124,6 @@ public class ProfileFragment extends Fragment {
         profileHometown = view.findViewById(R.id.profile_hometown);
         editButton = view.findViewById(R.id.edit_button);
         logoutButton = view.findViewById(R.id.logout_button);
-        profileEmailLabel = view.findViewById(R.id.profile_email_label);
-        phoneNumberLabel = view.findViewById(R.id.phone_number_label);
-        profileHometownLabel = view.findViewById(R.id.profile_hometown_label);
         // Set data to UI elements
         profileName.setText(mParam1);
         phoneNum.setText(mPhone);

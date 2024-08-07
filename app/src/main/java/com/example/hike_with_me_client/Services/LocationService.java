@@ -27,7 +27,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.Models.User.UserMethods;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -187,12 +187,11 @@ public class LocationService extends Service {
             CurrentUser.getInstance().setInitiateLocation(myLoc);
             UserMethods.updateUser(CurrentUser.getInstance().getUser());
 
-            // TODO - also need to handle to save the list of the locations for the user trip to show his path on the map
-            if(CurrentUser.getInstance().getActiveTrips() != null && !CurrentUser.getInstance().getActiveTrips().isEmpty()) {
+            if (CurrentUser.getInstance().getActiveTrips() != null && !CurrentUser.getInstance().getActiveTrips().isEmpty()) {
                 // For every active trip add the location to the list of the locations
                 // and save the list of the locations to the trip
                 Log.d("LocationService", "Active trips");
-                for(com.example.hike_with_me_client.Models.Trip.trip trip : CurrentUser.getInstance().getActiveTrips()) {
+                for (com.example.hike_with_me_client.Models.Trip.trip trip : CurrentUser.getInstance().getActiveTrips()) {
                     trip.addLocation(myLoc);
 
                     TripMethods.updateTrip(trip);

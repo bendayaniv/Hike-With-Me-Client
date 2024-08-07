@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetNearHazards;
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.Models.Hazard.HazardMasterClass;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 
 import java.util.List;
 
@@ -23,15 +23,13 @@ public class GetNearHazards extends HazardMasterClass {
     }
 
     public void getNearHazards() {
-        Log.d("Hazard", "Getting near hazards 3");
         Call<List<Hazard>> call = hazardApiInterface.getNearHazards(CurrentUser.getInstance().getUser().getId());
 
         call.enqueue(new Callback<List<Hazard>>() {
             @Override
             public void onResponse(@NonNull Call<List<Hazard>> call, @NonNull Response<List<Hazard>> response) {
-                Log.d("Hazard", "Getting near hazards 4");
                 Log.d("Hazard", "response.body: " + response.body());
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Hazard> hazards = response.body();
                     callback_getNearHazards.success(hazards);
                 } else {

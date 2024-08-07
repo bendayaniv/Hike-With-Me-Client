@@ -44,10 +44,9 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
         Route route = getItem(position);
         holder.route_LBL_name.setText(route.getName());
         String imageUrl = route.getImageUrl();
-        if(imageUrl != null) {
+        if (imageUrl != null) {
             Glide.with(context).load(imageUrl).into(holder.route_IMG_image);
-        }
-        else {
+        } else {
             holder.route_IMG_image.setImageResource(R.drawable.temporary_img);
         }
     }
@@ -64,6 +63,7 @@ public class RouteItemAdapter extends RecyclerView.Adapter<RouteItemAdapter.Rout
     public class RouteItemViewHolder extends RecyclerView.ViewHolder {
         private final ImageView route_IMG_image;
         private final MaterialTextView route_LBL_name;
+
         public RouteItemViewHolder(@NonNull View itemView) {
             super(itemView);
 

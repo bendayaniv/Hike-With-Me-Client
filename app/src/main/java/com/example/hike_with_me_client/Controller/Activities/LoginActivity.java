@@ -19,7 +19,7 @@ import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.Callb
 import com.example.hike_with_me_client.Interfaces.Fragments.LoginFragments.Callback_GoToRegisterFragment;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.UserLocation;
 
 public class LoginActivity extends AppCompatActivity {
 

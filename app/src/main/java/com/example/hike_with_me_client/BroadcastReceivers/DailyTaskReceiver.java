@@ -15,13 +15,8 @@ public class DailyTaskReceiver extends BroadcastReceiver {
     }
 
     private void performDailyTask() {
-        // Implement your daily task logic here
         Log.d("DailyTaskReceiver", "Performing daily task at midnight");
 
         TripMethods.getTripsByUser();
-        // For example:
-        // - Reset daily counters
-        // - Perform data cleanup
-        // - Send daily reports
     }
 }

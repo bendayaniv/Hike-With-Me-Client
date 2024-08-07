@@ -17,9 +17,4 @@ public class MapViewModel extends ViewModel {
         cameraPosition.setValue(position);
     }
 
-    public void firstTime(boolean condition) {
-        if (condition) {
-            cameraPosition.setValue(null);
-        }
-    }
 }

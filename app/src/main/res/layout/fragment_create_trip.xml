@@ -54,14 +54,6 @@
             android:padding="16dp"
             android:textSize="16sp" />
 
-        <!-- <Spinner
-            android:id="@+id/routes_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="16dp"
-            android:textSize="16sp" /> -->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -73,7 +65,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Selected Routes"
+                android:hint="@string/selected_routes"
                 android:padding="16dp"/>
 
             <Button
@@ -81,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="12sp"
-                android:text="Add Route"
+                android:text="@string/add_route"
                 android:minHeight="48dp"
                 android:minWidth="48dp"
                 android:padding="16dp"/>
@@ -93,6 +85,7 @@
             android:layout_height="160dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:contentDescription="@string/trip_image"
             android:scaleType="centerCrop"
             android:src="@drawable/temporary_img" />
 

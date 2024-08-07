@@ -13,7 +13,7 @@ import com.example.hike_with_me_client.Models.Hazard.Actions.GetHazardsByRoute;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_AddHazard;
 import com.example.hike_with_me_client.Interfaces.Hazard.Callbacks.Callback_GetHazardsByRoute;
 import com.example.hike_with_me_client.Models.Hazard.Actions.GetNearHazards;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfHazards;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,6 @@ public class HazardMethods {
     }
 
     public static void getNearHazards() {
-        Log.d("Hazard", "Getting near hazards 1");
         Callback_GetNearHazards callback_getNearHazards = new Callback_GetNearHazards() {
             @Override
             public void success(List<Hazard> hazards) {
@@ -49,7 +48,6 @@ public class HazardMethods {
                 Log.d("Hazard", "Error: " + message + "\nNo hazards found");
             }
         };
-        Log.d("Hazard", "Getting near hazards 2");
         new GetNearHazards(callback_getNearHazards).getNearHazards();
     }
 

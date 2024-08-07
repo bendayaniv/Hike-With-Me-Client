@@ -19,7 +19,7 @@ import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 

@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,7 +24,7 @@ import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 
 import java.util.Date;
 import java.util.UUID;
@@ -34,10 +35,6 @@ public class HazardFragment extends Fragment {
     private String routeName;
 
     private TextView routeNameTextView;
-    private TextView descriptionLabel;
-    private TextView severityLabel;
-    private TextView hazardTypeLabel;
-    private TextView routeNameLabel;
     private EditText hazardDescriptionEditText;
     private Spinner severitySpinner;
     private Spinner hazardTypeSpinner;
@@ -82,10 +79,6 @@ public class HazardFragment extends Fragment {
         hazardDescriptionEditText = view.findViewById(R.id.hazard_description_edit_text);
         severitySpinner = view.findViewById(R.id.severity_spinner);
         hazardTypeSpinner = view.findViewById(R.id.hazard_type_spinner);
-        routeNameLabel = view.findViewById(R.id.route_name_label);
-        descriptionLabel = view.findViewById(R.id.description_label);
-        hazardTypeLabel = view.findViewById(R.id.hazard_type_label);
-        severityLabel = view.findViewById(R.id.severity_label);
         saveButton = view.findViewById(R.id.save_button);
         backButton = view.findViewById(R.id.back_button);
         routeNameTextView.setText(routeName);
@@ -141,6 +134,7 @@ public class HazardFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
     }
+
     public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
         this.routeDetailsFragment = fragment;
     }

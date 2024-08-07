@@ -2,12 +2,12 @@ package com.example.hike_with_me_client.Utils;
 
 import android.app.Application;
 
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
-import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfHazards;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfTrips;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.UserLocation;
 
 public class App extends Application {
 

@@ -23,7 +23,7 @@ public class AddHazard extends HazardMasterClass {
         call.enqueue(new Callback<Hazard>() {
             @Override
             public void onResponse(@NonNull Call<Hazard> call, @NonNull Response<Hazard> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     Hazard hazard = response.body();
                     callBack_addHazard.success(hazard);
                 } else {

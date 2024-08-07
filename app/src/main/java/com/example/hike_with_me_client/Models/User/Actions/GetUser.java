@@ -23,7 +23,7 @@ public class GetUser extends UserMasterClass {
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(@NonNull Call<User> call, @NonNull Response<User> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     User user = response.body();
                     callback_getUser.success(user);
                 } else {

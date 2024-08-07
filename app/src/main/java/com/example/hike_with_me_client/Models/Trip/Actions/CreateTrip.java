@@ -26,7 +26,7 @@ public class CreateTrip extends TripMasterClass {
         call.enqueue(new Callback<com.example.hike_with_me_client.Models.Trip.trip>() {
             @Override
             public void onResponse(@NonNull Call<com.example.hike_with_me_client.Models.Trip.trip> call, @NonNull Response<com.example.hike_with_me_client.Models.Trip.trip> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     com.example.hike_with_me_client.Models.Trip.trip trip = response.body();
                     callback_createTrip.success(trip);
                 } else {

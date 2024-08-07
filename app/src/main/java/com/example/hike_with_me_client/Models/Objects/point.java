@@ -15,9 +15,10 @@ public class point {
         this._type = type;
     }
 
-    public point getPoint(){
+    public point getPoint() {
         return this;
     }
+
     public Location getLocation() {
         return _location;
     }

@@ -7,7 +7,7 @@ import android.net.Uri;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

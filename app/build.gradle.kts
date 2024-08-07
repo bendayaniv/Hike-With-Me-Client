@@ -60,23 +60,9 @@ dependencies {
 
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
-
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
-    // https://firebase.google.com/docs/android/setup#available-libraries
-
-//    implementation 'com.google.firebase:firebase-analytics'
-//
-//    //RealtimeDatabase
-//    implementation 'com.google.firebase:firebase-database'
 //
     //Firebase Authentication
     implementation("com.google.firebase:firebase-auth:23.0.0")
-//    implementation 'com.google.firebase:firebase-auth'
-//    implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
-//
-//    //Firebase Storage
-//    implementation 'com.google.firebase:firebase-storage:20.1.0'
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -95,7 +81,6 @@ dependencies {
 
     // Device location:
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-//    implementation("com.google.android.gms:play-services-location:21.3.0")
 
     implementation("com.google.android.gms:play-services-location:21.1.0")
     implementation("com.google.code.gson:gson:2.10.1")

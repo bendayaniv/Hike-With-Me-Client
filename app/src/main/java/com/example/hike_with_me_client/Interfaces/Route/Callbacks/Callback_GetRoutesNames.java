@@ -4,5 +4,6 @@ import java.util.List;
 
 public interface Callback_GetRoutesNames {
     void success(List<String> routesNames);
+
     void error(String error);
 }

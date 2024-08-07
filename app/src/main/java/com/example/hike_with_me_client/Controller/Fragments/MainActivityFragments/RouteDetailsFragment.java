@@ -1,6 +1,7 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -28,9 +29,6 @@ public class RouteDetailsFragment extends Fragment {
     private TextView routeDifficultyTextView;
     private TextView routeLengthTextView;
     private Button backRouteButton;
-    private TextView routeDescriptionSubtitleTextView;
-    private TextView routeDifficultySubtitleTextView;
-    private TextView routeLengthSubtitleTextView;
     FragmentManager fragmentManager;
     private MainPageFragment mainPageFragment;
     FloatingActionButton fab;
@@ -60,9 +58,6 @@ public class RouteDetailsFragment extends Fragment {
         routeDescriptionTextView = view.findViewById(R.id.route_description_text_view);
         routeDifficultyTextView = view.findViewById(R.id.route_difficulty_text_view);
         routeLengthTextView = view.findViewById(R.id.route_length_text_view);
-        routeDescriptionSubtitleTextView = view.findViewById(R.id.route_description_subtitle_text_view);
-        routeDifficultySubtitleTextView = view.findViewById(R.id.route_difficulty_subtitle_text_view);
-        routeLengthSubtitleTextView = view.findViewById(R.id.route_length_subtitle_text_view);
         backRouteButton = view.findViewById(R.id.back_route_button);
         fab = view.findViewById(R.id.fab);
     }
@@ -117,6 +112,7 @@ public class RouteDetailsFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, mainPageFragment).commit();
         }
     }
+
     public void setRoute(Route route) {
         this.route = route;
     }

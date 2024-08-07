@@ -19,8 +19,8 @@ import android.widget.Toast;
 
 import com.example.hike_with_me_client.Adapters.UserItemAdapter;
 import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragments.Callback_UserItem;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
 import com.example.hike_with_me_client.Models.Objects.UserWithDistance;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.R;

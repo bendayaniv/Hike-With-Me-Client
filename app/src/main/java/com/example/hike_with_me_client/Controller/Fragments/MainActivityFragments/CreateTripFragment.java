@@ -20,7 +20,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,9 +32,9 @@ import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMethods;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.example.hike_with_me_client.Models.User.User;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -57,7 +56,7 @@ public class CreateTripFragment extends Fragment {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private static final int PERMISSION_REQUEST_CODE = 3;
-    private static final String TAG = "UploadImageFragment";
+    private static final String TAG = "CreateTripFragment";
 
     private LinkedHashMap<Integer, Uri> selectedImages = new LinkedHashMap<>();
 
@@ -203,8 +202,8 @@ public class CreateTripFragment extends Fragment {
             Log.d("SelectedRoute", route);
         }
 
-        if (isValidDate(startDate)&&isValidDate(endDate)) {
-            if(isStartDateBeforeOrSameAsEndDate(startDate,endDate)) {
+        if (isValidDate(startDate) && isValidDate(endDate)) {
+            if (isStartDateBeforeOrSameAsEndDate(startDate, endDate)) {
                 // Create a trip object
                 trip newTrip = new trip();
                 newTrip.setName(name);
@@ -217,11 +216,11 @@ public class CreateTripFragment extends Fragment {
                 newTrip.setRoutesNames(selectedRoutesArray);
 
                 saveTripToServer(newTrip);
-            }else {
-                Toast.makeText(getContext(), "StartDate is after EndDate, Please fix" , Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(getContext(), "StartDate is after EndDate, Please fix", Toast.LENGTH_LONG).show();
             }
-        } else{
-            Toast.makeText(getContext(), "Please Enter a valid date (dd/mm/yy)" , Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getContext(), "Please Enter a valid date (dd/mm/yy)", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -254,7 +253,7 @@ public class CreateTripFragment extends Fragment {
 
     private void uploadImages(trip trip) {
         String userId = CurrentUser.getInstance().getUser().getId();
-        String tripName = String.valueOf(tripNameEditText.getText()); // TODO - Replace with actual trip name
+        String tripName = String.valueOf(tripNameEditText.getText());
         if (!selectedImages.isEmpty()) {
             Log.d(TAG, "Attempting to upload images: " + selectedImages.values().toString());
             try {
@@ -268,12 +267,5 @@ public class CreateTripFragment extends Fragment {
             Log.d(TAG, "No images selected for upload");
             TripMethods.uploadImages(new ArrayList<>(), userId, tripName, requireContext(), progressBar, trip);
         }
-    }
-
-    private void clearInputFields() {
-        tripNameEditText.setText("");
-        tripStartDateEditText.setText("");
-        tripEndDateEditText.setText("");
-        tripDescriptionEditText.setText("");
     }
 }

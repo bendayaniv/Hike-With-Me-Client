@@ -1,10 +1,12 @@
 package com.example.hike_with_me_client.Controller.Fragments.MainActivityFragments;
 
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +15,12 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.hike_with_me_client.Models.Recommendation.Recommendation;
 import com.example.hike_with_me_client.Models.Recommendation.RecommendationMethods;
 import com.example.hike_with_me_client.Models.User.User;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 
 import java.util.UUID;
 
@@ -25,10 +28,6 @@ public class RecommendationFragment extends Fragment {
 
     private static final String ARG_ROUTE_NAME = "route_name";
     private String routeName;
-
-    private TextView routeNameLabel;
-    private TextView descriptionLabel;
-    private TextView rateLabel;
 
     private TextView routeNameTextView;
     private RatingBar ratingBar;
@@ -73,9 +72,6 @@ public class RecommendationFragment extends Fragment {
         routeNameTextView = view.findViewById(R.id.route_name_text_view);
         ratingBar = view.findViewById(R.id.rating_bar);
         recommendationDescriptionEditText = view.findViewById(R.id.recommendation_description_edit_text);
-        routeNameLabel = view.findViewById(R.id.route_name_label);
-        descriptionLabel = view.findViewById(R.id.description_label);
-        rateLabel = view.findViewById(R.id.rate_label);
         saveButton = view.findViewById(R.id.save_button);
         backButton = view.findViewById(R.id.back_button);
         routeNameTextView.setText(routeName);
@@ -127,6 +123,7 @@ public class RecommendationFragment extends Fragment {
             fragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeDetailsFragment).commit();
         }
     }
+
     public void setRouteDetailsFragment(RouteDetailsFragment fragment) {
         this.routeDetailsFragment = fragment;
     }

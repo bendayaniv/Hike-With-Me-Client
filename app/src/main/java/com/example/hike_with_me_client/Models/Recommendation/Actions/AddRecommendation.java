@@ -23,7 +23,7 @@ public class AddRecommendation extends RecommendationMasterClass {
         call.enqueue(new Callback<Recommendation>() {
             @Override
             public void onResponse(@NonNull Call<Recommendation> call, @NonNull Response<Recommendation> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     Recommendation recommendation = response.body();
                     callback_addRecommendation.success(recommendation);
                 } else {

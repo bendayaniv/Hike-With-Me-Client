@@ -29,7 +29,7 @@ public class GetAllRoutes extends RouteMasterClass {
         call.enqueue(new Callback<List<Route>>() {
             @Override
             public void onResponse(@NonNull Call<List<Route>> call, @NonNull Response<List<Route>> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     List<Route> routes = response.body();
                     Log.d("tag", routes.toString());
                     callback_getAllRoutes.success(routes);

@@ -9,7 +9,7 @@
         android:id="@+id/option_recommendation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Recommendation"
+        android:text="@string/recommendation"
         android:textSize="18sp"
         android:padding="16dp" />
 
@@ -17,7 +17,7 @@
         android:id="@+id/option_hazard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hazard"
+        android:text="@string/hazard"
         android:textSize="18sp"
         android:padding="16dp" />
 

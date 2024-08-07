@@ -23,7 +23,7 @@ public class DeleteImage extends TripMasterClass {
         call.enqueue(new Callback<String>() {
             @Override
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                if(response.isSuccessful()) {
+                if (response.isSuccessful()) {
                     String message = String.valueOf(response.body());
                     callback_deleteImage.success(message);
                 } else {

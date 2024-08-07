@@ -7,8 +7,8 @@ import com.example.hike_with_me_client.Models.Route.Actions.GetAllRoutes;
 import com.example.hike_with_me_client.Models.Route.Actions.GetRoutesNames;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetAllRoutes;
 import com.example.hike_with_me_client.Interfaces.Route.Callbacks.Callback_GetRoutesNames;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
 
 import java.util.ArrayList;
 import java.util.List;
