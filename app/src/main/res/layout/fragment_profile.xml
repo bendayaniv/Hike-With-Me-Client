@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Hometown"
+            android:text="@string/hometown"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Phone Number"
+            android:text="@string/phone_number"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Email"
+            android:text="@string/email"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Edit"
+        android:text="@string/edit"
         android:layout_marginTop="10dp" />
 
     <Button
@@ -98,6 +98,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Log Out" />
+        android:text="@string/log_out" />
 
 </LinearLayout>

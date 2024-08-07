@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,10 +27,10 @@ import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Models.User.UserMethods;
 import com.example.hike_with_me_client.Services.LocationService;
 import com.example.hike_with_me_client.Utils.NotificationManager;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.example.hike_with_me_client.Utils.Constants;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
-import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.UserLocation;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -134,11 +133,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
                 case Constants.MENU_HOME:
                     Log.d("MyMainActivity", "onCreate1 MENU_HOME: " + item.getItemId());
                     mainPageFragment();
-
-                    // TODO - activate it when creating trip and it is active himself
-                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
-                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
-
                     break;
                 case Constants.MENU_TRIPS:
                     Log.d("MyMainActivity", "onCreate2 MENU_TRIPS: " + item.getItemId());
@@ -151,9 +145,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
                 case Constants.MENU_PROFILE:
                     Log.d("MyMainActivity", "onCreate3 MENU_PROFILE: " + item.getItemId());
                     fragmentManager.beginTransaction().replace(R.id.main_fragment_container, profileFragment).commit();
-                    // TODO - activate it when there is not trip that is active
-                    //  All the functions that handles with the service in MainActivity can be transfer to any other activity/fragment
-                    //  Except the handleNotificationClick and onNewIntent who needs to be in this activity
                     break;
             }
             return true;
@@ -228,7 +219,6 @@ public class MainActivity extends AppCompatActivity implements LogoutListener {
             NotificationManagerCompat.from(this).cancelAll();
         }
         mainPageFragment();
-        // TODO - maybe in here we could do zoom in in the map to the location of the notification
     }
 
     private void stopLocationService() {

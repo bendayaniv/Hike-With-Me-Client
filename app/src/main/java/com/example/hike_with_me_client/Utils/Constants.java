@@ -34,10 +34,8 @@ public class Constants {
 
     public static final String EMAIL = "email";
     public static final String EMPTY_EMAIL = "Please enter email...";
-    public static final String PASSWORD = "password";
     public static final String EMPTY_PASSWORD = "Please enter password...";
     public static final String INVALID_PASSWORD_LENGTH = "Password must be at least 6 characters...";
-    public static final String NAME = "name";
     public static final String EMPTY_NAME = "Please enter name...";
     public static final String PHONE_NUMBER = "phone number";
     public static final String EMPTY_PHONE_NUMBER = "Please enter phone number...";

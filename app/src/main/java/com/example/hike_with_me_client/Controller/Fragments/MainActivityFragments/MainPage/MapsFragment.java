@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,16 +21,16 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.example.hike_with_me_client.Models.Objects.Location;
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfHazards;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.MainPageFragment.MapViewModel;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
-import com.example.hike_with_me_client.Utils.Singleton.UserLocation;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.UserLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -42,9 +41,6 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.maps.model.StrokeStyle;
-import com.google.android.gms.maps.model.StyleSpan;
 
 import java.util.ArrayList;
 
@@ -169,13 +165,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Canvas canvas = new Canvas(bitmap);
         vectorDrawable.draw(canvas);
         return BitmapDescriptorFactory.fromBitmap(bitmap);
-    }
-
-    // The use of this is for draw a line on the user's trip map to see the route he took
-    public void drawLine(LatLng start, LatLng end) {
-        mMap.addPolyline(new PolylineOptions()
-                .add(start, end)
-                .addSpan(new StyleSpan(StrokeStyle.colorBuilder(Color.BLACK).build())));
     }
 
     @Override

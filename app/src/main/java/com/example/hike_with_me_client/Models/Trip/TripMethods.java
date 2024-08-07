@@ -19,9 +19,9 @@ import com.example.hike_with_me_client.Models.Trip.Actions.GetTripsByUser;
 import com.example.hike_with_me_client.Models.Trip.Actions.UpdateTrip;
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_UpdateTrip;
 import com.example.hike_with_me_client.Models.Trip.Actions.UploadImages;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfTrips;
 
 import java.io.InputStream;
 import java.util.ArrayList;

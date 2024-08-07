@@ -3,7 +3,7 @@ package com.example.hike_with_me_client.Models.Trip.Actions;
 import androidx.annotation.NonNull;
 
 import com.example.hike_with_me_client.Interfaces.Trip.Callbacks.Callback_GetTripsByUser;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.Models.Trip.TripMasterClass;
 

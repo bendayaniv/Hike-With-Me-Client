@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,14 +23,13 @@ import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.Models.Trip.trip;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfTrips;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfTrips;
 import com.example.hike_with_me_client.Adapters.RouteItemAdapter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -54,21 +52,17 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
     private TextView tripDescriptionText;
     private TextView tripStartDateText;
     private TextView tripEndDateText;
-    private TextView tripDescriptionSubtitleText;
-    private TextView tripStartDateSubtitleText;
-    private TextView tripEndDateSubtitleText;
     private RecyclerView recyclerViewRoutes;
     private ImageView tripImageView;
     private Handler handler = new Handler();
     private Runnable retryRunnable;
 
     private RouteDetailsFragment routeDetailsFragment;
-    private FragmentManager fragmentManager;
     private MapView mapView;
     private GoogleMap googleMap;
+
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragmentManager = getParentFragmentManager();
     }
 
     public static TripFragment newInstance(String tripId) {
@@ -96,9 +90,6 @@ public class TripFragment extends Fragment implements OnMapReadyCallback{
         tripStartDateText = view.findViewById(R.id.text_start_date_trip);
         tripEndDateText = view.findViewById(R.id.text_end_date_trip);
         recyclerViewRoutes = view.findViewById(R.id.recycler_view_routes);
-        tripDescriptionSubtitleText = view.findViewById(R.id.text_description_trip_subtitle);
-        tripStartDateSubtitleText = view.findViewById(R.id.text_start_date_trip_subtitle);
-        tripEndDateSubtitleText = view.findViewById(R.id.text_end_date_trip_subtitle);
         tripImageView = view.findViewById(R.id.tripImageView);
         mapView = view.findViewById(R.id.mapView);
     }

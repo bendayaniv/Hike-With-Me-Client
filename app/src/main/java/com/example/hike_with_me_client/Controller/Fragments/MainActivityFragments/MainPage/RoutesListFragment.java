@@ -27,8 +27,8 @@ import com.example.hike_with_me_client.Interfaces.Fragments.MainActivityFragment
 import com.example.hike_with_me_client.Models.Route.Route;
 import com.example.hike_with_me_client.R;
 import com.example.hike_with_me_client.Utils.Constants;
-import com.example.hike_with_me_client.Utils.Singleton.ErrorMessageFromServer;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfRoutes;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ErrorMessageFromServer;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfRoutes;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SavedLastClick;
 import com.example.hike_with_me_client.Utils.MainPageFragment.SharedViewModel;
 import com.google.android.material.textview.MaterialTextView;

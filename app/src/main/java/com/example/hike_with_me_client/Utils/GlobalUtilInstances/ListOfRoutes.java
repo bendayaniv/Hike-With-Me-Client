@@ -1,4 +1,4 @@
-package com.example.hike_with_me_client.Utils.Singleton;
+package com.example.hike_with_me_client.Utils.GlobalUtilInstances;
 
 import androidx.annotation.NonNull;
 
@@ -34,10 +34,6 @@ public class ListOfRoutes {
 
     public void setRoutes(ArrayList<Route> routes) {
         this.routes = routes;
-    }
-
-    public boolean isFirstTime() {
-        return firstTime;
     }
 
     public void setFirstTime(boolean firstTime) {

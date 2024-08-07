@@ -7,7 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class MasterClass {
-    static final String BASE_URL_YANIV = "http://10.0.0.8:3000/";
     static final String BASE_URL = "http://10.0.2.2:3000/";
 
     static Gson gson = new GsonBuilder()

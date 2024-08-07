@@ -16,8 +16,8 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.hike_with_me_client.Controller.Activities.MainActivity;
 import com.example.hike_with_me_client.Models.Hazard.Hazard;
 import com.example.hike_with_me_client.R;
-import com.example.hike_with_me_client.Utils.Singleton.CurrentUser;
-import com.example.hike_with_me_client.Utils.Singleton.ListOfHazards;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.CurrentUser;
+import com.example.hike_with_me_client.Utils.GlobalUtilInstances.ListOfHazards;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
